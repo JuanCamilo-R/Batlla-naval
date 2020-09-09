@@ -4,15 +4,14 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>30</x>
-      <y>220</y>
-      <w>190</w>
+      <x>140</x>
+      <y>260</y>
+      <w>180</w>
       <h>100</h>
     </coordinates>
-    <panel_attributes>Pantalla
+    <panel_attributes>PantallaUsuario
 --
 Array[][] numerosPantalla
-ControlJuego controlJuego
 --
 public void estaDisponible()
 public void ponerBarco()</panel_attributes>
@@ -21,61 +20,154 @@ public void ponerBarco()</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>290</x>
-      <y>160</y>
-      <w>130</w>
-      <h>90</h>
+      <x>420</x>
+      <y>220</y>
+      <w>250</w>
+      <h>150</h>
     </coordinates>
     <panel_attributes>ControlJuego
 --
 Barcos barcos
+PantallaUsuario pantallaUsuario 
+pantallaCPU pantallaCPU
 --
 determinarJuego()
-</panel_attributes>
+recibirPosiciones(int x, int y)
+decidirTurno()
+eliminarBarco()</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>450</x>
-      <y>270</y>
-      <w>100</w>
-      <h>30</h>
+      <x>670</x>
+      <y>380</y>
+      <w>130</w>
+      <h>100</h>
     </coordinates>
     <panel_attributes>Barcos
 --
 int tamano
+int vecesTocado
 boolean vivo
-
+--
+public void atacar()
 </panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>240</x>
-      <y>390</y>
+      <x>400</x>
+      <y>460</y>
       <w>180</w>
       <h>70</h>
     </coordinates>
     <panel_attributes>VistaGUIBatallaNaval
 --
-
+ControlJuego control
 --
-public void verificador()</panel_attributes>
+public void verificador()
+</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>210</x>
-      <y>190</y>
-      <w>100</w>
+      <x>310</x>
+      <y>220</y>
+      <w>130</w>
       <h>70</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-
 m1=1
+
 </panel_attributes>
-    <additional_attributes>80.0;10.0;10.0;50.0</additional_attributes>
+    <additional_attributes>10.0;50.0;110.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>450</x>
+      <y>360</y>
+      <w>70</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-
+m1=1</panel_attributes>
+    <additional_attributes>50.0;10.0;10.0;100.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>600</x>
+      <y>350</y>
+      <w>110</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-
+m1=2
+</panel_attributes>
+    <additional_attributes>90.0;30.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>70</x>
+      <y>390</y>
+      <w>290</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>PantallaCPU
+--
+Array[][] numerosPantalla
+ArrayList&lt;java.awt.Point&gt; posicionesTocadas
+--
+estaDisponible() 
+ponerBarco()
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>350</x>
+      <y>280</y>
+      <w>90</w>
+      <h>130</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-
+m1=1
+
+</panel_attributes>
+    <additional_attributes>10.0;110.0;70.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>260</x>
+      <y>580</y>
+      <w>180</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>PrincipalClass
+--
+VistaGUIBatallaNaval vista
+--
+main</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>430</x>
+      <y>520</y>
+      <w>70</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-
+m1=1
+</panel_attributes>
+    <additional_attributes>10.0;70.0;50.0;10.0</additional_attributes>
   </element>
 </diagram>
