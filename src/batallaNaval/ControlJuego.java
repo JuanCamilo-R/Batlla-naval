@@ -18,7 +18,7 @@ public class ControlJuego {
 		
 	}
 	
-	public void agregarBarcos() {
+	public void crearBarcos() {
 		int aux = 4;
 		int capacidad = 1;
 		for(int i = 0; i < 10; i++) {

@@ -6,7 +6,6 @@ import java.awt.Point;
 public class PantallaUsuario {
 	//Atributos
 	private Barcos [][] barcosPantalla = new Barcos[10][10];
-	private
 	//Metodos
 	public PantallaUsuario() {
 		
@@ -20,6 +19,6 @@ public class PantallaUsuario {
 	//[1,3] [2,4] 1 == 2 ? , 3 == 4 ?
 	//[1,5] [1,3] 1 == 1, 5 > 3 //Izquierda
 	public void ponerBarco(ArrayList<Point> primerPar, ArrayList<Point> segundoPar) {
-		if()
+		
 	}
 }
