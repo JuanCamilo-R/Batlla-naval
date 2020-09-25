@@ -34,7 +34,6 @@ public class ControlJuego {
 	}
 	
 	public void recibirPosiciones(int x, int y) {
-		pantallaUsuario.ponerBarco(x, y);
 	}
 	
 	public void decidirTurno() {
@@ -48,5 +47,7 @@ public class ControlJuego {
 	public void eliminarBarco() {
 		
 	}
-	
+	public Barcos retornarBarco(int indice) {
+		return barcos.get(indice);
+	}
 }
