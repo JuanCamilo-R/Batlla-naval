@@ -8,6 +8,7 @@ public class Barcos {
 	private int tamano;
 	private int vecesTocado;
 	private boolean vivo;
+	private Point posicionAtacadas = new Point();
 	private ArrayList<Point> posiciones = new ArrayList<Point>();
 	//Metodos
 	public Barcos(int tamano) {
@@ -15,7 +16,18 @@ public class Barcos {
 		vivo = true;
 		this.tamano = tamano;
 	}
-	
+	//Ataque aliado.
+	public  void atacar(Point posiciones) {
+		posicionAtacadas.setLocation(posiciones.getX(), posiciones.getY());
+	}
+	//Ataque aliado
+	public Point getPosicionesAtacadas() {
+		return posicionAtacadas;
+	}
+
+	public boolean isVivo() {
+		return vivo;
+	}
 	public int getTamano() {
 		return tamano;
 	}

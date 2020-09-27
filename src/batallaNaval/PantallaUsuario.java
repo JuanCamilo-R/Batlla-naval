@@ -6,9 +6,8 @@ import java.awt.Point;
 public class PantallaUsuario {
 //Atributos
 private Barcos [][] barcosPantalla = new Barcos[10][10];
-private int [][] posicionesBarco = new int[10][10];
-private ArrayList<Point> posicionesBarcoActual = new ArrayList<Point>();
 
+	
 	//Metodos
 	public PantallaUsuario() {
 		
@@ -23,6 +22,13 @@ private ArrayList<Point> posicionesBarcoActual = new ArrayList<Point>();
 		
 		return false;
 		
+	}
+	
+	public boolean hayBarco(int x, int y) {
+		if(barcosPantalla[x][y] != null) {
+			return true;
+		}
+		return false;
 	}
 	protected boolean verificarMitad(int x1,int y1,int x2, int y2,int tamano) {
 		

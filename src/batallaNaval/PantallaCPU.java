@@ -14,200 +14,15 @@ public class PantallaCPU extends PantallaUsuario {
 	private Barcos [][] barcosPantalla = new Barcos[10][10];
 	private int tamano;
 	private int ronda;
-	private int posicionx;
-	private Random aleatoriox;
-	private int posiciony;
-	private Random aleatorioy;
-	private int opcion;
-	private int escogerDireccion;
-	private Random aleatorioD;
-	private int posicionx2, posiciony2;
+	
 
 	
 	//Metodos
 	public PantallaCPU() {
 		tamano =1;
 		ronda=1;
-		//posicionx = aleatoriox.nextInt(10);//Aletario entre 0 y 10
-		//posiciony = aleatorioy.nextInt(10);//Aletario entre 0 y 10
-		//escogerDireccion  = aleatorioD.nextInt(5);
 	}
-	/*
-	private void cambiar() {
-		posicionx = aleatoriox.nextInt(10);
-		posiciony = aleatorioy.nextInt(10);
-	}
-	*/
-	/*
-	private void cambiarDirecion() {
-
-		escogerDireccion  = aleatorioD.nextInt(4)+1;
-	}
-	*/
-	/*
-	public boolean estaDisponibleCPU() {
-		if(ronda<=4) {
-			if(barcosPantalla[posicionx][posiciony]==null && tamano==1) {
-				ronda++;
-				return true;
-			}
-		}
-		if(ronda>= 5 && ronda<= 7) {
-			tamano = 2;
-			switch(escogerDireccion){
-				case 0://arriba
-					if(posicionx-(tamano-1)<0) {
-						return false;
-					}else {
-						if(barcosPantalla[posicionx][posiciony]==null && barcosPantalla[posicionx-1][posiciony]==null) {
-							ronda++;
-							posicionx2 = posicionx-1;
-							posiciony2 = posiciony;
-							return true;
-						}
-					}
-				case 1://derecha
-					if(posiciony+(tamano-1)>10) {
-						return false;
-					}else {
-						if(barcosPantalla[posicionx][posiciony]==null && barcosPantalla[posicionx][posiciony+1]==null) {
-							ronda++;
-							posicionx2 = posicionx;
-							posiciony2 = posiciony+1;
-							return true;
-						}
-					}
-				case 2: //abajo
-					if(posicionx+(tamano-1)>10) {
-						return false;
-					} else {
-						if(barcosPantalla[posicionx][posiciony]==null && barcosPantalla[posicionx+1][posiciony]==null) {
-							ronda++;
-							posicionx2 = posicionx+1;
-							posiciony2 = posiciony;
-							return true;
-						}
-					}
-				case 3: //izquierda
-					if(posiciony-(tamano-1) < 0) {
-						return false;
-					} else {
-						if(barcosPantalla[posicionx][posiciony]==null && barcosPantalla[posicionx][posiciony-1]==null) {
-							ronda++;
-							posicionx2 = posicionx;
-							posiciony2 = posiciony-1;
-							
-							return true;
-						}
-					}
-			}
-				
-			} else if(ronda >= 8 && ronda <= 9) {
-				tamano = 3;
-				switch(escogerDireccion){
-				case 0://arriba
-					if(posicionx-(tamano-1)<0) {
-						return false;
-					}else {
-						if(estaDisponible(posicionx,posiciony,posicionx-(tamano-1),posiciony,tamano)) {
-							ronda++;
-							posicionx2 = posicionx-(tamano-1);
-							posiciony2 = posiciony;
-							
-							return true;
-						}
-					}
-				case 1://derecha
-					if(posiciony+(tamano-1)>10) {
-						return false;
-					}else {
-						if(estaDisponible(posicionx,posiciony,posicionx,posiciony+(tamano-1),tamano)) {
-							ronda++;
-							posicionx2 = posicionx;
-							posiciony2 = posiciony+(tamano-1);
-							return true;
-						}
-					}
-				case 2: //abajo
-					if(posicionx+(tamano-1)>10) {
-						return false;
-					} else {
-						if(estaDisponible(posicionx,posiciony,posicionx,posiciony+(tamano-1),tamano)) {
-							ronda++;
-							posicionx2 = posicionx;
-							posiciony2 = posiciony+(tamano-1);
-
-							return true;
-						}
-					}
-				case 3: //izquierda
-					if(posiciony-(tamano-1) < 0) {
-						return false;
-					} else {
-						if(estaDisponible(posicionx,posiciony,posicionx,posiciony-(tamano-1),tamano)) {
-							ronda++;
-							posicionx2 = posicionx;
-							posiciony2 = posiciony-(tamano-1);
-
-							return true;
-						}
-					}
-				}
-			} else if(ronda == 10) {
-				tamano = 4;
-				switch(escogerDireccion){
-				case 0://arriba
-					if(posicionx-(tamano-1)<0) {
-						return false;
-					}else {
-						if(estaDisponible(posicionx,posiciony,posicionx-(tamano-1),posiciony,tamano)) {
-							ronda++;
-							posicionx2 = posicionx-(tamano-1);
-							posiciony2 = posiciony;
-							return true;
-						}
-					}
-				case 1://derecha
-					if(posiciony+(tamano-1)>10) {
-						return false;
-					}else {
-						if(estaDisponible(posicionx,posiciony,posicionx,posiciony+(tamano-1),tamano)) {
-							ronda++;
-							posicionx2 = posicionx;
-							posiciony2 = posiciony+(tamano-1);
-
-							return true;
-						}
-					}
-				case 2: //abajo
-					if(posicionx+(tamano-1)>10) {
-						return false;
-					} else {
-						if(estaDisponible(posicionx,posiciony,posicionx+(tamano-1),posiciony,tamano)) {
-							ronda++;
-							posicionx2 = posicionx+(tamano-1);
-							posiciony2 = posiciony;
-							return true;
-						}
-					}
-				case 3: //izquierda
-					if(posiciony-(tamano-1) < 0) {
-						return false;
-					} else {
-						if(estaDisponible(posicionx,posiciony,posicionx,posiciony-(tamano-1),tamano)) {
-							ronda++;
-							posicionx2 = posicionx;
-							posiciony2 = posiciony-(tamano-1);
-							return true;
-						}
-					}
-				}
-			}
-		
-		return false;
 	
-	}
-*/
 	public void ponerBarco2(int tamano,Barcos barquito){
 		Random aleatorio= new Random();
 		Point dirección = new Point(0,0);
@@ -267,18 +82,10 @@ public class PantallaCPU extends PantallaUsuario {
 				if(barcosPantalla[i][j] != null) {
 					System.out.print(barcosPantalla[i][j].getTamano()+" ");
 				}else {
-					System.out.print("0 ");
+					System.out.print("0");
 				}
 			}
 			System.out.print("\n");
 		}
 	}
 }
-	/*
-	public void ponerBarcoCPU() {
-		for(int i = 0; i < 10; i++) {
-			ponerBarco(posicionx, posiciony, posicionx2,posiciony2,tamano,);
-		}
-	}
-}
-*/
