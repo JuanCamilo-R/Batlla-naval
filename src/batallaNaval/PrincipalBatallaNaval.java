@@ -16,7 +16,7 @@ public class PrincipalBatallaNaval {
 		//pantalla.ponerBarco(0, 1, 0, 4, 4, control.retornarBarco(0));
 		//System.out.print(control.retornarBarco(0).getTamano());
 		//pantalla.mostrar();
-		control.mostrar();
+		control.mostrarPosicionesAtacadasCPU();
 
 	}
 
