@@ -57,6 +57,18 @@ public class PantallaCPU extends PantallaUsuario {
 		System.out.println("Meti barquito JEJE");
 		
 	}
+	public boolean barcoVivo(int x, int y) {
+		return barcosPantalla[x][y].isVivo();
+	}
+	public boolean hayBarco(int x, int y) {
+		if(barcosPantalla[x][y] != null) {
+			return true;
+		}
+		return false;
+	}
+	public void atacarBarco(Point posicion) {
+		barcosPantalla[posicion.x][posicion.y].atacar(posicion);
+	}
 	private boolean Disponible(int x, int y, Point dirección, int tamano) {
 		// TODO Auto-generated method stub
 		for (int i = 0; i < tamano; i++)
@@ -82,7 +94,7 @@ public class PantallaCPU extends PantallaUsuario {
 				if(barcosPantalla[i][j] != null) {
 					System.out.print(barcosPantalla[i][j].getTamano()+" ");
 				}else {
-					System.out.print("0");
+					System.out.print("0 ");
 				}
 			}
 			System.out.print("\n");

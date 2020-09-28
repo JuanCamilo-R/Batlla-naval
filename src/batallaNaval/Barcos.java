@@ -18,7 +18,9 @@ public class Barcos {
 	}
 	//Ataque aliado.
 	public  void atacar(Point posiciones) {
+		System.out.println("Ay me pegaron T___T");
 		posicionAtacadas.setLocation(posiciones.getX(), posiciones.getY());
+		vecesTocado++;
 	}
 	//Ataque aliado
 	public Point getPosicionesAtacadas() {
@@ -26,6 +28,10 @@ public class Barcos {
 	}
 
 	public boolean isVivo() {
+		System.out.println("Noob me faltan "+(tamano-vecesTocado));
+		if(vecesTocado==tamano) {
+			vivo=false;
+		}
 		return vivo;
 	}
 	public int getTamano() {

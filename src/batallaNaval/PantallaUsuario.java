@@ -30,6 +30,9 @@ private Barcos [][] barcosPantalla = new Barcos[10][10];
 		}
 		return false;
 	}
+	public boolean barcoVivo(int x, int y) {
+		return barcosPantalla[x][y].isVivo();
+	}
 	protected boolean verificarMitad(int x1,int y1,int x2, int y2,int tamano) {
 		
 		int distancia = (int) Math.sqrt(Math.pow(x2-x1,2)+Math.pow(y2-y1,2)) + 1;

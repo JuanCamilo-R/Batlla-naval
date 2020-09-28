@@ -3,6 +3,7 @@ package batallaNaval;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Scanner;
 
 public class ControlJuego {
 	//Atributos.
@@ -13,7 +14,11 @@ public class ControlJuego {
 	private PantallaUsuario pantallaUsuario;
 	private PantallaCPU pantallaCPU;
 	private Random aleatorio;
+	private int destruidos=0;
+	private int turnos=0;
+	private int intentos=0;
 	private int turno;
+	private int indexDireccionPreferida;
 	private boolean activarMaxInteligenciaCPU;
 	//Posicion recordada por la CPU donde ataco exitosamente, usada en la funcion maxInteligencia
 	private Point posicionGolpeada;
@@ -28,6 +33,7 @@ public class ControlJuego {
 		turno = aleatorio.nextInt(2);
 		activarMaxInteligenciaCPU = false;
 		direccionesPosibles = new ArrayList<Point>();
+		indexDireccionPreferida = -1;
 	}
 	//Crea barcos CPU y jugador.
 	public void crearBarcos() {
@@ -82,20 +88,104 @@ public class ControlJuego {
 	}
 	
 	public void inteligenciaCPU() { //decide que posiciones va a elegir.
-		if(activarMaxInteligenciaCPU) {
+		if(activarMaxInteligenciaCPU&&intentos<5) {
 			maxInteligenciaCPU(posicionGolpeada);
 		}
 		else {
+			intentos=0;
+			activarMaxInteligenciaCPU=false;
 			Point posicion = new Point();
 			posicion.setLocation(aleatorio.nextInt(10), aleatorio.nextInt(10));
-			if(pantallaUsuario.hayBarco((int)posicion.getX(), (int)posicion.getY())) {
+			if(pantallaCPU.hayBarco((int)posicion.getX(), (int)posicion.getY())&&posicionesAtacadasCPU[posicion.x][posicion.y]==0) {
+				posicionesAtacadasCPU[posicion.x][posicion.y]=2;
+				System.out.println("Posición atacada exitosamente: ("+posicion.x+","+posicion.y+")");
 				activarMaxInteligenciaCPU = true;
+				posicionGolpeada=posicion;
+				pantallaCPU.atacarBarco(posicion);
+				if (!pantallaCPU.barcoVivo(posicionGolpeada.x, posicionGolpeada.y)) {
+					System.out.println("Barco destruido, conservando inteligencia normal");
+					destruidos++;
+					activarMaxInteligenciaCPU=false;
+				}
+			}
+			else if(posicionesAtacadasCPU[posicion.x][posicion.y]!=0) {
+				inteligenciaCPU();
+			}
+			else {
+				posicionesAtacadasCPU[posicion.x][posicion.y]=1;
+				System.out.println("Posición atacada: ("+posicion.x+","+posicion.y+")");
 			}
 		}
 	}
 	public void maxInteligenciaCPU(Point posicionGolpeada) {
 		if(direccionesPosibles.isEmpty()) {
-			
+			if(posicionGolpeada.x!=0) {
+				direccionesPosibles.add(new Point(-1,0));
+			}
+			if(posicionGolpeada.x!=9) {
+				direccionesPosibles.add(new Point(1,0));
+			}
+			if(posicionGolpeada.y!=0) {
+				direccionesPosibles.add(new Point(0,-1));
+			}
+			if(posicionGolpeada.y!=9) {
+				direccionesPosibles.add(new Point(0,1));
+			}
+		}
+		boolean cercano = false;
+		int escalar = 1;
+		int indexDireccionElegida; 
+		if(indexDireccionPreferida == -1) {
+			indexDireccionElegida = aleatorio.nextInt(direccionesPosibles.size());
+		}
+		else {
+			indexDireccionElegida = indexDireccionPreferida;
+		}
+		Point direccionElegida = direccionesPosibles.get(indexDireccionElegida);
+		for(escalar = 1; escalar <= 4; escalar++) {
+			if(posicionGolpeada.x+direccionElegida.x*escalar<10
+					&&posicionGolpeada.x+direccionElegida.x*escalar>=0
+					&&posicionGolpeada.y+direccionElegida.y*escalar<10
+					&&posicionGolpeada.y+direccionElegida.y*escalar>=0) {
+				if(posicionesAtacadasCPU[posicionGolpeada.x+direccionElegida.x*escalar][posicionGolpeada.y+direccionElegida.y*escalar]==0) {
+					cercano=true;
+					break;
+				}
+			}
+			else {
+				break;
+			}
+		}
+		System.out.println("escalar:"+escalar);
+		if(!cercano) {
+			direccionesPosibles.remove(indexDireccionElegida);
+			maxInteligenciaCPU(posicionGolpeada);
+		}
+		else if (!pantallaCPU.hayBarco(posicionGolpeada.x+direccionElegida.x*escalar, posicionGolpeada.y+direccionElegida.y*escalar)){
+			posicionesAtacadasCPU[posicionGolpeada.x+direccionElegida.x*escalar][posicionGolpeada.y+direccionElegida.y*escalar]=1;
+			intentos++;
+			System.out.println("Posición atacada MAX: ("+(posicionGolpeada.x+direccionElegida.x*escalar)+","+(posicionGolpeada.y+direccionElegida.y*escalar)+")");
+			direccionesPosibles.remove(indexDireccionElegida);
+		}
+		else {
+			System.out.println("dirección: ("+direccionElegida.x+","+direccionElegida.y+"), escalar: "+escalar);
+			intentos=0;
+			direccionesPosibles.clear();
+			direccionesPosibles.add(direccionElegida);
+			direccionesPosibles.add(new Point(direccionElegida.x*-1,direccionElegida.y*-1));
+			indexDireccionPreferida = 0;
+			posicionesAtacadasCPU[posicionGolpeada.x+direccionElegida.x][posicionGolpeada.y+direccionElegida.y]=2;
+			pantallaCPU.atacarBarco(new Point(posicionGolpeada.x+direccionElegida.x*escalar,posicionGolpeada.y+direccionElegida.y*escalar));
+			System.out.println("Posición atacada exitosamente MAX: ("+(posicionGolpeada.x+direccionElegida.x*escalar)+","+(posicionGolpeada.y+direccionElegida.y*escalar)+")");
+			this.posicionGolpeada.setLocation(posicionGolpeada.x+direccionElegida.x*escalar,posicionGolpeada.y+direccionElegida.y*escalar);
+			if (!pantallaCPU.barcoVivo(posicionGolpeada.x, posicionGolpeada.y)) {
+				System.out.println("Barco destruido, volviendo a inteligencia normal");
+				destruidos++;
+				posicionesAtacadasCPU[posicionGolpeada.x][posicionGolpeada.y]=3;
+				direccionesPosibles.clear();
+				activarMaxInteligenciaCPU=false;
+				indexDireccionPreferida = -1;
+			}
 		}
 	}
 	public void decidirTurno() {
@@ -114,6 +204,29 @@ public class ControlJuego {
 	
 	public void mostrar() {
 		pantallaCPU.mostrar2();
+	}
+	
+	public void mostrarPosicionesAtacadasCPU() {
+		String repetir="";
+		do {
+			do {
+				inteligenciaCPU();
+				turnos++;
+			}while(destruidos<10);
+			pantallaCPU.mostrar2();
+			System.out.println();
+			for(int i=0;i<10;i++)
+			{
+				for (int j=0;j<10;j++) {
+					System.out.print(posicionesAtacadasCPU[i][j]+" ");
+				}
+				System.out.print("\n");
+			}
+			Scanner in = new Scanner(System.in);
+			System.out.println(destruidos+"destruidos en "+turnos+"turnos");
+			System.out.print("Continuar? :");
+			repetir = in.nextLine();
+		}while (repetir.equals("s"));
 	}
 	
 	public Barcos retornarBarco(int indice) {
