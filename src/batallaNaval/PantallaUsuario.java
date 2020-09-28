@@ -1,3 +1,8 @@
+/*
+ * Jennyfer Belalcazar 		- 1925639-3743
+ * Samuel Riascos Prieto 	- 1922540-3743
+ * Juan Camilo Randazzo		- 1923948-3743
+ */
 package batallaNaval;
 
 import java.util.ArrayList;
@@ -88,7 +93,4 @@ private Barcos [][] barcosPantalla = new Barcos[10][10];
 		}
 	}
 	
-public void llenarPosicion(int x1,int y1,int x2,int y2) {
-		
-	}
 }

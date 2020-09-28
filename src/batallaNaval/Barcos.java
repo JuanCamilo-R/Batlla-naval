@@ -1,3 +1,8 @@
+/*
+ * Jennyfer Belalcazar 		- 1925639-3743
+ * Samuel Riascos Prieto 	- 1922540-3743
+ * Juan Camilo Randazzo		- 1923948-3743
+ */
 package batallaNaval;
 
 import java.awt.Point;
@@ -8,7 +13,6 @@ public class Barcos {
 	private int tamano;
 	private int vecesTocado;
 	private boolean vivo;
-	private Point posicionAtacadas = new Point();
 	private ArrayList<Point> posiciones = new ArrayList<Point>();
 	//Metodos
 	public Barcos(int tamano) {
@@ -16,15 +20,7 @@ public class Barcos {
 		vivo = true;
 		this.tamano = tamano;
 	}
-	//Ataque aliado.
-	public  void atacar(Point posiciones) {
-		posicionAtacadas.setLocation(posiciones.getX(), posiciones.getY());
-	}
-	//Ataque aliado
-	public Point getPosicionesAtacadas() {
-		return posicionAtacadas;
-	}
-
+	
 	public boolean isVivo() {
 		return vivo;
 	}
@@ -32,6 +28,18 @@ public class Barcos {
 		return tamano;
 	}
 	
+	public boolean estoyVivo() {
+		if(tamano == vecesTocado) {
+			vivo = false;
+		}
+		return vivo;
+	}
+	
+	public void atacado() {
+		if(vivo == true) {
+			vecesTocado++;
+		}
+	}
 	public void anadir(Point punto) {
 		posiciones.add(punto);
 	}
