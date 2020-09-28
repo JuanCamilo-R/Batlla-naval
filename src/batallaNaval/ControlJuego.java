@@ -103,6 +103,7 @@ public class ControlJuego {
 				posicionGolpeada=posicion;
 				pantallaCPU.atacarBarco(posicion);
 				if (!pantallaCPU.barcoVivo(posicionGolpeada.x, posicionGolpeada.y)) {
+					posicionesAtacadasCPU[posicionGolpeada.x][posicionGolpeada.y]=3;
 					System.out.println("Barco destruido, conservando inteligencia normal");
 					destruidos++;
 					activarMaxInteligenciaCPU=false;
