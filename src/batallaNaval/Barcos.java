@@ -13,6 +13,7 @@ public class Barcos {
 	private int tamano;
 	private int vecesTocado;
 	private boolean vivo;
+	private String direccion = "";
 	private Point  posicionAtacadas = new Point();
 	private ArrayList<Point> posiciones = new ArrayList<Point>();
 	//Metodos
@@ -65,5 +66,12 @@ public class Barcos {
 	
 	public int retornarY(int indice) {
 		return (int)posiciones.get(indice).getY();
+	}
+	
+	public String getDireccion() {
+		return direccion;
+	}
+	public void setDireccion(String direccion) {
+		this.direccion = direccion;
 	}
 }

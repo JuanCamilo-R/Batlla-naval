@@ -4,9 +4,31 @@
  * Juan Camilo Randazzo		- 1923948-3743
  */
 package batallaNaval;
+
+import java.awt.EventQueue;
+
+
 public class PrincipalBatallaNaval {
 
 	public static void main(String[] args) {
+		
+		
+		VistaGUIBatallaNaval miVista = new VistaGUIBatallaNaval();
+	}
+		/*
+			// TODO Auto-generated method stub
+			EventQueue.invokeLater(new Runnable() {
+
+				@Override
+				public void run() {
+					// TODO Auto-generated method stub
+					//Se crea un objeto de tipo vista para visualizar el juego
+				}
+				
+			});
+		}
+		*/
+		/*
 		Barcos [][] barcosPantalla = new Barcos[10][10];
 		PantallaUsuario pantalla = new PantallaUsuario();
 		//PantallaCPU cpu = new PantallaCPU();
@@ -17,7 +39,6 @@ public class PrincipalBatallaNaval {
 		//System.out.print(control.retornarBarco(0).getTamano());
 		//pantalla.mostrar();
 		control.mostrarPosicionesAtacadasCPU();
-
+		 */
 	}
 
-}

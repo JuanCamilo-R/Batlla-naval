@@ -42,18 +42,22 @@ public class PantallaCPU extends PantallaUsuario {
 			switch(aleatorio.nextInt(4)) {
 			case 0:
 				//Derecha
+				barquito.setDireccion("derecha");
 				dirección.setLocation(0, 1);
 				break;
 			case 1:
-				//Arriba
+				//Abajo
+				barquito.setDireccion("abajo");
 				dirección.setLocation(1,0);
 				break;
 			case 2:
 				//Izquierda
+				barquito.setDireccion("izquierda");
 				dirección.setLocation(0,-1);
 				break;
 			case 3:
-				//Abajo
+				//Arriba
+				barquito.setDireccion("arriba");
 				dirección.setLocation(-1,0);
 				break;
 			}

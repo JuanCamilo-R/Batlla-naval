@@ -40,6 +40,7 @@ public class ControlJuego {
 	private Random aleatorio;
 	private int destruidos=0;
 	private int turnos=0;
+	private int ronda = 1;
 	private int intentos=0;
 	private int turno;
 	private int indexDireccionPreferida;
@@ -84,6 +85,7 @@ public class ControlJuego {
 			aux--;
 			capacidad++;
 		}
+		//Ponemos los barcos enemigos.
 		for (int i = 0; i < barcosCPU.size(); i++) {
 			pantallaCPU.ponerBarco2(barcosCPU.get(i).getTamano(), barcosCPU.get(i));
 		}
@@ -93,8 +95,15 @@ public class ControlJuego {
 	/**
 	 * Determinar juego.
 	 */
-	public void determinarJuego() {
-		
+	
+	public void iniciarJuegoCPU(int tamano, Barcos barco) {
+		crearBarcos(); //Creamos barcos enemigos y aliados.
+	}
+	
+	//Ataca y define si alguien perdió.
+	public int determinarJuego(Point posicionAtacada) {
+		ataque(posicionAtacada); 
+		return perdio();
 	}
 	
 	/**
@@ -132,7 +141,8 @@ public class ControlJuego {
 		if(ataqueValido(posicionAtacada)) {
 			switch(turno) {
 				case 0: //CPU
-					decidirTurno();
+					inteligenciaCPU();
+					decidirTurno();	
 					break;
 				case 1: // Aliado
 					for(int i = 0; i < barcos.size(); i++) {
@@ -147,15 +157,20 @@ public class ControlJuego {
 					decidirTurno();
 					break;
 			}
+			ronda++;
 		}
 	}
 	
+	public int getRonda() {
+		return ronda;
+	}
+
 	/**
 	 * Perdio usuario.
 	 *
 	 * @return the int
 	 */
-	public int perdioUsuario() {
+	public int perdio() {
 		int contadorUsuario = 0; 
 		int contadorCPU = 0;
 		for(int i = 0; i < barcos.size(); i++) {
