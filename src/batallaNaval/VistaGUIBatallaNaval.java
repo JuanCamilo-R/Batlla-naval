@@ -271,6 +271,7 @@ public class VistaGUIBatallaNaval extends JFrame {
 			for(int i = 0; i < 10; i++) {
 				for(int j = 0; j < 10; j++) {
 					if(casillas[i][j] == event.getSource()) {
+
 						
 						posicionesEscoger.add(new Point(i,j));
 						if(tipoBarcoEscoger.equals("plane")) {
@@ -326,6 +327,7 @@ public class VistaGUIBatallaNaval extends JFrame {
 		
 			
 		}
+
 
 		//Actualiza el estado de los JToggleButtons
 		
@@ -424,5 +426,6 @@ public class VistaGUIBatallaNaval extends JFrame {
 			}
 		}
 		
+
 	}
 }

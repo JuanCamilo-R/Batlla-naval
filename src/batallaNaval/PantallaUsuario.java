@@ -127,7 +127,6 @@ private Barcos [][] barcosPantalla = new Barcos[10][10];
 				}
 			}
 			do {
-				
 				if(x1 == x2) {
 					barco.anadir(new Point(x1,y1+contador*dirección));
 					barcosPantalla[x1][y1+contador*dirección] = barco;
@@ -138,6 +137,7 @@ private Barcos [][] barcosPantalla = new Barcos[10][10];
 					barcosPantalla[x1+contador*dirección][y1] = barco;
 					System.out.println("Puso el barco en x1: "+(x1+contador*dirección)+",y1: "+y1);
 				}
+				System.out.print("Puso el barco \n");
 				contador++;
 			}while(contador != tamano);
 			System.out.println("Puso el barco entre x1: "+x1+",y1: "+y1+" y x2:"+x2+",y2: "+y2);
