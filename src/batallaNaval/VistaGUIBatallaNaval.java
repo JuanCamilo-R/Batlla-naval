@@ -267,14 +267,19 @@ public class VistaGUIBatallaNaval extends JFrame {
 			for(int i = 0; i < 10; i++) {
 				for(int j = 0; j < 10; j++) {
 					if(casillas[i][j] == event.getSource()) {
-						/*
 						posicionesEscoger.add(new Point(i,j));
+						System.out.print(posicionesEscoger.size()+"\n");
 						if(posicionesEscoger.size() == 2) {
+							System.out.print("x: "+posicionesEscoger.get(0).getX()+"\n");
+							System.out.print("y: "+posicionesEscoger.get(0).getY()+"\n");
+							System.out.print("x2: "+posicionesEscoger.get(1).getX()+"\n");
+							System.out.print("y2: "+posicionesEscoger.get(1).getY()+"\n");
+							System.out.print("Entré a posicionesEscoger");
 							control.ponerBarco((int)posicionesEscoger.get(0).getX()
 									,(int)posicionesEscoger.get(0).getY() , (int)posicionesEscoger.get(1).getX(),
 									(int)posicionesEscoger.get(1).getY(),tamanoBarcoEscoger
 									, control.retornarBarco(tamanoBarcoEscoger));
-							*/
+							
 						
 							posicionesEscoger.clear();
 						}
@@ -286,5 +291,5 @@ public class VistaGUIBatallaNaval extends JFrame {
 		
 			
 		}
-		
 	}
+}

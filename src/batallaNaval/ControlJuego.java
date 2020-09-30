@@ -58,6 +58,7 @@ public class ControlJuego {
 	 */
 	//metodos.
 	public ControlJuego() {
+		pantallaUsuario = new PantallaUsuario();
 		pantallaCPU = new PantallaCPU();
 		aleatorio = new Random();
 		barcos = new ArrayList<Barcos>();
@@ -366,6 +367,7 @@ public class ControlJuego {
 	public Barcos retornarBarco(int tamano) {
 		for(int i = 0; i < barcos.size(); i++) {
 			if(barcos.get(i).getTamano() == tamano && barcos.get(i).isSeleccionado() == false) {
+				
 				return barcos.get(i);
 			}
 		}
