@@ -38,8 +38,8 @@ public class VistaGUIBatallaNaval extends JFrame {
 	//attributes
 	
 	private JPanel zonaUnidades,zonaCasillas,zonaBotones;
-	private JButton[] casillas= new JButton[100];
-	private JLabel[] flota= new JLabel[100];
+	private JButton[][] casillas= new JButton[10][10];
+	private JLabel[][] flota= new JLabel[10][10];
 	private JButton limpiar,confirmar;
 	private ImageIcon imagen;
 	private BufferedImage bufferImage=null;
@@ -116,11 +116,13 @@ public class VistaGUIBatallaNaval extends JFrame {
 		
 		zonaCasillas = new JPanel();
 		zonaCasillas.setLayout(new GridLayout(10,10));
-		for (int i=0;i<100;i++) {
-			casillas[i] = new JButton(""+i);
-			casillas[i].setPreferredSize(new Dimension (50,50));
-			casillas[i].setBackground(Color.blue);
-			zonaCasillas.add(casillas[i]);
+		for (int i=0;i<10;i++) {
+			for(int j=0;j<10;j++) {
+			casillas[i][j] = new JButton(""+(i*10+j));
+			casillas[i][j].setPreferredSize(new Dimension (50,50));
+			casillas[i][j].setBackground(Color.blue);
+			zonaCasillas.add(casillas[i][j]);
+			}
 		}
 		zonaCasillas.setBorder(new TitledBorder("Casillas"));
 		constraints.gridx=1;
@@ -132,6 +134,10 @@ public class VistaGUIBatallaNaval extends JFrame {
 		add(zonaCasillas,constraints);
 		
 		zonaBotones = new JPanel();
+		JLabel Logo = new JLabel();
+		imagen = new ImageIcon("src/imagenes/Logo.png");
+		Logo.setIcon(imagen);
+		zonaBotones.add(Logo);
 		limpiar = new JButton("Limpiar");
 		zonaBotones.add(limpiar);
 		confirmar = new JButton("Confirmar");
@@ -140,7 +146,6 @@ public class VistaGUIBatallaNaval extends JFrame {
 		constraints.gridy=2;
 		constraints.gridwidth=1;
 		constraints.gridheight=1;
-		constraints.anchor=GridBagConstraints.LINE_END;
 		
 		add(zonaBotones,constraints);
 		
