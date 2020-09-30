@@ -11,7 +11,9 @@ import java.awt.EventQueue;
 public class PrincipalBatallaNaval {
 
 	public static void main(String[] args) {
-
+		
+		//ControlJuego control = new ControlJuego();
+		//control.crearBarcos();
 		/*
 		 * Barcos [][] barcosPantalla = new Barcos[10][10]; PantallaUsuario pantalla =
 		 * new PantallaUsuario(); //PantallaCPU cpu = new PantallaCPU(); ControlJuego

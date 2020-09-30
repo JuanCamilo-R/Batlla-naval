@@ -12,12 +12,14 @@ public class Barcos {
 	//atributos
 	private int tamano;
 	private int vecesTocado;
+	private boolean seleccionado;
 	private boolean vivo;
 	private String direccion = "";
 	private Point  posicionAtacadas = new Point();
 	private ArrayList<Point> posiciones = new ArrayList<Point>();
 	//Metodos
 	public Barcos(int tamano) {
+		seleccionado = false;
 		vecesTocado = 0;
 		vivo = true;
 		this.tamano = tamano;
@@ -71,7 +73,16 @@ public class Barcos {
 	public String getDireccion() {
 		return direccion;
 	}
+	
 	public void setDireccion(String direccion) {
 		this.direccion = direccion;
+	}
+	
+	public boolean isSeleccionado() {
+		return seleccionado;
+	}
+	
+	public void setSeleccionado(boolean seleccionado) {
+		this.seleccionado = seleccionado;
 	}
 }

@@ -19,6 +19,7 @@ private Barcos [][] barcosPantalla = new Barcos[10][10];
 	}
 	protected boolean estaDisponible(int x1,int y1,int x2, int y2,int tamano) {
 		if(barcosPantalla[x1][y1]==null && barcosPantalla[x2][y2]==null) {
+			System.out.print("Entro a esta Disponible");
 			if(tamano > 2 && verificarMitad( x1,y1,x2,y2, tamano)) {
 				return true;
 			}
@@ -83,6 +84,7 @@ private Barcos [][] barcosPantalla = new Barcos[10][10];
 		if(estaDisponible(x1,x2,y1,y2,tamano)) {
 			int contador = 0;
 			do {
+				System.out.print("Puso el barco");
 				if(x1 == x2) {
 					barco.anadir(new Point(x1,y1+contador));
 					barcosPantalla[x1][y1+contador] = barco;
@@ -94,6 +96,7 @@ private Barcos [][] barcosPantalla = new Barcos[10][10];
 				contador++;
 			}while(contador != tamano);
 		}
+		System.out.print("No he colocado nada");
 	}
 	
 }

@@ -79,9 +79,9 @@ public class ControlJuego {
 			for(int j = 0; j < aux; j++) {
 				barcosCPU.add(new Barcos(capacidad));
 				barcos.add(new Barcos(capacidad));
+				//System.out.print(capacidad+"\n");
 			}
-			System.out.print(i+"\n");
-			
+			//System.out.print(i+"\n");
 			aux--;
 			capacidad++;
 		}
@@ -96,7 +96,7 @@ public class ControlJuego {
 	 * Determinar juego.
 	 */
 	
-	public void iniciarJuegoCPU(int tamano, Barcos barco) {
+	public void iniciarJuegoCPU() {
 		crearBarcos(); //Creamos barcos enemigos y aliados.
 	}
 	
@@ -319,6 +319,11 @@ public class ControlJuego {
 		}
 	}
 	
+	public void ponerBarco(int x1, int y1, int x2, int y2, int tamano, Barcos barco) {
+		pantallaUsuario.ponerBarco(x1, y1, x2, y2, tamano, barco);
+		barco.setSeleccionado(true);
+	}
+	
 	/**
 	 * Retornar turno.
 	 *
@@ -358,10 +363,13 @@ public class ControlJuego {
 		}while (repetir.equals("s"));
 	}
 	
-	public Barcos retornarBarco(int indice) {
-		return barcos.get(indice);
+	public Barcos retornarBarco(int tamano) {
+		for(int i = 0; i < barcos.size(); i++) {
+			if(barcos.get(i).getTamano() == tamano && barcos.get(i).isSeleccionado() == false) {
+				return barcos.get(i);
+			}
+		}
+		return null;
 	}
-	public void añadirBarco(Barcos barco) {
-		barcosCPU.add(barco);
-	}
+
 }
