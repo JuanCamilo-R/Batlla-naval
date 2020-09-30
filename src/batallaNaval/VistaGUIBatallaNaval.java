@@ -28,6 +28,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JToggleButton;
+import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
 
 import javafx.scene.shape.Box;
@@ -76,18 +77,25 @@ public class VistaGUIBatallaNaval extends JFrame {
 		imagen = new ImageIcon("src/imagenes/Battleship.png");
 		battleship = new JToggleButton("1");
 		battleship.setIcon(imagen);
+		battleship.setVerticalTextPosition(SwingConstants.TOP);
 		imagen = new ImageIcon("src/imagenes/Cruiser.png");
 		cruiser = new JToggleButton("2");
 		cruiser.setIcon(imagen);
-		cruiser.setMaximumSize(new Dimension(battleship.getMaximumSize().width,cruiser.getMaximumSize().height));
+		cruiser.setVerticalTextPosition(SwingConstants.TOP);
+		
 		imagen = new ImageIcon("src/imagenes/ShipDestroyerHull.png");
 		destroyer = new JToggleButton("3");
 		destroyer.setIcon(imagen);
-		destroyer.setMaximumSize(new Dimension(battleship.getMaximumSize().width,cruiser.getMaximumSize().height));
+		destroyer.setVerticalTextPosition(SwingConstants.TOP);
+		
 		imagen = new ImageIcon("src/imagenes/PlaneF-35Lightning2.png");
 		plane = new JToggleButton("4");
 		plane.setIcon(imagen);
-		plane.setMaximumSize(new Dimension(battleship.getMaximumSize().width,destroyer.getMaximumSize().height));
+		plane.setVerticalTextPosition(SwingConstants.TOP);
+		plane.setMaximumSize(new Dimension(plane.getMaximumSize().width,plane.getMaximumSize().height));
+		destroyer.setMaximumSize(new Dimension(plane.getMaximumSize().width,destroyer.getMaximumSize().height));
+		cruiser.setMaximumSize(new Dimension(plane.getMaximumSize().width,cruiser.getMaximumSize().height));
+		battleship.setMaximumSize(new Dimension(plane.getMaximumSize().width,battleship.getMaximumSize().height));
 		unidades = new ButtonGroup();
 		unidades.add(battleship);
 		unidades.add(cruiser);
