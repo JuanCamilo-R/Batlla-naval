@@ -9,10 +9,12 @@ package batallaNaval;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -37,10 +39,11 @@ import misComponentes.Título;
 public class VistaGUIBatallaNaval extends JFrame {
 	//attributes
 	
-	private JPanel zonaUnidades,zonaCasillas,zonaBotones;
+	private JPanel zonaUnidades,zonaCasillas,zonaLogo,zonaBotones;
 	private JButton[][] casillas= new JButton[10][10];
+	private JLabel[] reglaHorizontal, reglaVertical;
 	private JLabel[][] flota= new JLabel[10][10];
-	private JButton limpiar,confirmar;
+	private JButton limpiar,confirmar,salir;
 	private ImageIcon imagen;
 	private BufferedImage bufferImage=null;
 	private Título título;
@@ -94,7 +97,7 @@ public class VistaGUIBatallaNaval extends JFrame {
 		plane.setVerticalTextPosition(SwingConstants.TOP);
 		plane.setMaximumSize(new Dimension(plane.getMaximumSize().width,plane.getMaximumSize().height));
 		destroyer.setMaximumSize(new Dimension(plane.getMaximumSize().width,destroyer.getMaximumSize().height));
-		cruiser.setMaximumSize(new Dimension(plane.getMaximumSize().width,cruiser.getMaximumSize().height));
+		cruiser.setMaximumSize(new Dimension(plane.getMaximumSize().width,battleship.getMaximumSize().height));
 		battleship.setMaximumSize(new Dimension(plane.getMaximumSize().width,battleship.getMaximumSize().height));
 		unidades = new ButtonGroup();
 		unidades.add(battleship);
@@ -115,39 +118,94 @@ public class VistaGUIBatallaNaval extends JFrame {
 		add(zonaUnidades,constraints);
 		
 		zonaCasillas = new JPanel();
-		zonaCasillas.setLayout(new GridLayout(10,10));
+		zonaCasillas.setLayout(new GridLayout(11,11));
+		reglaHorizontal = new JLabel[11];
+		reglaVertical = new JLabel[10];
+		String texto = "[Y,X]";
+		for (int i=0;i<11;i++) {
+			reglaHorizontal[i] = new JLabel(texto);
+			reglaHorizontal[i].setHorizontalAlignment(SwingConstants.CENTER);
+			texto=""+i;
+			zonaCasillas.add(reglaHorizontal[i]);
+		}
 		for (int i=0;i<10;i++) {
-			for(int j=0;j<10;j++) {
-			casillas[i][j] = new JButton(""+(i*10+j));
-			casillas[i][j].setPreferredSize(new Dimension (50,50));
-			casillas[i][j].setBackground(Color.blue);
-			zonaCasillas.add(casillas[i][j]);
+			for(int j=0;j<11;j++) {
+				if(j==0) {
+					reglaVertical[j] = new JLabel(""+i);
+					reglaVertical[j].setHorizontalAlignment(SwingConstants.CENTER);
+					zonaCasillas.add(reglaVertical[j]);
+				}
+				else {
+				casillas[i][j-1] = new JButton();
+				casillas[i][j-1].setPreferredSize(new Dimension (50,50));
+				casillas[i][j-1].setBackground(Color.blue);
+				zonaCasillas.add(casillas[i][j-1]);
+				}
 			}
 		}
-		zonaCasillas.setBorder(new TitledBorder("Casillas"));
 		constraints.gridx=1;
 		constraints.gridy=1;
-		constraints.gridwidth=1;
+		constraints.gridwidth=2;
 		constraints.gridheight=1;
 		constraints.fill=GridBagConstraints.NONE;
 		
 		add(zonaCasillas,constraints);
 		
-		zonaBotones = new JPanel();
+		zonaLogo = new JPanel();
 		JLabel Logo = new JLabel();
 		imagen = new ImageIcon("src/imagenes/Logo.png");
 		Logo.setIcon(imagen);
-		zonaBotones.add(Logo);
-		limpiar = new JButton("Limpiar");
-		zonaBotones.add(limpiar);
-		confirmar = new JButton("Confirmar");
-		zonaBotones.add(confirmar);
+		zonaLogo.add(Logo);
 		constraints.gridx=1;
 		constraints.gridy=2;
 		constraints.gridwidth=1;
 		constraints.gridheight=1;
+		constraints.fill=GridBagConstraints.NONE;
+		add(zonaLogo,constraints);
 		
+		zonaBotones = new JPanel();
+		zonaBotones.setPreferredSize(new Dimension(100,100));
+		confirmar = new JButton("Confirmar");
+		confirmar.setPreferredSize(new Dimension(100,30));
+		zonaBotones.add(confirmar);
+		limpiar = new JButton("Limpiar");
+		limpiar.setPreferredSize(new Dimension(100,30));
+		zonaBotones.add(limpiar);
+		salir = new JButton("Salir");
+		salir.setPreferredSize(new Dimension(100,30));
+		zonaBotones.add(salir);
+		constraints.gridx=2;
+		constraints.gridy=2;
+		constraints.gridwidth=1;
+		constraints.gridheight=1;
+		constraints.fill=GridBagConstraints.VERTICAL;
 		add(zonaBotones,constraints);
-		
 	}
+	
+	private BufferedImage rotateImageByDegrees(BufferedImage img, double angle) {
+
+        double rads = Math.toRadians(angle);
+        double sin = Math.abs(Math.sin(rads)), cos = Math.abs(Math.cos(rads));
+        int w = img.getWidth();
+        int h = img.getHeight();
+        int newWidth = (int) Math.floor(w * cos + h * sin);
+        int newHeight = (int) Math.floor(h * cos + w * sin);
+
+        BufferedImage rotated = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2d = rotated.createGraphics();
+        AffineTransform at = new AffineTransform();
+        at.translate((newWidth - w) / 2, (newHeight - h) / 2);
+
+        int x = w / 2;
+        int y = h / 2;
+
+        at.rotate(rads, x, y);
+        g2d.setTransform(at);
+        g2d.drawImage(img, 0, 0, this);
+        g2d.setColor(Color.RED);
+        g2d.drawRect(0, 0, newWidth - 1, newHeight - 1);
+        g2d.dispose();
+
+        return rotated;
+    }
 }
