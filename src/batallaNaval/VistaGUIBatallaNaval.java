@@ -38,7 +38,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
 
 import javafx.scene.shape.Box;
-import misComponentes.Titulos;
+import misComponentes.Título;
 
 public class VistaGUIBatallaNaval extends JFrame {
 	//attributes
@@ -53,10 +53,14 @@ public class VistaGUIBatallaNaval extends JFrame {
 	private JButton limpiar,confirmar,salir;
 	private ImageIcon imagen;
 	private BufferedImage bufferImage=null;
-	private Titulos titulo;
+	private Título titulo;
 	private Escuchas escucha;
 	private JToggleButton battleship, cruiser, destroyer, plane;
 	private ButtonGroup unidades;
+	private int planes=4;
+	private int destroyers=3;
+	private int cruisers=2;
+	private int battleships=1;
 	
 	//methods
 	
@@ -84,7 +88,7 @@ public class VistaGUIBatallaNaval extends JFrame {
 		escucha = new Escuchas();
 		this.getContentPane().setLayout(new GridBagLayout());
 		GridBagConstraints constraints = new GridBagConstraints();
-		titulo = new Titulos("¡Organiza tu flota!", 30, Color.black);
+		titulo = new Título("¡Organiza tu flota!", 30, Color.black);
 		constraints.gridx=0;
 		constraints.gridy=0;
 		constraints.gridwidth=3;
@@ -95,24 +99,24 @@ public class VistaGUIBatallaNaval extends JFrame {
 		zonaUnidades = new JPanel();
 		zonaUnidades.setLayout(new BoxLayout(zonaUnidades,BoxLayout.Y_AXIS));
 		imagen = new ImageIcon("src/imagenes/Battleship.png");
-		battleship = new JToggleButton("1");
+		battleship = new JToggleButton(""+battleships);
 		battleship.addActionListener(escucha);
 		battleship.setIcon(imagen);
 		battleship.setVerticalTextPosition(SwingConstants.TOP);
 		imagen = new ImageIcon("src/imagenes/Cruiser.png");
-		cruiser = new JToggleButton("2");
+		cruiser = new JToggleButton(""+cruisers);
 		cruiser.addActionListener(escucha);
 		cruiser.setIcon(imagen);
 		cruiser.setVerticalTextPosition(SwingConstants.TOP);
 		
-		imagen = new ImageIcon("src/imagenes/ShipDestroyerHull.png");
-		destroyer = new JToggleButton("3");
+		imagen = new ImageIcon("src/imagenes/Destroyer.png");
+		destroyer = new JToggleButton(""+destroyers);
 		destroyer.addActionListener(escucha);
 		destroyer.setIcon(imagen);
 		destroyer.setVerticalTextPosition(SwingConstants.TOP);
 		
-		imagen = new ImageIcon("src/imagenes/PlaneF-35Lightning2.png");
-		plane = new JToggleButton("4");
+		imagen = new ImageIcon("src/imagenes/Plane.png");
+		plane = new JToggleButton(""+planes);
 		plane.addActionListener(escucha);
 		plane.setIcon(imagen);
 		plane.setVerticalTextPosition(SwingConstants.TOP);
@@ -248,35 +252,71 @@ public class VistaGUIBatallaNaval extends JFrame {
 			} else if(event.getSource() == plane && Integer.parseInt(plane.getText()) != 0) { //Tamano 1, cantidad: 4
 				tipoBarcoEscoger = "plane";
 				tamanoBarcoEscoger = 1;
-				plane.setText(String.valueOf(Integer.parseInt(plane.getText())-1));
+				
 			} else if(event.getSource() == battleship && Integer.parseInt(battleship.getText()) != 0) { //Tamano 4, cantidad 1
 				tipoBarcoEscoger = "battleship"; 
 				tamanoBarcoEscoger = 4;
-				battleship.setText(String.valueOf(Integer.parseInt(battleship.getText())-1));
+			
 				
 			} else if(event.getSource() == destroyer) { //tamano 2 , cantidad: 3
 				tipoBarcoEscoger = "destroyer";
 				tamanoBarcoEscoger = 2;
-				destroyer.setText(String.valueOf(Integer.parseInt(destroyer.getText())-1));
+				
 			} else if(event.getSource() == cruiser) { // tamano 3 , cantidad: 2
 				tamanoBarcoEscoger = 3;
 				tipoBarcoEscoger = "cruiser";
-				cruiser.setText(String.valueOf(Integer.parseInt(cruiser.getText())-1));
+				
 			}
 			
 			for(int i = 0; i < 10; i++) {
 				for(int j = 0; j < 10; j++) {
 					if(casillas[i][j] == event.getSource()) {
-						/*
-						posicionesEscoger.add(new Point(i,j));
-						if(posicionesEscoger.size() == 2) {
-							control.ponerBarco((int)posicionesEscoger.get(0).getX()
-									,(int)posicionesEscoger.get(0).getY() , (int)posicionesEscoger.get(1).getX(),
-									(int)posicionesEscoger.get(1).getY(),tamanoBarcoEscoger
-									, control.retornarBarco(tamanoBarcoEscoger));
-							*/
 						
-							posicionesEscoger.clear();
+						posicionesEscoger.add(new Point(i,j));
+						if(tipoBarcoEscoger.equals("plane")) {
+							posicionesEscoger.add(new Point(i,j));
+						}
+						if(posicionesEscoger.size() == 2) {
+							
+							//Guarda el mismo barco para ponerlo en la PantallaUsuario y pintarlo en la GUI
+							
+							Barcos barcoSeleccionado = control.retornarBarco(tamanoBarcoEscoger);
+							try {
+								control.ponerBarco((int)posicionesEscoger.get(0).getX()
+										,(int)posicionesEscoger.get(0).getY() , (int)posicionesEscoger.get(1).getX(),
+										(int)posicionesEscoger.get(1).getY(),tamanoBarcoEscoger
+										, barcoSeleccionado);
+								System.out.println("Agregado");
+								control.mostrar();
+								pintarBarco(barcoSeleccionado);
+								
+								//Resta el número de unidades navales disponibles
+								
+								switch(tipoBarcoEscoger) {
+								case "battleship":
+									battleships--;
+									break;
+								case "cruiser":
+									cruisers--;
+									break;
+								case "destroyer":
+									destroyers--;
+									break;
+								case "plane":
+									planes--;
+									break;
+								}
+								
+								actualizar();
+							} catch (Exception e) {
+								// TODO Auto-generated catch block
+								JOptionPane.showMessageDialog(null,"No ha seleccionado ningún tipo de barco");
+							}finally {
+								posicionesEscoger.clear();
+							}
+							
+						
+							
 						}
 					}
 				}
@@ -286,5 +326,103 @@ public class VistaGUIBatallaNaval extends JFrame {
 		
 			
 		}
+
+		//Actualiza el estado de los JToggleButtons
+		
+		private void actualizar() {
+			// TODO Auto-generated method stub
+			battleship.setText(""+battleships);
+			if(battleships==0 && battleship.isSelected()) {
+				battleship.setSelected(false);
+				unidades.clearSelection();
+				battleship.setEnabled(false);
+			}
+			cruiser.setText(""+cruisers);
+			if(cruisers==0 && cruiser.isSelected()) {
+				cruiser.setSelected(false);
+				unidades.clearSelection();
+				cruiser.setEnabled(false);
+			}
+			destroyer.setText(""+destroyers);
+			if(destroyers==0 && destroyer.isSelected()) {
+				destroyer.setSelected(false);
+				unidades.clearSelection();
+				destroyer.setEnabled(false);
+			}
+			plane.setText(""+planes);
+			if(planes==0 && plane.isSelected()) {
+				plane.setSelected(false);
+				unidades.clearSelection();
+				plane.setEnabled(false);
+			}
+		}
+
+		//Pinta un barco en la pantalla
+		
+		private void pintarBarco(Barcos barcoAPintar) {
+			// TODO Auto-generated method stub
+			String filePath="src/imagenes/"+tipoBarcoEscoger+".png";
+			if(barcoAPintar.getTamano()==1) {
+				casillas[barcoAPintar.retornarX(0)][barcoAPintar.retornarY(0)].setIcon(new ImageIcon(filePath));
+			}else {
+				//ángulo de rotación
+				
+				int angulo=0;
+				
+				//Inicializa las variables para el getSubimage();
+				
+				int x0=0;
+				int y0=0;
+				int xIncremento=0;
+				int yIncremento=1;
+				int posicionInicial=0;
+				
+				//Generaliza las variables anteriores dependiendo de la dirección del barco
+				
+				switch(barcoAPintar.getDireccion()) {
+				case "derecha":
+					x0=0;
+					y0=0;
+					xIncremento=1;
+					yIncremento=0;
+					posicionInicial=0;
+					angulo=270;
+					break;
+				case "izquierda":
+					x0=1;
+					y0=0;
+					xIncremento=-1;
+					yIncremento=0;
+					angulo=90;
+					posicionInicial=1;
+					break;
+				case "abajo":
+					x0=0;
+					y0=1;
+					xIncremento=0;
+					yIncremento=-1;
+					angulo=180;
+					posicionInicial=1;
+					break;
+				}
+				
+				try {
+					bufferImage = ImageIO.read(new File(filePath));
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				bufferImage = rotateImageByDegrees(bufferImage, angulo);
+				for(int i=0;i<barcoAPintar.getTamano();i++) {
+					System.out.println("Barco en x: "+barcoAPintar.retornarX(i)+",y: "+barcoAPintar.retornarY(i));
+					Image subimagen = bufferImage.getSubimage(bufferImage.getWidth()*x0+(i+posicionInicial)*xIncremento*50, 
+							bufferImage.getHeight()*y0+(i+posicionInicial)*yIncremento*50,
+							bufferImage.getWidth()+(50-bufferImage.getWidth())*Math.abs(xIncremento),
+							bufferImage.getHeight()+(50-bufferImage.getHeight())*Math.abs(yIncremento));
+					casillas[barcoAPintar.retornarX(i)][barcoAPintar.retornarY(i)].setIcon(new ImageIcon(subimagen));
+				}
+			}
+		}
 		
 	}
+}

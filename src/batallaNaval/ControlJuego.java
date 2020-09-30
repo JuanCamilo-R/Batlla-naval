@@ -59,6 +59,7 @@ public class ControlJuego {
 	//metodos.
 	public ControlJuego() {
 		pantallaCPU = new PantallaCPU();
+		pantallaUsuario = new PantallaUsuario();
 		aleatorio = new Random();
 		barcos = new ArrayList<Barcos>();
 		barcosCPU = new ArrayList<Barcos>();
@@ -337,6 +338,9 @@ public class ControlJuego {
 	 * Mostrar.
 	 */
 	public void mostrar() {
+		System.out.println("Pantalla Usuario");
+		pantallaUsuario.mostrar();
+		System.out.println("Pantalla CPU");
 		pantallaCPU.mostrar2();
 	}
 	

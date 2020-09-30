@@ -63,11 +63,11 @@ public class Barcos {
 	}
 	
 	public int retornarX(int indice) {
-		return (int)posiciones.get(indice).getX();
+		return posiciones.get(indice).x;
 	}
 	
 	public int retornarY(int indice) {
-		return (int)posiciones.get(indice).getY();
+		return posiciones.get(indice).y;
 	}
 	
 	public String getDireccion() {
