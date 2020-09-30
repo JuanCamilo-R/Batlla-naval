@@ -1,3 +1,8 @@
+/*
+ * Jennyfer Belalcazar 		- 1925639-3743
+ * Samuel Riascos Prieto 	- 1922540-3743
+ * Juan Camilo Randazzo		- 1923948-3743
+ */
 package batallaNaval;
 
 import java.util.ArrayList;
@@ -23,38 +28,44 @@ public class PantallaCPU extends PantallaUsuario {
 		ronda=1;
 	}
 	
+	public void barcoAtacado(int x, int y) {
+		barcosPantalla[x][y].atacado();
+	}
+	
 	public void ponerBarco2(int tamano,Barcos barquito){
 		Random aleatorio= new Random();
 		Point dirección = new Point(0,0);
 		int x=0,y=0;
 		do {
-			System.out.println("me trabé");
 			x=aleatorio.nextInt(10);
 			y=aleatorio.nextInt(10);
 			switch(aleatorio.nextInt(4)) {
 			case 0:
 				//Derecha
+				barquito.setDireccion("derecha");
 				dirección.setLocation(0, 1);
 				break;
 			case 1:
-				//Arriba
+				//Abajo
+				barquito.setDireccion("abajo");
 				dirección.setLocation(1,0);
 				break;
 			case 2:
 				//Izquierda
+				barquito.setDireccion("izquierda");
 				dirección.setLocation(0,-1);
 				break;
 			case 3:
-				//Abajo
+				//Arriba
+				barquito.setDireccion("arriba");
 				dirección.setLocation(-1,0);
 				break;
 			}
 		}while(!Disponible(x,y,dirección,tamano));
+		
 		for(int i=0 ;i < tamano; i++){
 			barcosPantalla[y+dirección.x*i][x+dirección.y*i] = barquito;
-			System.out.println("trozo "+i+" metido en i: "+(y+dirección.x*i)+" j:"+(x+dirección.y*i)+ "JEJE");
 		}
-		System.out.println("Meti barquito JEJE");
 		
 	}
 	public boolean barcoVivo(int x, int y) {
@@ -69,6 +80,7 @@ public class PantallaCPU extends PantallaUsuario {
 	public void atacarBarco(Point posicion) {
 		barcosPantalla[posicion.x][posicion.y].atacar(posicion);
 	}
+
 	private boolean Disponible(int x, int y, Point dirección, int tamano) {
 		// TODO Auto-generated method stub
 		for (int i = 0; i < tamano; i++)
