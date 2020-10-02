@@ -323,7 +323,7 @@ public class ControlJuego {
 	
 	public void ponerBarco(int x1, int y1, int x2, int y2, int tamano, Barcos barco) {
 		pantallaUsuario.ponerBarco(x1, y1, x2, y2, tamano, barco);
-		barco.setSeleccionado(true);
+		
 	}
 	
 	/**

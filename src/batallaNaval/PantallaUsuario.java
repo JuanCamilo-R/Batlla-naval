@@ -18,7 +18,8 @@ private Barcos [][] barcosPantalla = new Barcos[10][10];
 		
 	}
 	protected boolean estaDisponible(int x1,int y1,int x2, int y2,int tamano) {
-		if(barcosPantalla[x1][y1]==null && barcosPantalla[x2][y2]==null) {
+		int distancia = ((int) Math.sqrt(Math.pow(x2-x1,2)+Math.pow(y2-y1,2))) + 1;
+		if(barcosPantalla[x1][y1]==null && barcosPantalla[x2][y2]==null && tamano ==distancia) {
 			System.out.println("Entro a esta Disponible");
 			if(tamano > 2) {
 				if(verificarMitad(x1, y1, x2, y2, tamano)) {
@@ -43,9 +44,6 @@ private Barcos [][] barcosPantalla = new Barcos[10][10];
 		return barcosPantalla[x][y].isVivo();
 	}
 	protected boolean verificarMitad(int x1,int y1,int x2, int y2,int tamano) {
-		System.out.println("Verificando mitad");
-		int distancia = ((int) Math.sqrt(Math.pow(x2-x1,2)+Math.pow(y2-y1,2))) + 1;
-		System.out.println("Distancia: "+distancia);
 		int dirección = 1;
 		if(x1==x2) {
 			if(y2-y1<0) {
@@ -57,7 +55,7 @@ private Barcos [][] barcosPantalla = new Barcos[10][10];
 				dirección=-1;
 			}
 		}
-		if( x1 == x2 && distancia == tamano) {
+		if( x1 == x2) {
 			System.out.println("Horizontal");
 			for(int i = 0; i <= Math.abs(y2-y1)-1; i++) {
 				System.out.println("Verificando posición x: "+(x1)+",y: "+(y1+i*dirección));
@@ -68,7 +66,7 @@ private Barcos [][] barcosPantalla = new Barcos[10][10];
 			}
 			return true;
 		}
-		else if( y1 == y2 && distancia == tamano) {
+		else if( y1 == y2 ) {
 			System.out.println("Vertical");
 			for(int i = 1; i <= Math.abs(x2-x1)-1; i++) {
 				System.out.println("Verificando posición x: "+(x1+i*dirección)+",y: "+(y1));
@@ -114,6 +112,7 @@ private Barcos [][] barcosPantalla = new Barcos[10][10];
 					System.out.println("Dirección derecha");
 					barco.setDireccion("derecha");
 				}
+				System.out.print("Después del else de derecha");
 			}
 			else if(y1==y2) {
 				if(x2-x1<0) {
@@ -126,6 +125,7 @@ private Barcos [][] barcosPantalla = new Barcos[10][10];
 					barco.setDireccion("arriba");
 				}
 			}
+			System.out.println("Antes del do while");
 			do {
 				if(x1 == x2) {
 					barco.anadir(new Point(x1,y1+contador*dirección));
@@ -141,6 +141,7 @@ private Barcos [][] barcosPantalla = new Barcos[10][10];
 				contador++;
 			}while(contador != tamano);
 			System.out.println("Puso el barco entre x1: "+x1+",y1: "+y1+" y x2:"+x2+",y2: "+y2);
+			barco.setSeleccionado(true);
 		}
 		else {
 		System.out.println("No he colocado nada");

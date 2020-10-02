@@ -38,7 +38,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
 
 import javafx.scene.shape.Box;
-import misComponentes.Título;
+import misComponentes.Titulos;
 
 public class VistaGUIBatallaNaval extends JFrame {
 	//attributes
@@ -53,7 +53,7 @@ public class VistaGUIBatallaNaval extends JFrame {
 	private JButton limpiar,confirmar,salir;
 	private ImageIcon imagen;
 	private BufferedImage bufferImage=null;
-	private Título titulo;
+	private Titulos titulo;
 	private Escuchas escucha;
 	private JToggleButton battleship, cruiser, destroyer, plane;
 	private ButtonGroup unidades;
@@ -88,7 +88,7 @@ public class VistaGUIBatallaNaval extends JFrame {
 		escucha = new Escuchas();
 		this.getContentPane().setLayout(new GridBagLayout());
 		GridBagConstraints constraints = new GridBagConstraints();
-		titulo = new Título("¡Organiza tu flota!", 30, Color.black);
+		titulo = new Titulos("¡Organiza tu flota!", 30, Color.black);
 		constraints.gridx=0;
 		constraints.gridy=0;
 		constraints.gridwidth=3;
@@ -252,20 +252,21 @@ public class VistaGUIBatallaNaval extends JFrame {
 			} else if(event.getSource() == plane && Integer.parseInt(plane.getText()) != 0) { //Tamano 1, cantidad: 4
 				tipoBarcoEscoger = "plane";
 				tamanoBarcoEscoger = 1;
+				posicionesEscoger.clear();
 				
 			} else if(event.getSource() == battleship && Integer.parseInt(battleship.getText()) != 0) { //Tamano 4, cantidad 1
-				tipoBarcoEscoger = "battleship"; 
+				tipoBarcoEscoger = "battleship";
+				System.out.print("Entro aquí");
 				tamanoBarcoEscoger = 4;
-			
-				
+				posicionesEscoger.clear();
 			} else if(event.getSource() == destroyer) { //tamano 2 , cantidad: 3
 				tipoBarcoEscoger = "destroyer";
 				tamanoBarcoEscoger = 2;
-				
+				posicionesEscoger.clear();
 			} else if(event.getSource() == cruiser) { // tamano 3 , cantidad: 2
 				tamanoBarcoEscoger = 3;
 				tipoBarcoEscoger = "cruiser";
-				
+				posicionesEscoger.clear();
 			}
 			
 			for(int i = 0; i < 10; i++) {
@@ -282,39 +283,45 @@ public class VistaGUIBatallaNaval extends JFrame {
 							//Guarda el mismo barco para ponerlo en la PantallaUsuario y pintarlo en la GUI
 							
 							Barcos barcoSeleccionado = control.retornarBarco(tamanoBarcoEscoger);
-							try {
+								System.out.print("battleship \n");
+								System.out.print("Size vector"+posicionesEscoger.size());
 								control.ponerBarco((int)posicionesEscoger.get(0).getX()
 										,(int)posicionesEscoger.get(0).getY() , (int)posicionesEscoger.get(1).getX(),
 										(int)posicionesEscoger.get(1).getY(),tamanoBarcoEscoger
 										, barcoSeleccionado);
-								System.out.println("Agregado");
 								control.mostrar();
-								pintarBarco(barcoSeleccionado);
-								
-								//Resta el número de unidades navales disponibles
-								
-								switch(tipoBarcoEscoger) {
-								case "battleship":
-									battleships--;
-									break;
-								case "cruiser":
-									cruisers--;
-									break;
-								case "destroyer":
-									destroyers--;
-									break;
-								case "plane":
-									planes--;
-									break;
+								if(barcoSeleccionado.isSeleccionado() == true) {
+									pintarBarco(barcoSeleccionado);
+
+									//Resta el número de unidades navales disponibles
+
+									switch(tipoBarcoEscoger) {
+									case "battleship":
+										battleships--;
+										break;
+									case "cruiser":
+										System.out.print("Entré a cruisers");
+										cruisers--;
+										break;
+									case "destroyer":
+										destroyers--;
+										break;
+									case "plane":
+										planes--;
+										break;
+									}
+
+									actualizar();
+								}else {
+									
+									JOptionPane.showMessageDialog(null,"No coloco barco, intentalo de nuevo");
 								}
-								
-								actualizar();
-							} catch (Exception e) {
-								// TODO Auto-generated catch block
-								JOptionPane.showMessageDialog(null,"No ha seleccionado ningún tipo de barco");
-							}finally {
 								posicionesEscoger.clear();
-							}
+								
+								
+								
+								
+							
 							
 						
 							
