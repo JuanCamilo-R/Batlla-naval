@@ -85,4 +85,7 @@ public class Barcos {
 	public void setSeleccionado(boolean seleccionado) {
 		this.seleccionado = seleccionado;
 	}
+	public void limpiarPosiciones() {
+		posiciones.clear();
+	}
 }

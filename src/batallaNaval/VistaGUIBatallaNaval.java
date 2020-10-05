@@ -9,6 +9,7 @@ package batallaNaval;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -33,24 +34,29 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JToggleButton;
 import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
 
 import javafx.scene.shape.Box;
 import misComponentes.Titulos;
-
+import javax.swing.UIManager;
 public class VistaGUIBatallaNaval extends JFrame {
 	//attributes
 	private ArrayList<Point> posicionesEscoger;
 	private ControlJuego control;
 	private String tipoBarcoEscoger = "";
 	private int tamanoBarcoEscoger = 0;
-	private JPanel zonaUnidades,zonaCasillas,zonaLogo,zonaBotones;
-	private JButton[][] casillas= new JButton[10][10];
-	private JLabel[] reglaHorizontal, reglaVertical;
+	private JLabel mensajeL;
+	private JPanel zonaUnidades,zonaCasillas,zonaLogo,zonaBotones, zonaCasillasAtacar, zonaAtacar;
+	private JButton[][] casillas = new JButton[10][10]; //Casillas donde se pone los barcos
+	private JButton[][] casillasAtacar = new JButton[10][10];
+	private JLabel[] reglaHorizontal, reglaVertical, reglaHorizontalAtaque, reglaVerticalAtaque;
+	private JTextArea historialJuego;
 	private JLabel[][] flota= new JLabel[10][10];
-	private JButton limpiar,confirmar,salir;
+	private JButton limpiar,confirmar,salir, instrucciones, verBarcosCPU;
 	private ImageIcon imagen;
 	private BufferedImage bufferImage=null;
 	private Titulos titulo;
@@ -61,7 +67,8 @@ public class VistaGUIBatallaNaval extends JFrame {
 	private int destroyers=3;
 	private int cruisers=2;
 	private int battleships=1;
-	
+	private JFrame miMisma = this;
+	private GridBagConstraints constraints;
 	//methods
 	
 	public VistaGUIBatallaNaval() {
@@ -70,7 +77,7 @@ public class VistaGUIBatallaNaval extends JFrame {
 		this.setTitle("Batalla Naval");
 		this.pack();
 		this.setLocationRelativeTo(null);
-		this.setResizable(true);
+		this.setResizable(false);
 		this.setVisible(true);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
@@ -81,13 +88,20 @@ public class VistaGUIBatallaNaval extends JFrame {
 	private void initGUI() {
 		// TODO Auto-generated method stub}
 		//ControlJuego
+		String mensaje = " <html>Para iniciar el juego, debes colocar todos los barcos.<br>"+    
+				"Para colocar un barco, escoge la cabeza y la cola del mismo:<br>" + 
+				"El primer barco tiene un tamano de 4 casillas.<br>" + 
+				"El segundo barco tiene un tamano de 3 casillas.<br>" + 
+				"El tercer barco tiene un tamano de 2 casillas. <br>" + 
+				"El cuarto barco tiene un tamano de 1 casilla.</html>";
+		mensajeL = new JLabel(mensaje);
 		control = new ControlJuego();
 		//Posiciones escoger
 		posicionesEscoger = new ArrayList<Point>();
 		//Inicializar escucha.
 		escucha = new Escuchas();
 		this.getContentPane().setLayout(new GridBagLayout());
-		GridBagConstraints constraints = new GridBagConstraints();
+		constraints = new GridBagConstraints();
 		titulo = new Titulos("¡Organiza tu flota!", 30, Color.black);
 		constraints.gridx=0;
 		constraints.gridy=0;
@@ -95,6 +109,7 @@ public class VistaGUIBatallaNaval extends JFrame {
 		constraints.fill=GridBagConstraints.HORIZONTAL;
 		
 		add(titulo,constraints);
+		
 		
 		zonaUnidades = new JPanel();
 		zonaUnidades.setLayout(new BoxLayout(zonaUnidades,BoxLayout.Y_AXIS));
@@ -141,7 +156,7 @@ public class VistaGUIBatallaNaval extends JFrame {
 		constraints.fill=GridBagConstraints.BOTH;
 		
 		add(zonaUnidades,constraints);
-		
+		zonaAtacar = new JPanel(new GridLayout(11,11));
 		zonaCasillas = new JPanel();
 		zonaCasillas.setLayout(new GridLayout(11,11));
 		reglaHorizontal = new JLabel[11];
@@ -190,23 +205,30 @@ public class VistaGUIBatallaNaval extends JFrame {
 		add(zonaLogo,constraints);
 		
 		zonaBotones = new JPanel();
-		zonaBotones.setPreferredSize(new Dimension(100,100));
+		zonaBotones.setLayout(new GridLayout(4,1));
+		zonaBotones.setPreferredSize(new Dimension(150,100));
+		instrucciones = new JButton("Instrucciones");
+		instrucciones.addActionListener(escucha);
+		instrucciones.setPreferredSize(new Dimension(120,30));
+		verBarcosCPU = new JButton();
 		confirmar = new JButton("Confirmar");
 		confirmar.addActionListener(escucha);
-		confirmar.setPreferredSize(new Dimension(100,30));
+		confirmar.setPreferredSize(new Dimension(120,30));
 		zonaBotones.add(confirmar);
 		limpiar = new JButton("Limpiar");
 		limpiar.addActionListener(escucha);
-		limpiar.setPreferredSize(new Dimension(100,30));
+		limpiar.setPreferredSize(new Dimension(120,30));
 		zonaBotones.add(limpiar);
 		salir = new JButton("Salir");
 		salir.addActionListener(escucha);
-		salir.setPreferredSize(new Dimension(100,30));
+		salir.setPreferredSize(new Dimension(120,30));
+		zonaBotones.add(instrucciones);
 		zonaBotones.add(salir);
 		constraints.gridx=2;
 		constraints.gridy=2;
 		constraints.gridwidth=1;
-		constraints.gridheight=1;
+		constraints.gridheight=4;
+		constraints.anchor = GridBagConstraints.EAST;
 		constraints.fill=GridBagConstraints.VERTICAL;
 		add(zonaBotones,constraints);
 	}
@@ -237,18 +259,152 @@ public class VistaGUIBatallaNaval extends JFrame {
 
         return rotated;
     }
-	
+	private void redisenar() {
+		getContentPane().removeAll();
+		
+		this.getContentPane().setLayout(new GridBagLayout());
+		
+		zonaUnidades.removeAll();
+		remove(zonaUnidades);
+		this.repaint();
+		for(int i = 0; i < 10; i++) {
+			for(int j = 0; j < 10; j++) {
+				casillasAtacar[i][j] = new JButton();
+			}
+		}
+		
+		reglaHorizontalAtaque = new JLabel[11];
+		reglaVerticalAtaque = new JLabel[10];
+		 String texto = "[Y,X]";
+		for (int i=0;i<11;i++) {
+			reglaHorizontalAtaque[i] = new JLabel(texto);
+			reglaHorizontalAtaque[i].setHorizontalAlignment(SwingConstants.CENTER);
+			texto=""+i;
+			zonaAtacar.add(reglaHorizontalAtaque[i]);
+		}
+		for (int i=0;i<10;i++) {
+			for(int j=0;j<11;j++) {
+				if(j==0) {
+					reglaVerticalAtaque[j] = new JLabel(""+i);
+					reglaVerticalAtaque[j].setHorizontalAlignment(SwingConstants.CENTER);
+					zonaAtacar.add(reglaVerticalAtaque[j]);
+				}
+				else {
+				casillasAtacar[i][j-1] = new JButton();
+				casillasAtacar[i][j-1].addActionListener(escucha);
+				casillasAtacar[i][j-1].setPreferredSize(new Dimension (50,50));
+				casillasAtacar[i][j-1].setBackground(Color.blue);
+				zonaAtacar.add(casillasAtacar[i][j-1]);
+				}
+			}
+		}
+		titulo.setText("ATACA!");
+		titulo.setFont(new Font(titulo.getText(),1,60));
+		constraints.gridx = 0;
+		constraints.gridy = 0;
+		constraints.gridwidth = 4;
+		constraints.gridheight = 1;
+		constraints.fill=GridBagConstraints.BOTH;
+		add(titulo,constraints);
+		
+		zonaCasillas.setBorder(new TitledBorder("Zona Casillas"));
+		
+		constraints.gridx = 0;
+		constraints.gridy = 1;
+		constraints.gridwidth = 2;
+		constraints.gridheight = 2;
+		constraints.fill=GridBagConstraints.NONE;
+		add(zonaCasillas,constraints); 
+		
+		zonaAtacar.setBorder(new TitledBorder("Zona Atacar"));
+		constraints.gridx = 2;
+		constraints.gridy = 1;
+		constraints.gridwidth = 2;
+		constraints.gridheight = 2;
+		constraints.fill=GridBagConstraints.NONE;
+		add(zonaAtacar,constraints); //zona de ataque
+		
+		constraints.gridx = 4;
+		constraints.gridy = 0;
+		constraints.gridwidth = 1;
+		constraints.gridheight = 1;
+		constraints.fill=GridBagConstraints.NONE;
+		add(zonaLogo,constraints);
+		
+		zonaBotones.removeAll(); //Contiene el historial juego y el boton ver barcos CPU
+		historialJuego = new JTextArea(30,40);
+		historialJuego.setEditable(false);
+		JScrollPane scroll = new JScrollPane(historialJuego);
+		constraints.gridx = 4;
+		constraints.gridy = 1;
+		constraints.gridwidth = 1;
+		constraints.gridheight = 1;
+		constraints.fill=GridBagConstraints.EAST;
+		constraints.anchor = GridBagConstraints.NORTHWEST;
+		add(scroll,constraints);
+		
+		verBarcosCPU.setText("Ver Barcos CPU");
+		verBarcosCPU.setPreferredSize(new Dimension(130,50));
+		constraints.gridx = 4;
+		constraints.gridy = 2;
+		constraints.gridwidth = 1;
+		constraints.gridheight = 1;
+		constraints.fill=GridBagConstraints.CENTER;
+		constraints.anchor = GridBagConstraints.CENTER;
+		add(verBarcosCPU,constraints);
+		
+		repaint();
+		pack();
+		miMisma.setLocationRelativeTo(null);
+	}
 	private class Escuchas implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent event) {
 			// TODO Auto-generated method stub
+			if(event.getSource() == instrucciones) {
+				String[] options= {"Aceptar"};
+				mensajeL.setFont(new Font("Arial", Font.BOLD, 18));
+				JOptionPane.showOptionDialog(null,mensajeL, "INSTRUCCIONES", 
+						JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+			}
 			if(event.getSource() == salir) {
 				System.exit(0);
 			} else if(event.getSource() == limpiar) {
+				for(int i = 0; i < 10; i++) {
+					for(int j = 0; j < 10; j++ ) {
+						casillas[i][j].setIcon(null);
+					}
+				}
+				control.limpiarBarcos();
+				//Actualizamos las cantidades de los barcos
+				planes = 4;
+				battleships = 1;
+				cruisers = 2;
+				destroyers = 3;
+				actualizar();
+				//Activamos los botones
+				plane.setEnabled(true);
+				battleship.setEnabled(true);
+				cruiser.setEnabled(true);
+				destroyer.setEnabled(true);
+				unidades.clearSelection();
 				//Limpiar toda la matriz
 			} else if(event.getSource() == confirmar) {
-				//Empieza el juego.
+				if(cruisers == 0 && battleships == 0 && destroyers == 0 && planes == 0) {
+					//Remover los escuchas.
+					for(int i = 0; i < 10; i++) {
+						for(int j = 0; j < 10; j++) {
+							casillas[i][j].removeActionListener(escucha);
+						}
+					}
+					redisenar();
+				}else {
+					JOptionPane.showMessageDialog(null,"Coloque todos los barcos");
+				}
+				
+				
+				
 			} else if(event.getSource() == plane && Integer.parseInt(plane.getText()) != 0) { //Tamano 1, cantidad: 4
 				tipoBarcoEscoger = "plane";
 				tamanoBarcoEscoger = 1;

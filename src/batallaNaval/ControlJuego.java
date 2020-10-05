@@ -377,5 +377,13 @@ public class ControlJuego {
 		}
 		return null;
 	}
-
+	
+	public void limpiarBarcos() {
+		for(int i = 0; i < barcos.size(); i++) {
+			barcos.get(i).setSeleccionado(false);
+			barcos.get(i).limpiarPosiciones();
+		}
+		pantallaUsuario.limpiarPantalla();
+	}
+	
 }
