@@ -357,6 +357,8 @@ public class VistaGUIBatallaNaval extends JFrame {
 		pack();
 		miMisma.setLocationRelativeTo(null);
 	}
+	
+	
 	private class Escuchas implements ActionListener {
 
 		@Override
@@ -371,6 +373,9 @@ public class VistaGUIBatallaNaval extends JFrame {
 			if(event.getSource() == salir) {
 				System.exit(0);
 			} else if(event.getSource() == limpiar) {
+				
+				//Limpiamos el string
+				tipoBarcoEscoger = "";
 				for(int i = 0; i < 10; i++) {
 					for(int j = 0; j < 10; j++ ) {
 						casillas[i][j].setIcon(null);
@@ -399,6 +404,7 @@ public class VistaGUIBatallaNaval extends JFrame {
 						}
 					}
 					redisenar();
+					jugar(event);
 				}else {
 					JOptionPane.showMessageDialog(null,"Coloque todos los barcos");
 				}
@@ -486,11 +492,30 @@ public class VistaGUIBatallaNaval extends JFrame {
 				}
 			}
 		
-		
-		
-			
 		}
-
+		private void jugar(ActionEvent event) {
+			historialJuego.setText(String.valueOf(control.getRonda())+"\n");
+			do {
+				if(control.retornarTurno() == 0){ //turno CPU
+					historialJuego.append("El turno es de CPU");
+					control.ataque(null); //Ataca CPU
+					historialJuego.setText("La CPU ha atacado");
+				}else { //Turno aliado
+					for(int i = 0; i < 10; i++) {
+						for(int j = 0; j < 10; j++) {
+							if(event.getSource() == casillasAtacar[i][j]) {
+								if(control.ataqueValido(new Point(i,j))) {
+									control.ataque(new Point(i,j));
+									historialJuego.setText("El usuario ha atacado a la posicion ["+i+"] ["+j+"]");
+								} else {
+									JOptionPane.showMessageDialog(null,"No se puede atacar a esta posicion.");
+								}
+							}
+						}
+					}
+				}
+			}while(control.perdio() == 2);
+		}
 
 		//Actualiza el estado de los JToggleButtons
 		
