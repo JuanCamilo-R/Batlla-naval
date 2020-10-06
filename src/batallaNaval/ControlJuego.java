@@ -51,7 +51,10 @@ public class ControlJuego {
 	/** The posicion golpeada. */
 	// Posicion recordada por la CPU donde ataco exitosamente, usada en la funcion
 	// maxInteligencia
-	private Point posicionGolpeada;
+	private Point posicionReferencia;
+	
+	// Posicion donde ataco la CPU
+	private Point posicionAtacada;
 
 	/** The direcciones posibles. */
 	private ArrayList<Point> direccionesPosibles;
@@ -209,7 +212,7 @@ public class ControlJuego {
 	public void inteligenciaCPU() { // decide que posiciones va a elegir.
 		posicionAtacaCPU.clear();
 		if (activarMaxInteligenciaCPU && intentos < 5) {
-			maxInteligenciaCPU(posicionGolpeada);
+			maxInteligenciaCPU();
 		} else {
 			intentos = 0;
 			activarMaxInteligenciaCPU = false;
@@ -217,13 +220,13 @@ public class ControlJuego {
 			posicion.setLocation(aleatorio.nextInt(10), aleatorio.nextInt(10));
 			if (pantallaCPU.hayBarco((int) posicion.getX(), (int) posicion.getY())
 					&& posicionesAtacadasCPU[posicion.x][posicion.y] == 0) {
-				posicionesAtacadasCPU[posicion.x][posicion.y] = 1;
+				posicionesAtacadasCPU[posicion.x][posicion.y] = 2;
+				posicionAtacada = posicion;
 				System.out.println("Posición atacada exitosamente: (" + posicion.x + "," + posicion.y + ")");
 				activarMaxInteligenciaCPU = true;
-				posicionGolpeada = posicion;
+				posicionReferencia = posicion;
 				pantallaCPU.atacarBarco(posicion);
-				if (!pantallaCPU.barcoVivo(posicionGolpeada.x, posicionGolpeada.y)) {
-					posicionesAtacadasCPU[posicionGolpeada.x][posicionGolpeada.y] = 3;
+				if (!pantallaCPU.barcoVivo(posicionReferencia.x, posicionReferencia.y)) {
 					System.out.println("Barco destruido, conservando inteligencia normal");
 					destruidos++;
 					activarMaxInteligenciaCPU = false;
@@ -232,6 +235,7 @@ public class ControlJuego {
 				inteligenciaCPU();
 			} else {
 				posicionesAtacadasCPU[posicion.x][posicion.y] = 1;
+				posicionAtacada = posicion;
 				System.out.println("Posición atacada: (" + posicion.x + "," + posicion.y + ")");
 			}
 		}
@@ -240,20 +244,20 @@ public class ControlJuego {
 	/**
 	 * Max inteligencia CPU.
 	 *
-	 * @param posicionGolpeada the posicion golpeada
+	 * @param posicionRef the posicion golpeada
 	 */
-	public void maxInteligenciaCPU(Point posicionGolpeada) {
+	public void maxInteligenciaCPU() {
 		if (direccionesPosibles.isEmpty()) {
-			if (posicionGolpeada.x != 0) {
+			if (posicionReferencia.x != 0) {
 				direccionesPosibles.add(new Point(-1, 0));
 			}
-			if (posicionGolpeada.x != 9) {
+			if (posicionReferencia.x != 9) {
 				direccionesPosibles.add(new Point(1, 0));
 			}
-			if (posicionGolpeada.y != 0) {
+			if (posicionReferencia.y != 0) {
 				direccionesPosibles.add(new Point(0, -1));
 			}
-			if (posicionGolpeada.y != 9) {
+			if (posicionReferencia.y != 9) {
 				direccionesPosibles.add(new Point(0, 1));
 			}
 		}
@@ -267,11 +271,11 @@ public class ControlJuego {
 		}
 		Point direccionElegida = direccionesPosibles.get(indexDireccionElegida);
 		for (escalar = 1; escalar <= 4; escalar++) {
-			if (posicionGolpeada.x + direccionElegida.x * escalar < 10
-					&& posicionGolpeada.x + direccionElegida.x * escalar >= 0
-					&& posicionGolpeada.y + direccionElegida.y * escalar < 10
-					&& posicionGolpeada.y + direccionElegida.y * escalar >= 0) {
-				if (posicionesAtacadasCPU[posicionGolpeada.x + direccionElegida.x * escalar][posicionGolpeada.y
+			if (posicionReferencia.x + direccionElegida.x * escalar < 10
+					&& posicionReferencia.x + direccionElegida.x * escalar >= 0
+					&& posicionReferencia.y + direccionElegida.y * escalar < 10
+					&& posicionReferencia.y + direccionElegida.y * escalar >= 0) {
+				if (posicionesAtacadasCPU[posicionReferencia.x + direccionElegida.x * escalar][posicionReferencia.y
 						+ direccionElegida.y * escalar] == 0) {
 					cercano = true;
 					break;
@@ -283,14 +287,16 @@ public class ControlJuego {
 		System.out.println("escalar:" + escalar);
 		if (!cercano) {
 			direccionesPosibles.remove(indexDireccionElegida);
-			maxInteligenciaCPU(posicionGolpeada);
-		} else if (!pantallaCPU.hayBarco(posicionGolpeada.x + direccionElegida.x * escalar,
-				posicionGolpeada.y + direccionElegida.y * escalar)) {
-			posicionesAtacadasCPU[posicionGolpeada.x + direccionElegida.x * escalar][posicionGolpeada.y
+			maxInteligenciaCPU();
+		} else if (!pantallaCPU.hayBarco(posicionReferencia.x + direccionElegida.x * escalar,
+				posicionReferencia.y + direccionElegida.y * escalar)) {
+			posicionesAtacadasCPU[posicionReferencia.x + direccionElegida.x * escalar][posicionReferencia.y
 					+ direccionElegida.y * escalar] = 1;
 			intentos++;
-			System.out.println("Posición atacada MAX: (" + (posicionGolpeada.x + direccionElegida.x * escalar) + ","
-					+ (posicionGolpeada.y + direccionElegida.y * escalar) + ")");
+			posicionAtacada = new Point(posicionReferencia.x + direccionElegida.x * escalar,posicionReferencia.y
+					+ direccionElegida.y * escalar);
+			System.out.println("Posición atacada MAX: (" + (posicionReferencia.x + direccionElegida.x * escalar) + ","
+					+ (posicionReferencia.y + direccionElegida.y * escalar) + ")");
 			direccionesPosibles.remove(indexDireccionElegida);
 		} else {
 			System.out
@@ -300,18 +306,19 @@ public class ControlJuego {
 			direccionesPosibles.add(direccionElegida);
 			direccionesPosibles.add(new Point(direccionElegida.x * -1, direccionElegida.y * -1));
 			indexDireccionPreferida = 0;
-			posicionesAtacadasCPU[posicionGolpeada.x + direccionElegida.x][posicionGolpeada.y + direccionElegida.y] = 2;
-			pantallaCPU.atacarBarco(new Point(posicionGolpeada.x + direccionElegida.x * escalar,
-					posicionGolpeada.y + direccionElegida.y * escalar));
+			posicionesAtacadasCPU[posicionReferencia.x + direccionElegida.x][posicionReferencia.y + direccionElegida.y] = 2;
+			posicionAtacada = new Point(posicionReferencia.x + direccionElegida.x , posicionReferencia.y + direccionElegida.y);
+			pantallaCPU.atacarBarco(new Point(posicionReferencia.x + direccionElegida.x * escalar,
+					posicionReferencia.y + direccionElegida.y * escalar));
 			System.out.println(
-					"Posición atacada exitosamente MAX: (" + (posicionGolpeada.x + direccionElegida.x * escalar) + ","
-							+ (posicionGolpeada.y + direccionElegida.y * escalar) + ")");
-			this.posicionGolpeada.setLocation(posicionGolpeada.x + direccionElegida.x * escalar,
-					posicionGolpeada.y + direccionElegida.y * escalar);
-			if (!pantallaCPU.barcoVivo(posicionGolpeada.x, posicionGolpeada.y)) {
+					"Posición atacada exitosamente MAX: (" + (posicionReferencia.x + direccionElegida.x * escalar) + ","
+							+ (posicionReferencia.y + direccionElegida.y * escalar) + ")");
+			this.posicionReferencia.setLocation(posicionReferencia.x + direccionElegida.x * escalar,
+					posicionReferencia.y + direccionElegida.y * escalar);
+			if (!pantallaCPU.barcoVivo(posicionReferencia.x, posicionReferencia.y)) {
 				System.out.println("Barco destruido, volviendo a inteligencia normal");
 				destruidos++;
-				posicionesAtacadasCPU[posicionGolpeada.x][posicionGolpeada.y] = 3;
+				posicionesAtacadasCPU[posicionReferencia.x][posicionReferencia.y] = 3;
 				direccionesPosibles.clear();
 				activarMaxInteligenciaCPU = false;
 				indexDireccionPreferida = -1;

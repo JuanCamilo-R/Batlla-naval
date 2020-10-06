@@ -299,7 +299,7 @@ public class VistaGUIBatallaNaval extends JFrame {
 			}
 		}
 		titulo.setText("ATACA!");
-		titulo.setFont(new Font(titulo.getText(),1,60));
+		titulo.setFont(new Font(titulo.getText(),1,30));
 		constraints.gridx = 0;
 		constraints.gridy = 0;
 		constraints.gridwidth = 4;
@@ -313,44 +313,46 @@ public class VistaGUIBatallaNaval extends JFrame {
 		constraints.gridy = 1;
 		constraints.gridwidth = 2;
 		constraints.gridheight = 2;
-		constraints.fill=GridBagConstraints.NONE;
+		constraints.fill=GridBagConstraints.BOTH;
 		add(zonaCasillas,constraints); 
+		
 		
 		zonaAtacar.setBorder(new TitledBorder("Zona Atacar"));
 		constraints.gridx = 2;
 		constraints.gridy = 1;
 		constraints.gridwidth = 2;
 		constraints.gridheight = 2;
-		constraints.fill=GridBagConstraints.NONE;
+		constraints.fill=GridBagConstraints.BOTH;
 		add(zonaAtacar,constraints); //zona de ataque
 		
-		constraints.gridx = 4;
-		constraints.gridy = 0;
+		
+		constraints.gridx = 0;
+		constraints.gridy = 3;
 		constraints.gridwidth = 1;
 		constraints.gridheight = 1;
 		constraints.fill=GridBagConstraints.NONE;
 		add(zonaLogo,constraints);
 		
 		zonaBotones.removeAll(); //Contiene el historial juego y el boton ver barcos CPU
-		historialJuego = new JTextArea(30,40);
+		historialJuego = new JTextArea();
 		historialJuego.setEditable(false);
+		historialJuego.setPreferredSize(new Dimension(150,400));
 		JScrollPane scroll = new JScrollPane(historialJuego);
 		constraints.gridx = 4;
 		constraints.gridy = 1;
 		constraints.gridwidth = 1;
-		constraints.gridheight = 1;
-		constraints.fill=GridBagConstraints.EAST;
-		constraints.anchor = GridBagConstraints.NORTHWEST;
+		constraints.gridheight = 2;
+		constraints.fill=GridBagConstraints.BOTH;
+		//constraints.anchor = GridBagConstraints.NORTHWEST;
 		add(scroll,constraints);
 		
 		verBarcosCPU.setText("Ver Barcos CPU");
-		verBarcosCPU.setPreferredSize(new Dimension(130,50));
 		constraints.gridx = 4;
-		constraints.gridy = 2;
+		constraints.gridy = 3;
 		constraints.gridwidth = 1;
 		constraints.gridheight = 1;
-		constraints.fill=GridBagConstraints.CENTER;
-		constraints.anchor = GridBagConstraints.CENTER;
+		constraints.fill=GridBagConstraints.NONE;
+		//constraints.anchor = GridBagConstraints.CENTER;
 		add(verBarcosCPU,constraints);
 		
 		repaint();
@@ -404,9 +406,10 @@ public class VistaGUIBatallaNaval extends JFrame {
 						}
 					}
 					redisenar();
-					jugar(event);
+					//jugar(event);
 				}else {
 					JOptionPane.showMessageDialog(null,"Coloque todos los barcos");
+					redisenar();
 				}
 				
 				
