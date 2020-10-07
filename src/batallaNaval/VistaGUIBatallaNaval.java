@@ -23,6 +23,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
@@ -38,6 +39,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JToggleButton;
 import javax.swing.SwingConstants;
+import javax.swing.Timer;
 import javax.swing.border.TitledBorder;
 
 import javafx.scene.shape.Box;
@@ -47,6 +49,7 @@ public class VistaGUIBatallaNaval extends JFrame {
 	//attributes
 	private ArrayList<Point> posicionesEscoger;
 	private ControlJuego control;
+	private TypeWritter typeWritter;
 	private String tipoBarcoEscoger = "";
 	private int tamanoBarcoEscoger = 0;
 	private JLabel mensajeL;
@@ -88,6 +91,7 @@ public class VistaGUIBatallaNaval extends JFrame {
 	private void initGUI() {
 		// TODO Auto-generated method stub}
 		//ControlJuego
+		typeWritter = new TypeWritter();
 		String mensaje = " <html>Para iniciar el juego, debes colocar todos los barcos.<br>"+    
 				"Para colocar un barco, escoge la cabeza y la cola del mismo:<br>" + 
 				"El primer barco tiene un tamano de 4 casillas.<br>" + 
@@ -342,13 +346,13 @@ public class VistaGUIBatallaNaval extends JFrame {
 		zonaBotones.removeAll(); //Contiene el historial juego y el boton ver barcos CPU
 		historialJuego = new JTextArea();
 		historialJuego.setEditable(false);
-		historialJuego.setPreferredSize(new Dimension(200,400));
+		historialJuego.setPreferredSize(new Dimension(250,400));
 		JScrollPane scroll = new JScrollPane(historialJuego);
 		constraints.gridx = 2;
 		constraints.gridy = 1;
 		constraints.gridwidth = 1;
 		constraints.gridheight = 1;
-		constraints.fill=GridBagConstraints.BOTH;
+		constraints.fill=GridBagConstraints.HORIZONTAL;
 		//constraints.anchor = GridBagConstraints.NORTHWEST;
 		add(scroll,constraints);
 		
@@ -418,13 +422,13 @@ public class VistaGUIBatallaNaval extends JFrame {
 					redisenar();
 					
 					//Empieza el juego
-					historialJuego.append("Ronda: "+control.getRonda()+"\n");
+					typeWritter.type(historialJuego,"Ronda: "+control.getRonda()+"\n");
 					control.agregarRonda();
 					
 					if(control.retornarTurno() == 1) { //Turno usuario
-						JOptionPane.showMessageDialog(null,"Es tu turno, escoge una posicion para atacar");
+						//JOptionPane.showMessageDialog(null,"Es tu turno, escoge una posicion para atacar");
 					}else { //Turno CPU
-						JOptionPane.showMessageDialog(null,"Es turno de la CPU");
+						//JOptionPane.showMessageDialog(null,"Es turno de la CPU");
 						jugar();
 					}
 				}else {
@@ -544,16 +548,19 @@ public class VistaGUIBatallaNaval extends JFrame {
 		}
 		private void jugar() {
 			if(control.perdio() == 2) {
-				historialJuego.append("Ronda "+String.valueOf(control.getRonda())+"\n");
 				if(control.retornarTurno() == 0) { //Turno CPU
 					control.ataqueCPU();
-					historialJuego.append("La CPU ha atacado en ["+(int)control.getPosicionAtacadaCPU().getX()+"]["+(int)control.getPosicionAtacadaCPU().getY()+"] \n");
+					typeWritter.type(historialJuego,"La CPU ha atacado en "+String.valueOf((int)control.getPosicionAtacadaCPU().getX())+"]["+String.valueOf((int)control.getPosicionAtacadaCPU().getY())+"] \n");
 					control.decidirTurno();
 					activarCasillasAtacar(); //Activa las casillas de atacar para el usuario
-					JOptionPane.showMessageDialog(null, "Es tu turno, escoge una posicion donde quieras atacar");
+					//JOptionPane.showMessageDialog(null, "Es tu turno, escoge una posicion donde quieras atacar");
+					slowPrint("Ronda "+String.valueOf(control.getRonda())+"\n",100);
+					
 				}else { //Turno Usuario
 					
 				}
+				
+				
 				control.agregarRonda();
 			}else if(control.perdio() == 1) { //Perdio Usuario
 				
@@ -565,12 +572,33 @@ public class VistaGUIBatallaNaval extends JFrame {
 			desactivarCasillasAtacar(); //desactivo las casillas de atacar para usuario ya que ya ataco.
 			if(control.retornarTurno() == 1){ //turno Usuario
 				control.ataqueAliado(new Point(x,y));
-				historialJuego.append("El usuario ha atacado en la posicion \n["+x+"]["+y+"] \n");
+				slowPrint("El usuario ha atacado en la posicion ["+String.valueOf(x)+"]["+String.valueOf(y)+"]\n",50);
+				
 			}
 			control.decidirTurno();
 			jugar();
 		}
+		
+		
+		//Escribir mensajes en el JTextArea historialJuego
+		 public void slowPrint(String message, int millisPerChar) {
 
+		        Timer timer = new Timer(millisPerChar, null);
+		        timer.addActionListener(new ActionListener() {
+		        	int counter = 0;
+		            @Override
+		            public void actionPerformed(ActionEvent e) {
+		            	historialJuego.append(String.valueOf(message.charAt(counter++)));
+		            	historialJuego.setCaretPosition(historialJuego.getDocument().getLength());
+		            	if(counter>= message.length()) {
+		            		timer.stop();
+		            	}
+		            }
+		        });
+		        timer.start();
+		    }
+		 
+		 
 		//Actualiza el estado de los JToggleButtons
 		
 		private void actualizar() {
