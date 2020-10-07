@@ -56,7 +56,7 @@ public class VistaGUIBatallaNaval extends JFrame {
 	private JLabel[] reglaHorizontal, reglaVertical, reglaHorizontalAtaque, reglaVerticalAtaque;
 	private JTextArea historialJuego;
 	private JLabel[][] flota= new JLabel[10][10];
-	private JButton limpiar,confirmar,salir, instrucciones, verBarcosCPU;
+	private JButton limpiar,confirmar,salir, instrucciones, verBarcosCPU, rendirse, confirmarAtaque;
 	private ImageIcon imagen;
 	private BufferedImage bufferImage=null;
 	private Titulos titulo;
@@ -211,6 +211,10 @@ public class VistaGUIBatallaNaval extends JFrame {
 		instrucciones.addActionListener(escucha);
 		instrucciones.setPreferredSize(new Dimension(120,30));
 		verBarcosCPU = new JButton();
+		rendirse = new JButton("Rendirse");
+		rendirse.setPreferredSize(new Dimension(120,30));
+		confirmarAtaque = new JButton("Confirmar ataque");
+		confirmarAtaque.setPreferredSize(new Dimension(120,30));
 		confirmar = new JButton("Confirmar");
 		confirmar.addActionListener(escucha);
 		confirmar.setPreferredSize(new Dimension(120,30));
@@ -259,12 +263,14 @@ public class VistaGUIBatallaNaval extends JFrame {
 
         return rotated;
     }
+	//Redisena la interfaz después de colocar los 10 barcos.
 	private void redisenar() {
 		getContentPane().removeAll();
 		
 		this.getContentPane().setLayout(new GridBagLayout());
 		
 		zonaUnidades.removeAll();
+		zonaBotones.removeAll();
 		remove(zonaUnidades);
 		this.repaint();
 		for(int i = 0; i < 10; i++) {
@@ -302,7 +308,7 @@ public class VistaGUIBatallaNaval extends JFrame {
 		titulo.setFont(new Font(titulo.getText(),1,30));
 		constraints.gridx = 0;
 		constraints.gridy = 0;
-		constraints.gridwidth = 4;
+		constraints.gridwidth = 3;
 		constraints.gridheight = 1;
 		constraints.fill=GridBagConstraints.BOTH;
 		add(titulo,constraints);
@@ -311,23 +317,23 @@ public class VistaGUIBatallaNaval extends JFrame {
 		
 		constraints.gridx = 0;
 		constraints.gridy = 1;
-		constraints.gridwidth = 2;
-		constraints.gridheight = 2;
+		constraints.gridwidth = 1;
+		constraints.gridheight = 1;
 		constraints.fill=GridBagConstraints.BOTH;
 		add(zonaCasillas,constraints); 
 		
 		
 		zonaAtacar.setBorder(new TitledBorder("Zona Atacar"));
-		constraints.gridx = 2;
+		constraints.gridx = 1;
 		constraints.gridy = 1;
-		constraints.gridwidth = 2;
-		constraints.gridheight = 2;
+		constraints.gridwidth = 1;
+		constraints.gridheight = 1;
 		constraints.fill=GridBagConstraints.BOTH;
 		add(zonaAtacar,constraints); //zona de ataque
 		
 		
 		constraints.gridx = 0;
-		constraints.gridy = 3;
+		constraints.gridy = 2;
 		constraints.gridwidth = 1;
 		constraints.gridheight = 1;
 		constraints.fill=GridBagConstraints.NONE;
@@ -336,24 +342,28 @@ public class VistaGUIBatallaNaval extends JFrame {
 		zonaBotones.removeAll(); //Contiene el historial juego y el boton ver barcos CPU
 		historialJuego = new JTextArea();
 		historialJuego.setEditable(false);
-		historialJuego.setPreferredSize(new Dimension(150,400));
+		historialJuego.setPreferredSize(new Dimension(200,400));
 		JScrollPane scroll = new JScrollPane(historialJuego);
-		constraints.gridx = 4;
+		constraints.gridx = 2;
 		constraints.gridy = 1;
 		constraints.gridwidth = 1;
-		constraints.gridheight = 2;
+		constraints.gridheight = 1;
 		constraints.fill=GridBagConstraints.BOTH;
 		//constraints.anchor = GridBagConstraints.NORTHWEST;
 		add(scroll,constraints);
 		
+		zonaBotones.setLayout(new GridLayout(3,1));
 		verBarcosCPU.setText("Ver Barcos CPU");
-		constraints.gridx = 4;
-		constraints.gridy = 3;
+		zonaBotones.add(verBarcosCPU);
+		zonaBotones.add(rendirse);
+		zonaBotones.add(confirmarAtaque);
+		constraints.gridx = 2;
+		constraints.gridy = 2;
 		constraints.gridwidth = 1;
 		constraints.gridheight = 1;
-		constraints.fill=GridBagConstraints.NONE;
+		constraints.fill=GridBagConstraints.VERTICAL;
 		//constraints.anchor = GridBagConstraints.CENTER;
-		add(verBarcosCPU,constraints);
+		add(zonaBotones,constraints);
 		
 		repaint();
 		pack();
@@ -399,14 +409,24 @@ public class VistaGUIBatallaNaval extends JFrame {
 				//Limpiar toda la matriz
 			} else if(event.getSource() == confirmar) {
 				if(cruisers == 0 && battleships == 0 && destroyers == 0 && planes == 0) {
-					//Remover los escuchas.
+					//Remover los escuchas de las casillas de los barcos aliados.
 					for(int i = 0; i < 10; i++) {
 						for(int j = 0; j < 10; j++) {
 							casillas[i][j].removeActionListener(escucha);
 						}
 					}
 					redisenar();
-					//jugar(event);
+					
+					//Empieza el juego
+					historialJuego.append("Ronda: "+control.getRonda()+"\n");
+					control.agregarRonda();
+					
+					if(control.retornarTurno() == 1) { //Turno usuario
+						JOptionPane.showMessageDialog(null,"Es tu turno, escoge una posicion para atacar");
+					}else { //Turno CPU
+						JOptionPane.showMessageDialog(null,"Es turno de la CPU");
+						jugar();
+					}
 				}else {
 					JOptionPane.showMessageDialog(null,"Coloque todos los barcos");
 					redisenar();
@@ -434,6 +454,17 @@ public class VistaGUIBatallaNaval extends JFrame {
 				posicionesEscoger.clear();
 			}
 			
+			
+			//Turno aliado
+			for(int i = 0; i < 10; i++) {
+				for(int j = 0; j < 10; j++) {
+					if(event.getSource() == casillasAtacar[i][j]) {
+						ataqueAliado(i,j);
+					}
+				}
+			}
+			
+			//Colocar barcos
 			for(int i = 0; i < 10; i++) {
 				for(int j = 0; j < 10; j++) {
 					if(casillas[i][j] == event.getSource()) {
@@ -496,28 +527,48 @@ public class VistaGUIBatallaNaval extends JFrame {
 			}
 		
 		}
-		private void jugar(ActionEvent event) {
-			historialJuego.setText(String.valueOf(control.getRonda())+"\n");
-			do {
-				if(control.retornarTurno() == 0){ //turno CPU
-					historialJuego.append("El turno es de CPU");
-					control.ataque(null); //Ataca CPU
-					historialJuego.setText("La CPU ha atacado");
-				}else { //Turno aliado
-					for(int i = 0; i < 10; i++) {
-						for(int j = 0; j < 10; j++) {
-							if(event.getSource() == casillasAtacar[i][j]) {
-								if(control.ataqueValido(new Point(i,j))) {
-									control.ataque(new Point(i,j));
-									historialJuego.setText("El usuario ha atacado a la posicion ["+i+"] ["+j+"]");
-								} else {
-									JOptionPane.showMessageDialog(null,"No se puede atacar a esta posicion.");
-								}
-							}
-						}
-					}
+		
+		private void desactivarCasillasAtacar() {
+			for(int i = 0; i < 10; i++) {
+				for(int j = 0; j < 10; j++) {
+					casillasAtacar[i][j].removeActionListener(escucha);
 				}
-			}while(control.perdio() == 2);
+			}
+		}
+		private void activarCasillasAtacar() {
+			for(int i = 0; i < 10; i++) {
+				for(int j = 0; j < 10; j++) {
+					casillasAtacar[i][j].addActionListener(escucha);
+				}
+			}
+		}
+		private void jugar() {
+			if(control.perdio() == 2) {
+				historialJuego.append("Ronda "+String.valueOf(control.getRonda())+"\n");
+				if(control.retornarTurno() == 0) { //Turno CPU
+					control.ataqueCPU();
+					historialJuego.append("La CPU ha atacado en ["+(int)control.getPosicionAtacadaCPU().getX()+"]["+(int)control.getPosicionAtacadaCPU().getY()+"] \n");
+					control.decidirTurno();
+					activarCasillasAtacar(); //Activa las casillas de atacar para el usuario
+					JOptionPane.showMessageDialog(null, "Es tu turno, escoge una posicion donde quieras atacar");
+				}else { //Turno Usuario
+					
+				}
+				control.agregarRonda();
+			}else if(control.perdio() == 1) { //Perdio Usuario
+				
+			}else { //Perdio CPU
+				
+			}
+		}
+		private void ataqueAliado(int x, int y) {
+			desactivarCasillasAtacar(); //desactivo las casillas de atacar para usuario ya que ya ataco.
+			if(control.retornarTurno() == 1){ //turno Usuario
+				control.ataqueAliado(new Point(x,y));
+				historialJuego.append("El usuario ha atacado en la posicion \n["+x+"]["+y+"] \n");
+			}
+			control.decidirTurno();
+			jugar();
 		}
 
 		//Actualiza el estado de los JToggleButtons

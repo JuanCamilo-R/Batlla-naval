@@ -20,7 +20,6 @@ private Barcos [][] barcosPantalla = new Barcos[10][10];
 	protected boolean estaDisponible(int x1,int y1,int x2, int y2,int tamano) {
 		int distancia = ((int) Math.sqrt(Math.pow(x2-x1,2)+Math.pow(y2-y1,2))) + 1;
 		if(barcosPantalla[x1][y1]==null && barcosPantalla[x2][y2]==null && tamano ==distancia) {
-			System.out.println("Entro a esta Disponible");
 			if(tamano > 2) {
 				if(verificarMitad(x1, y1, x2, y2, tamano)) {
 					return true;

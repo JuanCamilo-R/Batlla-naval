@@ -36,8 +36,9 @@ public class Barcos {
 	}
 
 	public boolean isVivo() {
-		System.out.println("Noob me faltan "+(tamano-vecesTocado));
+		//System.out.println("Noob me faltan "+(tamano-vecesTocado));
 		if(vecesTocado==tamano) {
+			System.out.print("He muerto :(  \n");
 			vivo=false;
 		}
 		return vivo;
@@ -54,9 +55,10 @@ public class Barcos {
 	}
 	
 	public void atacado() {
-		if(vivo == true) {
+		if(vivo == true && tamano != vecesTocado) {
 			vecesTocado++;
 		}
+		System.out.print("Me han atacado, me quedan "+(tamano-vecesTocado)+"\n");
 	}
 	public void anadir(Point punto) {
 		posiciones.add(punto);
