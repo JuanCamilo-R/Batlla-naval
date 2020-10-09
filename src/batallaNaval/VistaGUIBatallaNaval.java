@@ -688,13 +688,6 @@ public class VistaGUIBatallaNaval extends JFrame {
 	 * Jugar.
 	 */
 	private void jugar() {
-
-		control.ataque(null);
-		historialJuego.append("El cpu tiro en [" + (int) control.retornarPosicion().getX() + ","
-				+ (int) control.retornarPosicion().getY() + "] \n");
-		if (control.retornarTurno() == 1) {
-			historialJuego.append("Tira Usuario \n");
-		}
 		if (control.perdio() == 1) {
 			JOptionPane.showMessageDialog(null,
 					"Se acabo \n Gano CPU \n De click en Iniciar de nuevo" + "\n si quiere volver a jugar");
@@ -713,6 +706,23 @@ public class VistaGUIBatallaNaval extends JFrame {
 				}
 			}
 		}
+		for(int i = 0; i < 10; i++) {
+			System.out.print("Estado del barco enemigo "+i+" : "+control.estaVivo(i)+"\n" );
+		}
+		control.ataque(null);
+		historialJuego.append("El cpu tiro en [" + (int) control.retornarPosicion().getX() + ","
+				+ (int) control.retornarPosicion().getY() + "] \n");
+		if(control.hayBarco((int)control.retornarPosicion().getX(),(int) control.retornarPosicion().getY())) {
+			imagen = new ImageIcon("src/imagenes/tocado2.png");
+			casillas[(int)control.retornarPosicion().getX()][(int)control.retornarPosicion().getY()].setIcon(new ImageIcon(imagen.getImage().getScaledInstance(45,45, Image.SCALE_DEFAULT)));
+			
+		}else {
+			imagen = new ImageIcon("src/imagenes/agua2.png");
+			casillas[(int)control.retornarPosicion().getX()][(int)control.retornarPosicion().getY()].setIcon(new ImageIcon(imagen.getImage().getScaledInstance(45,45, Image.SCALE_DEFAULT)));
+		}
+		if (control.retornarTurno() == 1) {
+			historialJuego.append("Tira Usuario \n");
+		}
 	}
 
 	/**
@@ -726,9 +736,12 @@ public class VistaGUIBatallaNaval extends JFrame {
 			historialJuego.append("El usuario tiro en[" + i + "," + j + "] \n");
 			control.ataque(new Point(i, j));
 			if(control.hayBarcoCPU(i, j)) {
-				imagen = new ImageIcon("src/imagenes/tocado.jpg");
+				imagen = new ImageIcon("src/imagenes/tocado2.png");
 				casillasAtacar[i][j].setIcon(new ImageIcon(imagen.getImage().getScaledInstance(45,45, Image.SCALE_DEFAULT)));
 				
+			}else {
+				imagen = new ImageIcon("src/imagenes/agua2.png");
+				casillasAtacar[i][j].setIcon(new ImageIcon(imagen.getImage().getScaledInstance(45,45, Image.SCALE_DEFAULT)));
 			}
 			jugar();
 		} else {

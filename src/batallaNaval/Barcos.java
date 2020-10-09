@@ -61,7 +61,6 @@ public class Barcos {
 	public  void atacar(Point posiciones) {
 		System.out.println("Ay me pegaron T___T");
 		posicionAtacadas.setLocation(posiciones.getX(), posiciones.getY());
-		vecesTocado++;
 	}
 	
 	/**
@@ -80,9 +79,9 @@ public class Barcos {
 	 * @return true, if is vivo
 	 */
 	public boolean isVivo() {
-		System.out.println("Noob me faltan "+(tamano-vecesTocado));
+		//System.out.println("Noob me faltan "+(tamano-vecesTocado));
 		if(vecesTocado==tamano) {
-			vivo=false;
+			vivo = false;
 		}
 		return vivo;
 	}

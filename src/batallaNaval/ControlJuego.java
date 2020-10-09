@@ -516,5 +516,15 @@ public class ControlJuego {
 		}
 		return false;
 	}
+	public boolean hayBarco(int x, int y) {
+		if(pantallaUsuario.hayBarco(x, y)) {
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean estaVivo(int index) {
+		return barcosCPU.get(index).isVivo();
+	}
 }
 
