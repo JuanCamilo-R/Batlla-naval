@@ -476,6 +476,7 @@ public class VistaGUIBatallaNaval extends JFrame {
 			// TODO Auto-generated method stub
 			if (event.getSource() == verBarcosCPU) {
 				miMisma.setVisible(false);
+				ayuda = new VerBarcosCPU(miMisma,control);
 				ayuda.setVisible(true);
 
 			}

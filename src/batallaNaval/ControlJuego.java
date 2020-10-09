@@ -120,6 +120,9 @@ public class ControlJuego {
 	 */
 
 	public void iniciarJuegoCPU() {
+		barcos.clear();
+		barcosCPU.clear();
+		pantallaCPU.limpiarPantalla();
 		crearBarcos(); // Creamos barcos enemigos y aliados.
 	}
 

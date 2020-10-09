@@ -115,7 +115,7 @@ public class VerBarcosCPU extends JFrame {
 			// TODO Auto-generated method stub
 			if(event.getSource() == volver) {
 				pantallaPrincipal.setVisible(true);
-				setVisible(false);
+				dispose();
 			}
 			
 		}
