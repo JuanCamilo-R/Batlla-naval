@@ -9,32 +9,58 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.awt.Point;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class PantallaCPU.
+ */
 //Heredo de PantallaUsuario
 public class PantallaCPU extends PantallaUsuario {
 	
 	
 	
+	/** The posiciones tocadas. */
 	//Atributos
 	private ArrayList<Point> posicionesTocadas = new ArrayList<Point>();
+	
+	/** The barcos pantalla. */
 	private Barcos [][] barcosPantalla = new Barcos[10][10];
+	
+	/** The tamano. */
 	private int tamano;
+	
+	/** The ronda. */
 	private int ronda;
 	
 
 	
+	/**
+	 * Instantiates a new pantalla CPU.
+	 */
 	//Metodos
 	public PantallaCPU() {
 		tamano =1;
 		ronda=1;
 	}
 	
+	/**
+	 * Barco atacado.
+	 *
+	 * @param x the x
+	 * @param y the y
+	 */
 	public void barcoAtacado(int x, int y) {
 		barcosPantalla[x][y].atacado();
 	}
 	
+	/**
+	 * Poner barco 2.
+	 *
+	 * @param tamano the tamano
+	 * @param barquito the barquito
+	 */
 	public void ponerBarco2(int tamano,Barcos barquito){
 		Random aleatorio= new Random();
-		Point direcci髇 = new Point(0,0);
+		Point direcci贸n = new Point(0,0);
 		int x=0,y=0;
 		do {
 			x=aleatorio.nextInt(10);
@@ -43,63 +69,98 @@ public class PantallaCPU extends PantallaUsuario {
 			case 0:
 				//Derecha
 				barquito.setDireccion("derecha");
-				direcci髇.setLocation(0, 1);
+				direcci贸n.setLocation(0, 1);
 				break;
 			case 1:
 				//Abajo
 				barquito.setDireccion("abajo");
-				direcci髇.setLocation(1,0);
+				direcci贸n.setLocation(1,0);
 				break;
 			case 2:
 				//Izquierda
 				barquito.setDireccion("izquierda");
-				direcci髇.setLocation(0,-1);
+				direcci贸n.setLocation(0,-1);
 				break;
 			case 3:
 				//Arriba
 				barquito.setDireccion("arriba");
-				direcci髇.setLocation(-1,0);
+				direcci贸n.setLocation(-1,0);
 				break;
 			}
-		}while(!Disponible(x,y,direcci髇,tamano));
+		}while(!Disponible(x,y,direcci贸n,tamano));
 		
 		for(int i=0 ;i < tamano; i++){
-			barcosPantalla[y+direcci髇.x*i][x+direcci髇.y*i] = barquito;
+			barcosPantalla[y+direcci贸n.x*i][x+direcci贸n.y*i] = barquito;
 		}
 		
 	}
+	
+	/**
+	 * Barco vivo.
+	 *
+	 * @param x the x
+	 * @param y the y
+	 * @return true, if successful
+	 */
 	public boolean barcoVivo(int x, int y) {
 		return barcosPantalla[x][y].isVivo();
 	}
+	
+	/**
+	 * Hay barco.
+	 *
+	 * @param x the x
+	 * @param y the y
+	 * @return true, if successful
+	 */
 	public boolean hayBarco(int x, int y) {
 		if(barcosPantalla[x][y] != null) {
 			return true;
 		}
 		return false;
 	}
+	
+	/**
+	 * Atacar barco.
+	 *
+	 * @param posicion the posicion
+	 */
 	public void atacarBarco(Point posicion) {
 		barcosPantalla[posicion.x][posicion.y].atacar(posicion);
 	}
 
-	private boolean Disponible(int x, int y, Point direcci髇, int tamano) {
+	/**
+	 * Disponible.
+	 *
+	 * @param x the x
+	 * @param y the y
+	 * @param direcci贸n the direcci贸n
+	 * @param tamano the tamano
+	 * @return true, if successful
+	 */
+	private boolean Disponible(int x, int y, Point direcci贸n, int tamano) {
 		// TODO Auto-generated method stub
 		for (int i = 0; i < tamano; i++)
 		{
-			if(y+direcci髇.x*i<0||y+direcci髇.x*i>9)
+			if(y+direcci贸n.x*i<0||y+direcci贸n.x*i>9)
 			{
 				return false;
 			}
-			if(x+direcci髇.y*i<0||x+direcci髇.y*i>9)
+			if(x+direcci贸n.y*i<0||x+direcci贸n.y*i>9)
 			{
 				return false;
 			}
-			if(barcosPantalla[y+direcci髇.x*i][x+direcci髇.y*i]!=null)
+			if(barcosPantalla[y+direcci贸n.x*i][x+direcci贸n.y*i]!=null)
 			{
 				return false;
 			}
 		}
 		return true;
 	}
+	
+	/**
+	 * Mostrar 2.
+	 */
 	public void mostrar2() {
 		for(int i = 0; i < 10; i++) {
 			for(int j = 0; j < 10; j++) {
@@ -112,4 +173,5 @@ public class PantallaCPU extends PantallaUsuario {
 			System.out.print("\n");
 		}
 	}
+	
 }
