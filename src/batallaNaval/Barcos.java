@@ -8,15 +8,41 @@ package batallaNaval;
 import java.awt.Point;
 import java.util.ArrayList;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Barcos. Sirve para simular los barcos en pantalla
+ */
 public class Barcos {
+	
 	//atributos
-	private int tamano;
-	private int vecesTocado;
-	private boolean seleccionado;
+	
+	/** Tamaño del barco. */
+	private int tamano; 
+	
+	/** Las veces que ha sido atacado. */
+	private int vecesTocado; 
+	
+	/** Indica si fue selecionado para poner en pantalla. */
+	private boolean seleccionado; 
+	
+	/** Indica si no se ha undido. */
 	private boolean vivo;
+	
+	/** Indica hacia que direccion esta( derecha,izquiera,abajo, arrriba). */
 	private String direccion = "";
+	
+	/** Posicion donde me han atacado. */
 	private Point  posicionAtacadas = new Point();
+	
+	/** Posiciones que usa el barco. */
 	private ArrayList<Point> posiciones = new ArrayList<Point>();
+	
+	/**
+	 * Constructor de Barcos
+	 * Instantiates a new barcos.
+	 *
+	 * @param tamano the tamano
+	 */
 	//Metodos
 	public Barcos(int tamano) {
 		seleccionado = false;
@@ -24,70 +50,138 @@ public class Barcos {
 		vivo = true;
 		this.tamano = tamano;
 	}
+	
+	/**
+	 * Guarda las posiciones donde me han atacado
+	 * Atacar.
+	 * Recibe la posicion donde me atacaron de tipo Point
+	 * @param posiciones the posiciones
+	 */
 	//Ataque aliado.
 	public  void atacar(Point posiciones) {
 		System.out.println("Ay me pegaron T___T");
 		posicionAtacadas.setLocation(posiciones.getX(), posiciones.getY());
 		vecesTocado++;
 	}
-	//Ataque aliado
+	
+	/**
+	 * 
+	 * @return un punto donde he sido atacado
+	 */
 	public Point getPosicionesAtacadas() {
 		return posicionAtacadas;
 	}
 
+	/**
+	 * Inicialmente los barcos estan vivos si han sido atacados
+	 * a cantidad de veces de su tamaño se unde( muere)
+	 * Checks if is vivo.
+	 *
+	 * @return true, if is vivo
+	 */
 	public boolean isVivo() {
-		//System.out.println("Noob me faltan "+(tamano-vecesTocado));
+		System.out.println("Noob me faltan "+(tamano-vecesTocado));
 		if(vecesTocado==tamano) {
-			System.out.print("He muerto :(  \n");
 			vivo=false;
 		}
 		return vivo;
 	}
+	
+	/**
+	 * Gets the tamano.
+	 *
+	 * @return the tamano
+	 */
 	public int getTamano() {
 		return tamano;
 	}
 	
-	public boolean estoyVivo() {
-		if(tamano == vecesTocado) {
-			vivo = false;
-		}
-		return vivo;
-	}
 	
+	/**
+	 * Si me han atacado entonces modifico la cantidad de veces que me tocaron
+	 * Atacado.
+	 */
 	public void atacado() {
-		if(vivo == true && tamano != vecesTocado) {
+		if(vivo == true) {
 			vecesTocado++;
 		}
-		System.out.print("Me han atacado, me quedan "+(tamano-vecesTocado)+"\n");
 	}
+	
+	/**
+	 * Agrego un punto al arreglo de la posiciones donde estan los barcos
+	 * Anadir.
+	 *
+	 * @param punto the punto
+	 */
 	public void anadir(Point punto) {
 		posiciones.add(punto);
 	}
 	
+	/**
+	 * Retornar x
+	 *
+	 * @param indice the indice
+	 * @return the int
+	 */
 	public int retornarX(int indice) {
 		return posiciones.get(indice).x;
 	}
 	
+	/**
+	 * Retornar y.
+	 *
+	 * @param indice the indice
+	 * @return the int
+	 */
 	public int retornarY(int indice) {
 		return posiciones.get(indice).y;
 	}
 	
+	/**
+	 * Retorna en que direccion esta el barco(arriba,abajo,derecha,izquierda)
+	 * Gets the direccion.
+	 *
+	 * @return the direccion
+	 */
 	public String getDireccion() {
 		return direccion;
 	}
 	
+	/**
+	 * Le da una direccion al barco
+	 * Sets the direccion.
+	 *
+	 * @param direccion the new direccion
+	 */
 	public void setDireccion(String direccion) {
 		this.direccion = direccion;
 	}
 	
+	/**
+	 * Si estoy seleccionado retorna un true sino un false
+	 * Checks if is seleccionado.
+	 *
+	 * @return true, if is seleccionado
+	 */
 	public boolean isSeleccionado() {
 		return seleccionado;
 	}
 	
+	/**
+	 * Inidica que fui seleccionado
+	 * Sets the seleccionado.
+	 *
+	 * @param seleccionado the new seleccionado
+	 */
 	public void setSeleccionado(boolean seleccionado) {
 		this.seleccionado = seleccionado;
 	}
+	
+	/**
+	 * Limpiar posiciones donde estan los barcos
+	 */
 	public void limpiarPosiciones() {
 		posiciones.clear();
 	}
+	
 }
