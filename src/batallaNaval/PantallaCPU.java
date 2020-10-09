@@ -72,8 +72,8 @@ public class PantallaCPU extends PantallaUsuario {
 				direccion.setLocation(0, 1);
 				break;
 			case 1:
-				//Abajo
-				barquito.setDireccion("abajo");
+				//Arriba
+				barquito.setDireccion("arriba");
 				direccion.setLocation(1,0);
 				break;
 			case 2:
@@ -82,8 +82,8 @@ public class PantallaCPU extends PantallaUsuario {
 				direccion.setLocation(0,-1);
 				break;
 			case 3:
-				//Arriba
-				barquito.setDireccion("arriba");
+				//Abajo
+				barquito.setDireccion("abajo");
 				direccion.setLocation(-1,0);
 				break;
 			}
@@ -175,5 +175,13 @@ public class PantallaCPU extends PantallaUsuario {
 		}
 	}
 	
+	public void limpiarPantalla() {
+		for(int i = 0; i < 10; i++) {
+			for(int j = 0; j < 10; j++) {
+				barcosPantalla[i][j] = null;
+			}
+		}
+	}
+
 	
 }
