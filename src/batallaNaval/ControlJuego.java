@@ -526,8 +526,16 @@ public class ControlJuego {
 		return false;
 	}
 	
-	public boolean estaVivo(int index) {
-		return barcosCPU.get(index).isVivo();
+	public boolean estaVivoCPU(int i, int j) {
+		return pantallaCPU.barcoVivo(i, j);
+	}
+	
+	public int getTamanoBarco(int i, int j){
+		return pantallaCPU.getTamanoBarco(i, j);
+	}
+	
+	public Barcos getBarco(int i, int j) {
+		return pantallaCPU.getBarco(i, j);
 	}
 }
 

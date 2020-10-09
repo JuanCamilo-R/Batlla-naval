@@ -217,4 +217,11 @@ private Barcos [][] barcosPantalla = new Barcos[10][10];
 		}
 	}
 	
+	public int getTamanoBarco(int i, int j) {
+		return barcosPantalla[i][j].getTamano();
+	}
+	
+	public Barcos getBarco(int i, int j) {
+		return barcosPantalla[i][j];
+	}
 }

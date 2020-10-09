@@ -707,9 +707,11 @@ public class VistaGUIBatallaNaval extends JFrame {
 				}
 			}
 		}
+		/*
 		for(int i = 0; i < 10; i++) {
-			System.out.print("Estado del barco enemigo "+i+" : "+control.estaVivo(i)+"\n" );
+			System.out.print("Estado del barco enemigo "+i+" : "+control.estaVivoCPU(i)+"\n" );
 		}
+		*/
 		control.ataque(null);
 		historialJuego.append("El cpu tiro en [" + (int) control.retornarPosicion().getX() + ","
 				+ (int) control.retornarPosicion().getY() + "] \n");
@@ -718,7 +720,7 @@ public class VistaGUIBatallaNaval extends JFrame {
 			casillas[(int)control.retornarPosicion().getX()][(int)control.retornarPosicion().getY()].setIcon(new ImageIcon(imagen.getImage().getScaledInstance(45,45, Image.SCALE_DEFAULT)));
 			
 		}else {
-			imagen = new ImageIcon("src/imagenes/agua2.png");
+			imagen = new ImageIcon("src/imagenes/agua.png");
 			casillas[(int)control.retornarPosicion().getX()][(int)control.retornarPosicion().getY()].setIcon(new ImageIcon(imagen.getImage().getScaledInstance(45,45, Image.SCALE_DEFAULT)));
 		}
 		if (control.retornarTurno() == 1) {
@@ -734,35 +736,43 @@ public class VistaGUIBatallaNaval extends JFrame {
 	 */
 	private void ataqueAliado(int i, int j) {
 		if (control.ataqueValido(new Point(i, j))) {
+			casillasAtacar[i][j].setBackground(new Color(60,179,113));
 			historialJuego.append("El usuario tiro en[" + i + "," + j + "] \n");
 			control.ataque(new Point(i, j));
 			if(control.hayBarcoCPU(i, j)) {
 				imagen = new ImageIcon("src/imagenes/tocado2.png");
 				casillasAtacar[i][j].setIcon(new ImageIcon(imagen.getImage().getScaledInstance(45,45, Image.SCALE_DEFAULT)));
+				if(!control.estaVivoCPU(i, j)) {
+					Barcos barquito = control.getBarco(i, j);
+					imagen = new ImageIcon("src/imagenes/hundido2.png");
+					for(int b = 0; b < control.getTamanoBarco(i, j); b++) {
+						casillasAtacar[barquito.retornarX(b)][barquito.retornarY(b)].setIcon(
+								new ImageIcon(imagen.getImage().getScaledInstance(45,45, Image.SCALE_DEFAULT)));
+					}
+				}
 				
 			}else {
-				imagen = new ImageIcon("src/imagenes/agua2.png");
+				imagen = new ImageIcon("src/imagenes/agua.png");
 				casillasAtacar[i][j].setIcon(new ImageIcon(imagen.getImage().getScaledInstance(45,45, Image.SCALE_DEFAULT)));
 			}
 			jugar();
 		} else {
-			System.out.print("no entro");
 			historialJuego.append("Escoge de nuevo \n");
 		}
 	}
 
 	// Escribir mensajes en el JTextArea historialJuego
-	/*
-	 * public void slowPrint(String message, int millisPerChar) {
-	 * 
-	 * Timer timer = new Timer(millisPerChar, null); timer.addActionListener(new
-	 * ActionListener() { int counter = 0;
-	 * 
-	 * @Override public void actionPerformed(ActionEvent e) {
-	 * historialJuego.append(String.valueOf(message.charAt(counter++)));
-	 * historialJuego.setCaretPosition(historialJuego.getDocument().getLength());
-	 * if(counter>= message.length()) { timer.stop(); } } }); timer.start(); }
-	 */
+	
+	  public void slowPrint(String message, int millisPerChar) {
+	  
+		  Timer timer = new Timer(millisPerChar, null); timer.addActionListener(new
+				  ActionListener() { int counter = 0;
+	  
+				  @Override public void actionPerformed(ActionEvent e) {
+					  historialJuego.append(String.valueOf(message.charAt(counter++)));
+					  historialJuego.setCaretPosition(historialJuego.getDocument().getLength());
+					  if(counter>= message.length()) { timer.stop(); } } }); timer.start(); }
+	 
 
 	// Actualiza el estado de los JToggleButtons
 

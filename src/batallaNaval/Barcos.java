@@ -198,4 +198,8 @@ public class Barcos {
 			return "";
 		}
 	}
+	
+	public ArrayList<Point> retornarPosiciones(){
+		return posiciones;
+	}
 }

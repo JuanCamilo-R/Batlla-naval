@@ -182,6 +182,11 @@ public class PantallaCPU extends PantallaUsuario {
 			}
 		}
 	}
-
+	public int getTamanoBarco(int i, int j) {
+		return barcosPantalla[i][j].getTamano();
+	}
+	public Barcos getBarco(int i, int j) {
+		return barcosPantalla[i][j];
+	}
 	
 }
