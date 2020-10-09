@@ -736,7 +736,8 @@ public class VistaGUIBatallaNaval extends JFrame {
 	 */
 	private void ataqueAliado(int i, int j) {
 		if (control.ataqueValido(new Point(i, j))) {
-			casillasAtacar[i][j].setBackground(new Color(60,179,113));
+			casillasAtacar[i][j].removeActionListener(escucha);
+			casillasAtacar[i][j].setBackground(new Color(67,179,174));
 			historialJuego.append("El usuario tiro en[" + i + "," + j + "] \n");
 			control.ataque(new Point(i, j));
 			if(control.hayBarcoCPU(i, j)) {
