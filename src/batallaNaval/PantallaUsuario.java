@@ -224,4 +224,8 @@ private Barcos [][] barcosPantalla = new Barcos[10][10];
 	public Barcos getBarco(int i, int j) {
 		return barcosPantalla[i][j];
 	}
+	
+	public void atacarBarco(Point posicion) {
+		barcosPantalla[posicion.x][posicion.y].atacado();
+	}
 }
