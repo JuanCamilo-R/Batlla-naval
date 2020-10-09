@@ -346,9 +346,8 @@ public class VistaGUIBatallaNaval extends JFrame {
 	// Redisena la interfaz despues de colocar los 10 barcos.
 	private void redisenar() {
 		getContentPane().removeAll();
-
+		
 		this.getContentPane().setLayout(new GridBagLayout());
-
 		zonaUnidades.removeAll();
 		zonaBotones.removeAll();
 		remove(zonaUnidades);
@@ -459,6 +458,9 @@ public class VistaGUIBatallaNaval extends JFrame {
 		repaint();
 		pack();
 		miMisma.setLocationRelativeTo(null);
+		imagen = new ImageIcon("src/imagenes/fondo");
+		
+		//this.getContentPane().paintComponents();
 	}
 
 	/**
