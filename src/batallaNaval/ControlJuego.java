@@ -471,6 +471,25 @@ public class ControlJuego {
 		}
 		return null;
 	}
+	/**
+	 * Retornar barco CPU.
+	 *
+	 * @param tamano the tamano
+	 * @return the barcos CPU
+	 */
+	public Barcos retornarBarcoCPU(int tamano) {
+		for (int i = 0; i < barcosCPU.size(); i++) {
+			if (barcosCPU.get(i).getTamano() == tamano) {
+
+				return barcosCPU.get(i);
+			}
+		}
+		return null;
+	}
+	//barcos CPU
+	public Barcos darBarcoPorIndice(int indice) {
+		 return barcosCPU.get(indice);
+	}
 
 	/**
 	 * Limpiar barcos.
@@ -491,6 +510,11 @@ public class ControlJuego {
 	public Point retornarPosicion() {
 		return posicionAtacada;
 	}
-
+	public boolean hayBarcoCPU(int x, int y) {
+		if(pantallaCPU.hayBarco(x, y)) {
+			return true;
+		}
+		return false;
+	}
 }
 

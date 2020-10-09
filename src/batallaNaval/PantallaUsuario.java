@@ -89,22 +89,22 @@ private Barcos [][] barcosPantalla = new Barcos[10][10];
 	 * @return true, if successful
 	 */
 	protected boolean verificarMitad(int x1,int y1,int x2, int y2,int tamano) {
-		int dirección = 1;
+		int direccion = 1;
 		if(x1==x2) {
 			if(y2-y1<0) {
-				dirección=-1;
+				direccion=-1;
 			}
 		}
 		if(y1==y2) {
 			if(x2-x1<0) {
-				dirección=-1;
+				direccion=-1;
 			}
 		}
 		if( x1 == x2) {
 			System.out.println("Horizontal");
 			for(int i = 0; i <= Math.abs(y2-y1)-1; i++) {
-				System.out.println("Verificando posición x: "+(x1)+",y: "+(y1+i*dirección));
-				if(barcosPantalla[x1][y1+i*dirección] != null) {
+				System.out.println("Verificando posición x: "+(x1)+",y: "+(y1+i*direccion));
+				if(barcosPantalla[x1][y1+i*direccion] != null) {
 					System.out.println("Ocupado");
 					return false;
 			 	}
@@ -114,8 +114,8 @@ private Barcos [][] barcosPantalla = new Barcos[10][10];
 		else if( y1 == y2 ) {
 			System.out.println("Vertical");
 			for(int i = 1; i <= Math.abs(x2-x1)-1; i++) {
-				System.out.println("Verificando posición x: "+(x1+i*dirección)+",y: "+(y1));
-				if(barcosPantalla[x1+i*dirección][y1] != null) {
+				System.out.println("Verificando posición x: "+(x1+i*direccion)+",y: "+(y1));
+				if(barcosPantalla[x1+i*direccion][y1] != null) {
 					System.out.println("Ocupado");
 					return false;
 				}
@@ -159,41 +159,41 @@ private Barcos [][] barcosPantalla = new Barcos[10][10];
 	public void ponerBarco(int x1,int y1,int x2, int y2, int tamano, Barcos barco) {
 		if(estaDisponible(x1,y1,x2,y2,tamano)) {
 			int contador = 0;
-			int dirección = 1;
+			int direccion = 1;
 			if(x1==x2) {
 				if(y2-y1<0) {
 					System.out.println("Dirección izquierda");
 					barco.setDireccion("izquierda");
-					dirección=-1;
+					direccion=-1;
 				}
 				else {
 					System.out.println("Dirección derecha");
 					barco.setDireccion("derecha");
 				}
-				System.out.print("Después del else de derecha");
+				System.out.print("Despues del else de derecha");
 			}
 			else if(y1==y2) {
 				if(x2-x1<0) {
-					System.out.println("Dirección abajo");
+					System.out.println("Direccion abajo");
 					barco.setDireccion("abajo");
-					dirección=-1;
+					direccion=-1;
 				}
 				else {
-					System.out.println("Dirección arriba");
+					System.out.println("Direccion arriba");
 					barco.setDireccion("arriba");
 				}
 			}
 			System.out.println("Antes del do while");
 			do {
 				if(x1 == x2) {
-					barco.anadir(new Point(x1,y1+contador*dirección));
-					barcosPantalla[x1][y1+contador*dirección] = barco;
-					System.out.println("Puso el barco en x1: "+x1+",y1: "+(y1+contador*dirección));
+					barco.anadir(new Point(x1,y1+contador*direccion));
+					barcosPantalla[x1][y1+contador*direccion] = barco;
+					System.out.println("Puso el barco en x1: "+x1+",y1: "+(y1+contador*direccion));
 				}
 				if(y1 == y2) {
-					barco.anadir(new Point(x1+contador*dirección,y1));
-					barcosPantalla[x1+contador*dirección][y1] = barco;
-					System.out.println("Puso el barco en x1: "+(x1+contador*dirección)+",y1: "+y1);
+					barco.anadir(new Point(x1+contador*direccion,y1));
+					barcosPantalla[x1+contador*direccion][y1] = barco;
+					System.out.println("Puso el barco en x1: "+(x1+contador*direccion)+",y1: "+y1);
 				}
 				System.out.print("Puso el barco \n");
 				contador++;

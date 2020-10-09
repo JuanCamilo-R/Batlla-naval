@@ -60,7 +60,7 @@ public class PantallaCPU extends PantallaUsuario {
 	 */
 	public void ponerBarco2(int tamano,Barcos barquito){
 		Random aleatorio= new Random();
-		Point dirección = new Point(0,0);
+		Point direccion = new Point(0,0);
 		int x=0,y=0;
 		do {
 			x=aleatorio.nextInt(10);
@@ -69,28 +69,29 @@ public class PantallaCPU extends PantallaUsuario {
 			case 0:
 				//Derecha
 				barquito.setDireccion("derecha");
-				dirección.setLocation(0, 1);
+				direccion.setLocation(0, 1);
 				break;
 			case 1:
 				//Abajo
 				barquito.setDireccion("abajo");
-				dirección.setLocation(1,0);
+				direccion.setLocation(1,0);
 				break;
 			case 2:
 				//Izquierda
 				barquito.setDireccion("izquierda");
-				dirección.setLocation(0,-1);
+				direccion.setLocation(0,-1);
 				break;
 			case 3:
 				//Arriba
 				barquito.setDireccion("arriba");
-				dirección.setLocation(-1,0);
+				direccion.setLocation(-1,0);
 				break;
 			}
-		}while(!Disponible(x,y,dirección,tamano));
+		}while(!Disponible(x,y,direccion,tamano));
 		
 		for(int i=0 ;i < tamano; i++){
-			barcosPantalla[y+dirección.x*i][x+dirección.y*i] = barquito;
+			barquito.anadir(new Point( y+direccion.x*i, x+direccion.y*i));
+			barcosPantalla[y+direccion.x*i][x+direccion.y*i] = barquito;
 		}
 		
 	}
@@ -138,19 +139,19 @@ public class PantallaCPU extends PantallaUsuario {
 	 * @param tamano the tamano
 	 * @return true, if successful
 	 */
-	private boolean Disponible(int x, int y, Point dirección, int tamano) {
+	private boolean Disponible(int x, int y, Point direccion, int tamano) {
 		// TODO Auto-generated method stub
 		for (int i = 0; i < tamano; i++)
 		{
-			if(y+dirección.x*i<0||y+dirección.x*i>9)
+			if(y+direccion.x*i<0||y+direccion.x*i>9)
 			{
 				return false;
 			}
-			if(x+dirección.y*i<0||x+dirección.y*i>9)
+			if(x+direccion.y*i<0||x+direccion.y*i>9)
 			{
 				return false;
 			}
-			if(barcosPantalla[y+dirección.x*i][x+dirección.y*i]!=null)
+			if(barcosPantalla[y+direccion.x*i][x+direccion.y*i]!=null)
 			{
 				return false;
 			}

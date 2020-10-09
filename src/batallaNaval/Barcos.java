@@ -184,4 +184,19 @@ public class Barcos {
 		posiciones.clear();
 	}
 	
+	public String retornarTipoBarco(int tamano) {
+		switch(tamano) {
+			
+		case 1 :
+			return "Plane";
+		case 2 : 
+			return "Destroyer";
+		case 3 : 
+			return "Cruiser";
+		case 4:
+			return "Battleship";
+		default:
+			return "";
+		}
+	}
 }
