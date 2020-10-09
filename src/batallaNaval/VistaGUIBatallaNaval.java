@@ -45,35 +45,93 @@ import javax.swing.border.TitledBorder;
 import javafx.scene.shape.Box;
 import misComponentes.Titulos;
 import javax.swing.UIManager;
+// TODO: Auto-generated Javadoc
+
+/**
+ * The Class VistaGUIBatallaNaval.
+ */
 public class VistaGUIBatallaNaval extends JFrame {
+	
+	/** The posiciones escoger. */
 	//attributes
 	private ArrayList<Point> posicionesEscoger;
+	
+	/** The control. */
 	private ControlJuego control;
+	
+	/** The type writter. */
 	private TypeWritter typeWritter;
+	
+	/** The tipo barco escoger. */
 	private String tipoBarcoEscoger = "";
+	
+	/** The tamano barco escoger. */
 	private int tamanoBarcoEscoger = 0;
+	
+	/** The mensaje L. */
 	private JLabel mensajeL;
+	
+	/** The zona atacar. */
 	private JPanel zonaUnidades,zonaCasillas,zonaLogo,zonaBotones, zonaCasillasAtacar, zonaAtacar;
+	
+	/** The casillas. */
 	private JButton[][] casillas = new JButton[10][10]; //Casillas donde se pone los barcos
+	
+	/** The casillas atacar. */
 	private JButton[][] casillasAtacar = new JButton[10][10];
+	
+	/** The regla vertical ataque. */
 	private JLabel[] reglaHorizontal, reglaVertical, reglaHorizontalAtaque, reglaVerticalAtaque;
+	
+	/** The historial juego. */
 	private JTextArea historialJuego;
+	
+	/** The flota. */
 	private JLabel[][] flota= new JLabel[10][10];
-	private JButton limpiar,confirmar,salir, instrucciones, verBarcosCPU, rendirse, confirmarAtaque;
+	
+	/** The iniciar denuevo. */
+	private JButton limpiar,confirmar,salir, instrucciones, verBarcosCPU, rendirse, confirmarAtaque,iniciarDenuevo;
+	
+	/** The imagen. */
 	private ImageIcon imagen;
+	
+	/** The buffer image. */
 	private BufferedImage bufferImage=null;
+	
+	/** The titulo. */
 	private Titulos titulo;
+	
+	/** The escucha. */
 	private Escuchas escucha;
+	
+	/** The plane. */
 	private JToggleButton battleship, cruiser, destroyer, plane;
+	
+	/** The unidades. */
 	private ButtonGroup unidades;
+	
+	/** The planes. */
 	private int planes=4;
+	
+	/** The destroyers. */
 	private int destroyers=3;
+	
+	/** The cruisers. */
 	private int cruisers=2;
+	
+	/** The battleships. */
 	private int battleships=1;
+	
+	/** The mi misma. */
 	private JFrame miMisma = this;
+	
+	/** The constraints. */
 	private GridBagConstraints constraints;
 	//methods
 	
+	/**
+	 * Instantiates a new vista GUI batalla naval.
+	 */
 	public VistaGUIBatallaNaval() {
 		initGUI();
 		crearJuego();
@@ -83,22 +141,30 @@ public class VistaGUIBatallaNaval extends JFrame {
 		this.setResizable(false);
 		this.setVisible(true);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		JOptionPane.showMessageDialog(null, "Leer instrucciones");
 	}
 	
+	/**
+	 * Crear juego.
+	 */
 	private void crearJuego() {
 		control.iniciarJuegoCPU();
 	}
+	
+	/**
+	 * Inits the GUI.
+	 */
 	private void initGUI() {
 		// TODO Auto-generated method stub}
 		//ControlJuego
 		typeWritter = new TypeWritter();
-		String mensaje = " <html>Para iniciar el juego, debes colocar todos los barcos.<br>"+    
+		/*String mensaje = " <html>Para iniciar el juego, debes colocar todos los barcos.<br>"+    
 				"Para colocar un barco, escoge la cabeza y la cola del mismo:<br>" + 
 				"El primer barco tiene un tamano de 4 casillas.<br>" + 
 				"El segundo barco tiene un tamano de 3 casillas.<br>" + 
 				"El tercer barco tiene un tamano de 2 casillas. <br>" + 
 				"El cuarto barco tiene un tamano de 1 casilla.</html>";
-		mensajeL = new JLabel(mensaje);
+		mensajeL = new JLabel(mensaje);*/
 		control = new ControlJuego();
 		//Posiciones escoger
 		posicionesEscoger = new ArrayList<Point>();
@@ -106,7 +172,7 @@ public class VistaGUIBatallaNaval extends JFrame {
 		escucha = new Escuchas();
 		this.getContentPane().setLayout(new GridBagLayout());
 		constraints = new GridBagConstraints();
-		titulo = new Titulos("¡Organiza tu flota!", 30, Color.black);
+		titulo = new Titulos("Â¡Organiza tu flota!", 30, Color.black);
 		constraints.gridx=0;
 		constraints.gridy=0;
 		constraints.gridwidth=3;
@@ -214,11 +280,6 @@ public class VistaGUIBatallaNaval extends JFrame {
 		instrucciones = new JButton("Instrucciones");
 		instrucciones.addActionListener(escucha);
 		instrucciones.setPreferredSize(new Dimension(120,30));
-		verBarcosCPU = new JButton();
-		rendirse = new JButton("Rendirse");
-		rendirse.setPreferredSize(new Dimension(120,30));
-		confirmarAtaque = new JButton("Confirmar ataque");
-		confirmarAtaque.setPreferredSize(new Dimension(120,30));
 		confirmar = new JButton("Confirmar");
 		confirmar.addActionListener(escucha);
 		confirmar.setPreferredSize(new Dimension(120,30));
@@ -241,6 +302,13 @@ public class VistaGUIBatallaNaval extends JFrame {
 		add(zonaBotones,constraints);
 	}
 	
+	/**
+	 * Rotate image by degrees.
+	 *
+	 * @param img the img
+	 * @param angle the angle
+	 * @return the buffered image
+	 */
 	private BufferedImage rotateImageByDegrees(BufferedImage img, double angle) {
 
         double rads = Math.toRadians(angle);
@@ -267,7 +335,11 @@ public class VistaGUIBatallaNaval extends JFrame {
 
         return rotated;
     }
-	//Redisena la interfaz después de colocar los 10 barcos.
+	
+	/**
+	 * Redisenar.
+	 */
+	//Redisena la interfaz despuÃ©s de colocar los 10 barcos.
 	private void redisenar() {
 		getContentPane().removeAll();
 		
@@ -302,8 +374,11 @@ public class VistaGUIBatallaNaval extends JFrame {
 				else {
 				casillasAtacar[i][j-1] = new JButton();
 				casillasAtacar[i][j-1].addActionListener(escucha);
-				casillasAtacar[i][j-1].setPreferredSize(new Dimension (50,50));
+				//Cambie esto
+				casillasAtacar[i][j-1].setPreferredSize(new Dimension (45,45));
+				
 				casillasAtacar[i][j-1].setBackground(Color.blue);
+				casillas[i][j-1].setPreferredSize(new Dimension (45,45));
 				zonaAtacar.add(casillasAtacar[i][j-1]);
 				}
 			}
@@ -317,7 +392,7 @@ public class VistaGUIBatallaNaval extends JFrame {
 		constraints.fill=GridBagConstraints.BOTH;
 		add(titulo,constraints);
 		
-		zonaCasillas.setBorder(new TitledBorder("Zona Casillas"));
+		zonaCasillas.setBorder(new TitledBorder("Mis barcos"));
 		
 		constraints.gridx = 0;
 		constraints.gridy = 1;
@@ -344,9 +419,8 @@ public class VistaGUIBatallaNaval extends JFrame {
 		add(zonaLogo,constraints);
 		
 		zonaBotones.removeAll(); //Contiene el historial juego y el boton ver barcos CPU
-		historialJuego = new JTextArea();
+		historialJuego = new JTextArea(27,5);
 		historialJuego.setEditable(false);
-		historialJuego.setPreferredSize(new Dimension(250,400));
 		JScrollPane scroll = new JScrollPane(historialJuego);
 		constraints.gridx = 2;
 		constraints.gridy = 1;
@@ -356,17 +430,29 @@ public class VistaGUIBatallaNaval extends JFrame {
 		//constraints.anchor = GridBagConstraints.NORTHWEST;
 		add(scroll,constraints);
 		
-		zonaBotones.setLayout(new GridLayout(3,1));
-		verBarcosCPU.setText("Ver Barcos CPU");
+		zonaBotones.setLayout(new GridLayout(4,1));
+		verBarcosCPU = new JButton("Ver barcos CPU");
+		verBarcosCPU.setPreferredSize(new Dimension(120,30));
+		verBarcosCPU.addActionListener(escucha);
+		rendirse = new JButton("Rendirse");
+		rendirse.setPreferredSize(new Dimension(120,30));
+		rendirse.addActionListener(escucha);
+		confirmarAtaque = new JButton("Confirmar ataque");
+		confirmarAtaque.setPreferredSize(new Dimension(120,30));
+		confirmarAtaque.addActionListener(escucha);
+		iniciarDenuevo = new JButton("Iniciar de nuevo");
+		iniciarDenuevo.setPreferredSize(new Dimension(120,30));
+		iniciarDenuevo.addActionListener(escucha);
 		zonaBotones.add(verBarcosCPU);
 		zonaBotones.add(rendirse);
 		zonaBotones.add(confirmarAtaque);
+		zonaBotones.add(iniciarDenuevo);
 		constraints.gridx = 2;
 		constraints.gridy = 2;
 		constraints.gridwidth = 1;
-		constraints.gridheight = 1;
+		constraints.gridheight = 4;
+		constraints.anchor = GridBagConstraints.EAST;
 		constraints.fill=GridBagConstraints.VERTICAL;
-		//constraints.anchor = GridBagConstraints.CENTER;
 		add(zonaBotones,constraints);
 		
 		repaint();
@@ -375,15 +461,32 @@ public class VistaGUIBatallaNaval extends JFrame {
 	}
 	
 	
+	/**
+	 * The Class Escuchas.
+	 */
 	private class Escuchas implements ActionListener {
 
+		/**
+		 * Action performed.
+		 *
+		 * @param event the event
+		 */
 		@Override
 		public void actionPerformed(ActionEvent event) {
 			// TODO Auto-generated method stub
+			
 			if(event.getSource() == instrucciones) {
 				String[] options= {"Aceptar"};
-				mensajeL.setFont(new Font("Arial", Font.BOLD, 18));
-				JOptionPane.showOptionDialog(null,mensajeL, "INSTRUCCIONES", 
+				//mensajeL.setFont(new Font("Arial", Font.BOLD, 18));
+				JOptionPane.showOptionDialog(null,"Para iniciar el juego debes colocar todos los barcos y dar en confirmar \n" + 
+						"				Para colocar un barco:  \n"+
+						"				Primero dale click al barco que quieres poner  \n"+
+						"				Escoge la cabeza y la cola del mismo en las casillas  azules: \n" + 
+						"				El primer barco tiene un tamano de 4 casillas.\n" + 
+						"				El segundo barco tiene un tamano de 3 casillas\n" + 
+						"				El tercer barco tiene un tamano de 2 casillas.\n" + 
+						"				El cuarto barco tiene un tamano de 1 casilla \n" +
+						"               Nota: Solo se aceptan barcos de forma vertica y horizontal", "INSTRUCCIONES", 
 						JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
 			}
 			if(event.getSource() == salir) {
@@ -422,18 +525,24 @@ public class VistaGUIBatallaNaval extends JFrame {
 					redisenar();
 					
 					//Empieza el juego
-					typeWritter.type(historialJuego,"Ronda: "+control.getRonda()+"\n");
-					control.agregarRonda();
+					if(control.retornarTurno()==1) {
 					
-					if(control.retornarTurno() == 1) { //Turno usuario
-						//JOptionPane.showMessageDialog(null,"Es tu turno, escoge una posicion para atacar");
-					}else { //Turno CPU
-						//JOptionPane.showMessageDialog(null,"Es turno de la CPU");
+						historialJuego.append("Mi turno \n selecciona una casilla \n");
+					}else {
+						historialJuego.append(control.getRonda()+"\n");
+						historialJuego.append("Empezo CPU \n");
 						jugar();
 					}
 				}else {
 					JOptionPane.showMessageDialog(null,"Coloque todos los barcos");
 					redisenar();
+					if(control.retornarTurno()==1) {
+						
+						historialJuego.append("Mi turno \n selecciona una casilla \n");
+					}else {
+						historialJuego.append("Empezo CPU \n");
+						jugar();
+					}
 				}
 				
 				
@@ -445,7 +554,7 @@ public class VistaGUIBatallaNaval extends JFrame {
 				
 			} else if(event.getSource() == battleship && Integer.parseInt(battleship.getText()) != 0) { //Tamano 4, cantidad 1
 				tipoBarcoEscoger = "battleship";
-				System.out.print("Entro aquí");
+				System.out.print("Entro aquÃ­");
 				tamanoBarcoEscoger = 4;
 				posicionesEscoger.clear();
 			} else if(event.getSource() == destroyer) { //tamano 2 , cantidad: 3
@@ -457,7 +566,38 @@ public class VistaGUIBatallaNaval extends JFrame {
 				tipoBarcoEscoger = "cruiser";
 				posicionesEscoger.clear();
 			}
+			//Volver a iniciar Juego
+			if(event.getSource()==iniciarDenuevo) {
+				getContentPane().removeAll();
+				tipoBarcoEscoger = "";
+				for(int i = 0; i < 10; i++) {
+					for(int j = 0; j < 10; j++ ) {
+						casillas[i][j].setIcon(null);
+					}
+				}
+				control.limpiarBarcos();
+				//Actualizamos las cantidades de los barcos
+				planes = 4;
+				battleships = 1;
+				cruisers = 2;
+				destroyers = 3;
+				actualizar();
+				//Activamos los botones
+				plane.setEnabled(true);
+				battleship.setEnabled(true);
+				cruiser.setEnabled(true);
+				destroyer.setEnabled(true);
+				unidades.clearSelection();
+				initGUI();
+				control.iniciarJuegoCPU();
+				setTitle("Batalla Naval");
+				pack();
+				setLocationRelativeTo(null);
+				setResizable(false);
+				setVisible(true);
+				setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			
+			}
 			
 			//Turno aliado
 			for(int i = 0; i < 10; i++) {
@@ -467,6 +607,8 @@ public class VistaGUIBatallaNaval extends JFrame {
 					}
 				}
 			}
+			
+			
 			
 			//Colocar barcos
 			for(int i = 0; i < 10; i++) {
@@ -493,14 +635,14 @@ public class VistaGUIBatallaNaval extends JFrame {
 								if(barcoSeleccionado.isSeleccionado() == true) {
 									pintarBarco(barcoSeleccionado);
 
-									//Resta el número de unidades navales disponibles
+									//Resta el nÃºmero de unidades navales disponibles
 
 									switch(tipoBarcoEscoger) {
 									case "battleship":
 										battleships--;
 										break;
 									case "cruiser":
-										System.out.print("Entré a cruisers");
+										System.out.print("EntrÃ© a cruisers");
 										cruisers--;
 										break;
 									case "destroyer":
@@ -529,173 +671,202 @@ public class VistaGUIBatallaNaval extends JFrame {
 					}
 				}
 			}
+			if(event.getSource()==rendirse) {
+				String[] options= {"Si","No"};
+				int input = JOptionPane.showOptionDialog(null, "Â¿Seguro?", "Rendirse", 
+						JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+				
+				if(input == 0) {
+					JOptionPane.showMessageDialog(null, "Has abandonado el juego");
+					System.exit(0);
+				}else {
+				//Sigue el juego
+					
+				}
+			}
+				
 		
 		}
 		
-		private void desactivarCasillasAtacar() {
-			for(int i = 0; i < 10; i++) {
-				for(int j = 0; j < 10; j++) {
+		
+
+	}
+
+	/**
+	 * Jugar.
+	 */
+	private void jugar() {
+		
+		control.ataque(null);
+		historialJuego.append("El cpu tiro en ["+(int)control.retornarPosicion().getX()+","+(int)
+				control.retornarPosicion().getY()+"] \n");
+		if(control.retornarTurno()==1) {
+			historialJuego.append("Tira Usuario \n");
+		}
+		if(control.perdio()==1) {	
+			JOptionPane.showMessageDialog(null,"Se acabo \n Gano CPU \n De click en Iniciar de nuevo"
+					+ "\n si quiere volver a jugar" );
+			for(int i=0;i<10;i++) {
+				for(int j=0;j<10;j++) {
+					casillasAtacar[i][j].removeActionListener(escucha);
+				}
+			}
+				
+		}else if(control.perdio()==0){
+			JOptionPane.showMessageDialog(null,"Se acabo \n Gano Usuario \n De click en Iniciar de nuevo"
+					+ "\n si quiere volver a jugar" );
+			for(int i=0;i<10;i++) {
+				for(int j=0;j<10;j++) {
 					casillasAtacar[i][j].removeActionListener(escucha);
 				}
 			}
 		}
-		private void activarCasillasAtacar() {
-			for(int i = 0; i < 10; i++) {
-				for(int j = 0; j < 10; j++) {
-					casillasAtacar[i][j].addActionListener(escucha);
-				}
-			}
-		}
-		private void jugar() {
-			if(control.perdio() == 2) {
-				if(control.retornarTurno() == 0) { //Turno CPU
-					control.ataqueCPU();
-					typeWritter.type(historialJuego,"La CPU ha atacado en "+String.valueOf((int)control.getPosicionAtacadaCPU().getX())+"]["+String.valueOf((int)control.getPosicionAtacadaCPU().getY())+"] \n");
-					control.decidirTurno();
-					activarCasillasAtacar(); //Activa las casillas de atacar para el usuario
-					//JOptionPane.showMessageDialog(null, "Es tu turno, escoge una posicion donde quieras atacar");
-					slowPrint("Ronda "+String.valueOf(control.getRonda())+"\n",100);
-					
-				}else { //Turno Usuario
-					
-				}
-				
-				
-				control.agregarRonda();
-			}else if(control.perdio() == 1) { //Perdio Usuario
-				
-			}else { //Perdio CPU
-				
-			}
-		}
-		private void ataqueAliado(int x, int y) {
-			desactivarCasillasAtacar(); //desactivo las casillas de atacar para usuario ya que ya ataco.
-			if(control.retornarTurno() == 1){ //turno Usuario
-				control.ataqueAliado(new Point(x,y));
-				slowPrint("El usuario ha atacado en la posicion ["+String.valueOf(x)+"]["+String.valueOf(y)+"]\n",50);
-				
-			}
-			control.decidirTurno();
-			jugar();
-		}
-		
-		
-		//Escribir mensajes en el JTextArea historialJuego
-		 public void slowPrint(String message, int millisPerChar) {
-
-		        Timer timer = new Timer(millisPerChar, null);
-		        timer.addActionListener(new ActionListener() {
-		        	int counter = 0;
-		            @Override
-		            public void actionPerformed(ActionEvent e) {
-		            	historialJuego.append(String.valueOf(message.charAt(counter++)));
-		            	historialJuego.setCaretPosition(historialJuego.getDocument().getLength());
-		            	if(counter>= message.length()) {
-		            		timer.stop();
-		            	}
-		            }
-		        });
-		        timer.start();
-		    }
-		 
-		 
-		//Actualiza el estado de los JToggleButtons
-		
-		private void actualizar() {
-			// TODO Auto-generated method stub
-			battleship.setText(""+battleships);
-			if(battleships==0 && battleship.isSelected()) {
-				battleship.setSelected(false);
-				unidades.clearSelection();
-				battleship.setEnabled(false);
-			}
-			cruiser.setText(""+cruisers);
-			if(cruisers==0 && cruiser.isSelected()) {
-				cruiser.setSelected(false);
-				unidades.clearSelection();
-				cruiser.setEnabled(false);
-			}
-			destroyer.setText(""+destroyers);
-			if(destroyers==0 && destroyer.isSelected()) {
-				destroyer.setSelected(false);
-				unidades.clearSelection();
-				destroyer.setEnabled(false);
-			}
-			plane.setText(""+planes);
-			if(planes==0 && plane.isSelected()) {
-				plane.setSelected(false);
-				unidades.clearSelection();
-				plane.setEnabled(false);
-			}
-		}
-
-		//Pinta un barco en la pantalla
-		
-		private void pintarBarco(Barcos barcoAPintar) {
-			// TODO Auto-generated method stub
-			String filePath="src/imagenes/"+tipoBarcoEscoger+".png";
-			if(barcoAPintar.getTamano()==1) {
-				casillas[barcoAPintar.retornarX(0)][barcoAPintar.retornarY(0)].setIcon(new ImageIcon(filePath));
-			}else {
-				//ángulo de rotación
-				
-				int angulo=0;
-				
-				//Inicializa las variables para el getSubimage();
-				
-				int x0=0;
-				int y0=0;
-				int xIncremento=0;
-				int yIncremento=1;
-				int posicionInicial=0;
-				
-				//Generaliza las variables anteriores dependiendo de la dirección del barco
-				
-				switch(barcoAPintar.getDireccion()) {
-				case "derecha":
-					x0=0;
-					y0=0;
-					xIncremento=1;
-					yIncremento=0;
-					posicionInicial=0;
-					angulo=270;
-					break;
-				case "izquierda":
-					x0=1;
-					y0=0;
-					xIncremento=-1;
-					yIncremento=0;
-					angulo=90;
-					posicionInicial=1;
-					break;
-				case "abajo":
-					x0=0;
-					y0=1;
-					xIncremento=0;
-					yIncremento=-1;
-					angulo=180;
-					posicionInicial=1;
-					break;
-				}
-				
-				try {
-					bufferImage = ImageIO.read(new File(filePath));
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				bufferImage = rotateImageByDegrees(bufferImage, angulo);
-				for(int i=0;i<barcoAPintar.getTamano();i++) {
-					System.out.println("Barco en x: "+barcoAPintar.retornarX(i)+",y: "+barcoAPintar.retornarY(i));
-					Image subimagen = bufferImage.getSubimage(bufferImage.getWidth()*x0+(i+posicionInicial)*xIncremento*50, 
-							bufferImage.getHeight()*y0+(i+posicionInicial)*yIncremento*50,
-							bufferImage.getWidth()+(50-bufferImage.getWidth())*Math.abs(xIncremento),
-							bufferImage.getHeight()+(50-bufferImage.getHeight())*Math.abs(yIncremento));
-					casillas[barcoAPintar.retornarX(i)][barcoAPintar.retornarY(i)].setIcon(new ImageIcon(subimagen));
-				}
-			}
-		}
-		
-
 	}
+		
+		/**
+		 * Ataque aliado.
+		 *
+		 * @param i the i
+		 * @param j the j
+		 */
+		private void ataqueAliado(int i,int j) {
+			if(control.ataqueValido(new Point(i,j))) {
+				historialJuego.append("El usuario tiro en["+i +","+j+"] \n");
+				control.ataque(new Point(i,j));
+				jugar();
+				}else {
+					System.out.print("no entro");
+					historialJuego.append("Escoge de nuevo \n");
+			}
+		}
+	
+	
+		
+	
+	
+	//Escribir mensajes en el JTextArea historialJuego
+	/* public void slowPrint(String message, int millisPerChar) {
+
+	        Timer timer = new Timer(millisPerChar, null);
+	        timer.addActionListener(new ActionListener() {
+	        	int counter = 0;
+	            @Override
+	            public void actionPerformed(ActionEvent e) {
+	            	historialJuego.append(String.valueOf(message.charAt(counter++)));
+	            	historialJuego.setCaretPosition(historialJuego.getDocument().getLength());
+	            	if(counter>= message.length()) {
+	            		timer.stop();
+	            	}
+	            }
+	        });
+	        timer.start();
+	    }*/
+	 
+	 
+	//Actualiza el estado de los JToggleButtons
+	
+	/**
+	 * Actualizar.
+	 */
+	private void actualizar() {
+		// TODO Auto-generated method stub
+		battleship.setText(""+battleships);
+		if(battleships==0 && battleship.isSelected()) {
+			battleship.setSelected(false);
+			unidades.clearSelection();
+			battleship.setEnabled(false);
+		}
+		cruiser.setText(""+cruisers);
+		if(cruisers==0 && cruiser.isSelected()) {
+			cruiser.setSelected(false);
+			unidades.clearSelection();
+			cruiser.setEnabled(false);
+		}
+		destroyer.setText(""+destroyers);
+		if(destroyers==0 && destroyer.isSelected()) {
+			destroyer.setSelected(false);
+			unidades.clearSelection();
+			destroyer.setEnabled(false);
+		}
+		plane.setText(""+planes);
+		if(planes==0 && plane.isSelected()) {
+			plane.setSelected(false);
+			unidades.clearSelection();
+			plane.setEnabled(false);
+		}
+	}
+
+	//Pinta un barco en la pantalla
+	
+	/**
+	 * Pintar barco.
+	 *
+	 * @param barcoAPintar the barco A pintar
+	 */
+	private void pintarBarco(Barcos barcoAPintar) {
+		// TODO Auto-generated method stub
+		String filePath="src/imagenes/"+tipoBarcoEscoger+".png";
+		if(barcoAPintar.getTamano()==1) {
+			casillas[barcoAPintar.retornarX(0)][barcoAPintar.retornarY(0)].setIcon(new ImageIcon(filePath));
+		}else {
+			//Ã¡ngulo de rotaciÃ³n
+			
+			int angulo=0;
+			
+			//Inicializa las variables para el getSubimage();
+			
+			int x0=0;
+			int y0=0;
+			int xIncremento=0;
+			int yIncremento=1;
+			int posicionInicial=0;
+			
+			//Generaliza las variables anteriores dependiendo de la direcciÃ³n del barco
+			
+			switch(barcoAPintar.getDireccion()) {
+			case "derecha":
+				x0=0;
+				y0=0;
+				xIncremento=1;
+				yIncremento=0;
+				posicionInicial=0;
+				angulo=270;
+				break;
+			case "izquierda":
+				x0=1;
+				y0=0;
+				xIncremento=-1;
+				yIncremento=0;
+				angulo=90;
+				posicionInicial=1;
+				break;
+			case "abajo":
+				x0=0;
+				y0=1;
+				xIncremento=0;
+				yIncremento=-1;
+				angulo=180;
+				posicionInicial=1;
+				break;
+			}
+			
+			try {
+				bufferImage = ImageIO.read(new File(filePath));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			bufferImage = rotateImageByDegrees(bufferImage, angulo);
+			for(int i=0;i<barcoAPintar.getTamano();i++) {
+				System.out.println("Barco en x: "+barcoAPintar.retornarX(i)+",y: "+barcoAPintar.retornarY(i));
+				Image subimagen = bufferImage.getSubimage(bufferImage.getWidth()*x0+(i+posicionInicial)*xIncremento*50, 
+						bufferImage.getHeight()*y0+(i+posicionInicial)*yIncremento*50,
+						bufferImage.getWidth()+(50-bufferImage.getWidth())*Math.abs(xIncremento),
+						bufferImage.getHeight()+(50-bufferImage.getHeight())*Math.abs(yIncremento));
+				casillas[barcoAPintar.retornarX(i)][barcoAPintar.retornarY(i)].setIcon(new ImageIcon(subimagen));
+			}
+		}
+	}
+	
+		
 }
