@@ -99,9 +99,7 @@ public class VerBarcosCPU extends JFrame {
 		constraints.fill=GridBagConstraints.NONE;
 		zonaBoton.add(volver);
 		add(zonaBoton,constraints);
-		//System.out.print("Tamano barco : "+control.darBarcoPorIndice(0).getTamano()+"\n");
-		//pintarBarco(control.darBarcoPorIndice(0),"Plane");
-		//System.out.print(control.darBarcoPorIndice(0).retornarX(0));
+
 		
 		for(int i = 0; i < 10; i++ ) {
 			pintarBarco(control.darBarcoPorIndice(i), 
@@ -182,7 +180,6 @@ public class VerBarcosCPU extends JFrame {
 			}
 			bufferImage = rotateImageByDegrees(bufferImage, angulo);
 			for(int i=0;i<barcoAPintar.getTamano();i++) {
-				System.out.println("Barco en x: "+barcoAPintar.retornarX(i)+",y: "+barcoAPintar.retornarY(i));
 				Image subimagen = bufferImage.getSubimage(bufferImage.getWidth()*x0+(i+posicionInicial)*xIncremento*50, 
 						bufferImage.getHeight()*y0+(i+posicionInicial)*yIncremento*50,
 						bufferImage.getWidth()+(50-bufferImage.getWidth())*Math.abs(xIncremento),

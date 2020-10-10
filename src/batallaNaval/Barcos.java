@@ -79,7 +79,6 @@ public class Barcos {
 	 * @return true, if is vivo
 	 */
 	public boolean isVivo() {
-		//System.out.println("Noob me faltan "+(tamano-vecesTocado));
 		if(vecesTocado==tamano) {
 			vivo = false;
 		}

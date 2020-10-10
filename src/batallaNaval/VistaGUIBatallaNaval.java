@@ -65,8 +65,6 @@ public class VistaGUIBatallaNaval extends JFrame {
 	/** The tamano barco escoger. */
 	private int tamanoBarcoEscoger = 0;
 
-	
-
 	/** The zona atacar. */
 	private JPanel zonaUnidades, zonaCasillas, zonaLogo, zonaBotones, zonaCasillasAtacar, zonaAtacar;
 
@@ -548,7 +546,6 @@ public class VistaGUIBatallaNaval extends JFrame {
 																											// cantidad
 																											// 1
 				tipoBarcoEscoger = "battleship";
-				System.out.print("Entro aqui");
 				tamanoBarcoEscoger = 4;
 				posicionesEscoger.clear();
 			} else if (event.getSource() == destroyer) { // tamano 2 , cantidad: 3
@@ -616,8 +613,6 @@ public class VistaGUIBatallaNaval extends JFrame {
 							// Guarda el mismo barco para ponerlo en la PantallaUsuario y pintarlo en la GUI
 
 							Barcos barcoSeleccionado = control.retornarBarco(tamanoBarcoEscoger);
-							System.out.print("battleship \n");
-							System.out.print("Size vector" + posicionesEscoger.size());
 							control.ponerBarco((int) posicionesEscoger.get(0).getX(),
 									(int) posicionesEscoger.get(0).getY(), (int) posicionesEscoger.get(1).getX(),
 									(int) posicionesEscoger.get(1).getY(), tamanoBarcoEscoger, barcoSeleccionado);
@@ -631,7 +626,6 @@ public class VistaGUIBatallaNaval extends JFrame {
 									battleships--;
 									break;
 								case "cruiser":
-									System.out.print("Entro a cruisers");
 									cruisers--;
 									break;
 								case "destroyer":
@@ -686,7 +680,6 @@ public class VistaGUIBatallaNaval extends JFrame {
 				Barcos barquito = control.getBarco((int)control.retornarPosicion().getX(), (int) control.retornarPosicion().getY(), "A");
 				imagen = new ImageIcon("src/imagenes/hundido2.png");
 				for(int b = 0; b < barquito.getTamano(); b++) {
-					System.out.print("x: "+barquito.retornarX(b)+ " y: "+barquito.retornarY(b)+"\n");
 					casillas[barquito.retornarX(b)][barquito.retornarY(b)].setIcon(
 							new ImageIcon(imagen.getImage().getScaledInstance(45,45, Image.SCALE_DEFAULT)));
 				}
@@ -832,7 +825,7 @@ public class VistaGUIBatallaNaval extends JFrame {
 		if (barcoAPintar.getTamano() == 1) {
 			casillas[barcoAPintar.retornarX(0)][barcoAPintar.retornarY(0)].setIcon(new ImageIcon(filePath));
 		} else {
-			// ángulo de rotacion
+			// angulo de rotacion
 
 			int angulo = 0;
 
@@ -881,7 +874,6 @@ public class VistaGUIBatallaNaval extends JFrame {
 			}
 			bufferImage = rotateImageByDegrees(bufferImage, angulo);
 			for (int i = 0; i < barcoAPintar.getTamano(); i++) {
-				System.out.println("Barco en x: " + barcoAPintar.retornarX(i) + ",y: " + barcoAPintar.retornarY(i));
 				Image subimagen = bufferImage.getSubimage(
 						bufferImage.getWidth() * x0 + (i + posicionInicial) * xIncremento * 50,
 						bufferImage.getHeight() * y0 + (i + posicionInicial) * yIncremento * 50,
