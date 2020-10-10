@@ -103,9 +103,7 @@ public class ControlJuego {
 			for (int j = 0; j < aux; j++) {
 				barcosCPU.add(new Barcos(capacidad));
 				barcos.add(new Barcos(capacidad));
-				// System.out.print(capacidad+"\n");
 			}
-			// System.out.print(i+"\n");
 			aux--;
 			capacidad++;
 		}
@@ -132,7 +130,7 @@ public class ControlJuego {
 	 * @param posicionAtacada the posicion atacada
 	 * @return the int
 	 */
-	// Ataca y define si alguien perdió.
+	// Ataca y define si alguien perdio.
 	public int determinarJuego(Point posicionAtacada) {
 		ataque(posicionAtacada);
 		return perdio();
@@ -146,10 +144,8 @@ public class ControlJuego {
 	 */
 	// recibe un point que se refiere a la posicion (x,y) que ha sido atacada
 	public boolean ataqueValido(Point posicionesAtacadas) {
-		System.out.print("Entre a ataque valido");
 		// turno = 0 CPU
 		// turno = 1 Aliado
-		//System.out.print("Hola");
 		if (turno == 0) {
 			if (posicionesAtacadasCPU[(int) posicionesAtacadas.getX()][(int) posicionesAtacadas.getY()] == 0) {
 				posicionesAtacadasCPU[(int) posicionesAtacadas.getX()][(int) posicionesAtacadas.getY()] = 1;
@@ -161,40 +157,15 @@ public class ControlJuego {
 		if(turno==1) {
 	
 			if (this.posicionesAtacadas[(int) posicionesAtacadas.getX()][(int) posicionesAtacadas.getY()] == 0) {
-				System.out.print("Cambio la posicion a diferente de null");
 				this.posicionesAtacadas[(int) posicionesAtacadas.getX()][(int) posicionesAtacadas.getY()] = 1;
 				
 			} else {
-				System.out.print("No");
 				return false;
 			}
-			System.out.print("si");
 			return true;
 		}
 		return false;
 	}
-	
-		/*
-		if(posicionesAtacadas != null) {
-			System.out.print("Entre a !=null");
-		if (turno == 0) {
-			if (posicionesAtacadasCPU[(int) posicionesAtacadas.getX()][(int) posicionesAtacadas.getY()] == 0) {
-				posicionesAtacadasCPU[(int) posicionesAtacadas.getX()][(int) posicionesAtacadas.getY()] = 1;
-			} else {
-				return false;
-			}
-		} else {
-			if (this.posicionesAtacadas[(int) posicionesAtacadas.getX()][(int) posicionesAtacadas.getY()] == 0) {
-				System.out.print("Cambio la posicion a diferente de null");
-				this.posicionesAtacadas[(int) posicionesAtacadas.getX()][(int) posicionesAtacadas.getY()] = 1;
-			} else {
-				return false;
-			}
-		}
-	}else {
-		return false;
-	}
-		return true;*/
 	
 
 	/**
@@ -205,12 +176,10 @@ public class ControlJuego {
 	public void ataque(Point posicionAtacada) { // ataque aliado
 			switch (turno) {
 			case 0: // CPU
-				System.out.print("CPU esta atacando");
 				inteligenciaCPU();
 				decidirTurno();
 				break;
 			case 1: // Aliado
-				System.out.print("Usuario esta atacando \n");
 					for (int i = 0; i < barcos.size(); i++) {
 						if (barcos.get(i).isVivo() == true) {
 							boolean hayBarco = pantallaCPU.hayBarco((int) posicionAtacada.getX(),
@@ -221,7 +190,6 @@ public class ControlJuego {
 							break;
 						}
 					}
-					System.out.print("Cambie turno \n");
 					decidirTurno();
 					
 					break;
@@ -426,41 +394,6 @@ public class ControlJuego {
 	}
 
 	/**
-	 * Mostrar.
-	 */
-	public void mostrar() {
-		System.out.println("Pantalla Usuario");
-		pantallaUsuario.mostrar();
-		System.out.println("Pantalla CPU");
-		pantallaCPU.mostrar2();
-	}
-
-	/**
-	 * Mostrar posiciones atacadas CPU.
-	 */
-	public void mostrarPosicionesAtacadasCPU() {
-		String repetir = "";
-		do {
-			do {
-				inteligenciaCPU();
-				turnos++;
-			} while (destruidos < 10);
-			pantallaCPU.mostrar2();
-			System.out.println();
-			for (int i = 0; i < 10; i++) {
-				for (int j = 0; j < 10; j++) {
-					System.out.print(posicionesAtacadasCPU[i][j] + " ");
-				}
-				System.out.print("\n");
-			}
-			Scanner in = new Scanner(System.in);
-			System.out.println(destruidos + "destruidos en " + turnos + "turnos");
-			System.out.print("Continuar? :");
-			repetir = in.nextLine();
-		} while (repetir.equals("s"));
-	}
-
-	/**
 	 * Retornar barco.
 	 *
 	 * @param tamano the tamano
@@ -490,7 +423,7 @@ public class ControlJuego {
 		}
 		return null;
 	}
-	//barcos CPU
+	//barcos CPU se usa en la ventana de ver Barcos CPU
 	public Barcos darBarcoPorIndice(int indice) {
 		 return barcosCPU.get(indice);
 	}
@@ -498,6 +431,7 @@ public class ControlJuego {
 	/**
 	 * Limpiar barcos.
 	 */
+	//Usada cuando se reinicia el juego
 	public void limpiarBarcos() {
 		for (int i = 0; i < barcos.size(); i++) {
 			barcos.get(i).setSeleccionado(false);
@@ -511,9 +445,12 @@ public class ControlJuego {
 	 *
 	 * @return the point
 	 */
+	//Usada en la funcion jugar en vistaBatallaNaval
+	//Se usa para retornar la 
 	public Point retornarPosicion() {
 		return posicionAtacada;
 	}
+	
 	public boolean hayBarcoCPU(int x, int y) {
 		if(pantallaCPU.hayBarco(x, y)) {
 			return true;
@@ -527,15 +464,24 @@ public class ControlJuego {
 		return false;
 	}
 	
-	public boolean estaVivoCPU(int i, int j) {
+	public boolean estaVivo(int i, int j, String pantalla) {
+		if(pantalla == "A") {
+			return pantallaUsuario.barcoVivo(i, j);
+		}
 		return pantallaCPU.barcoVivo(i, j);
 	}
 	
-	public int getTamanoBarco(int i, int j){
+	public int getTamanoBarco(int i, int j, String pantalla){
+		if(pantalla == "A" ) { //A de aliado
+			return pantallaUsuario.getTamanoBarco(i, j);
+		}
 		return pantallaCPU.getTamanoBarco(i, j);
 	}
 	
-	public Barcos getBarco(int i, int j) {
+	public Barcos getBarco(int i, int j, String pantalla) {
+		if(pantalla == "A") { //Aliados
+			return pantallaUsuario.getBarco(i, j);
+		}
 		return pantallaCPU.getBarco(i, j);
 	}
 }

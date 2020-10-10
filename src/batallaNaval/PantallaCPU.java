@@ -159,21 +159,7 @@ public class PantallaCPU extends PantallaUsuario {
 		return true;
 	}
 	
-	/**
-	 * Mostrar 2.
-	 */
-	public void mostrar2() {
-		for(int i = 0; i < 10; i++) {
-			for(int j = 0; j < 10; j++) {
-				if(barcosPantalla[i][j] != null) {
-					System.out.print(barcosPantalla[i][j].getTamano()+" ");
-				}else {
-					System.out.print("0 ");
-				}
-			}
-			System.out.print("\n");
-		}
-	}
+
 	
 	public void limpiarPantalla() {
 		for(int i = 0; i < 10; i++) {

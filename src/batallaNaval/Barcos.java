@@ -59,7 +59,6 @@ public class Barcos {
 	 */
 	//Ataque aliado.
 	public  void atacar(Point posiciones) {
-		System.out.println("Ay me pegaron T___T");
 		posicionAtacadas.setLocation(posiciones.getX(), posiciones.getY());
 	}
 	

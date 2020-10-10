@@ -57,9 +57,7 @@ public class VistaGUIBatallaNaval extends JFrame {
 
 	/** The control. */
 	private ControlJuego control;
-
-	/** The type writter. */
-	private TypeWritter typeWritter;
+	
 
 	/** The tipo barco escoger. */
 	private String tipoBarcoEscoger = "";
@@ -67,8 +65,7 @@ public class VistaGUIBatallaNaval extends JFrame {
 	/** The tamano barco escoger. */
 	private int tamanoBarcoEscoger = 0;
 
-	/** The mensaje L. */
-	private JLabel mensajeL;
+	
 
 	/** The zona atacar. */
 	private JPanel zonaUnidades, zonaCasillas, zonaLogo, zonaBotones, zonaCasillasAtacar, zonaAtacar;
@@ -158,20 +155,8 @@ public class VistaGUIBatallaNaval extends JFrame {
 	 * Inits the GUI.
 	 */
 	private void initGUI() {
-		// TODO Auto-generated method stub}
-		// ControlJuego
 		
-		typeWritter = new TypeWritter();
-		/*
-		 * String mensaje =
-		 * " <html>Para iniciar el juego, debes colocar todos los barcos.<br>"+
-		 * "Para colocar un barco, escoge la cabeza y la cola del mismo:<br>" +
-		 * "El primer barco tiene un tamano de 4 casillas.<br>" +
-		 * "El segundo barco tiene un tamano de 3 casillas.<br>" +
-		 * "El tercer barco tiene un tamano de 2 casillas. <br>" +
-		 * "El cuarto barco tiene un tamano de 1 casilla.</html>"; mensajeL = new
-		 * JLabel(mensaje);
-		 */
+		
 		control = new ControlJuego();
 		// Posiciones escoger
 		posicionesEscoger = new ArrayList<Point>();
@@ -544,14 +529,6 @@ public class VistaGUIBatallaNaval extends JFrame {
 					}
 				} else {
 					JOptionPane.showMessageDialog(null, "Coloque todos los barcos");
-					redisenar();
-					if (control.retornarTurno() == 1) {
-
-						historialJuego.append("Mi turno \n selecciona una casilla \n");
-					} else {
-						historialJuego.append("Empezo CPU \n");
-						jugar();
-					}
 				}
 
 			} else if (event.getSource() == plane && Integer.parseInt(plane.getText()) != 0) { // Tamano 1, cantidad: 4
@@ -636,7 +613,6 @@ public class VistaGUIBatallaNaval extends JFrame {
 							control.ponerBarco((int) posicionesEscoger.get(0).getX(),
 									(int) posicionesEscoger.get(0).getY(), (int) posicionesEscoger.get(1).getX(),
 									(int) posicionesEscoger.get(1).getY(), tamanoBarcoEscoger, barcoSeleccionado);
-							control.mostrar();
 							if (barcoSeleccionado.isSeleccionado() == true) {
 								pintarBarco(barcoSeleccionado);
 
@@ -691,6 +667,28 @@ public class VistaGUIBatallaNaval extends JFrame {
 	 * Jugar.
 	 */
 	private void jugar() {
+		control.ataque(null);
+		historialJuego.append("El cpu tiro en [" + (int) control.retornarPosicion().getX() + ","
+				+ (int) control.retornarPosicion().getY() + "] \n");
+		if(control.hayBarco((int)control.retornarPosicion().getX(),(int) control.retornarPosicion().getY())) {
+			casillas[(int)control.retornarPosicion().getX()][(int) control.retornarPosicion().getY()].setBackground(new Color(67,179,174));
+			imagen = new ImageIcon("src/imagenes/tocado2.png");
+			casillas[(int)control.retornarPosicion().getX()][(int)control.retornarPosicion().getY()].setIcon(new ImageIcon(imagen.getImage().getScaledInstance(45,45, Image.SCALE_DEFAULT)));
+			if(!control.estaVivo((int)control.retornarPosicion().getX(), (int) control.retornarPosicion().getY(),"A")) {
+				Barcos barquito = control.getBarco((int)control.retornarPosicion().getX(), (int) control.retornarPosicion().getY(), "A");
+				imagen = new ImageIcon("src/imagenes/hundido2.png");
+				for(int b = 0; b < barquito.getTamano(); b++) {
+					System.out.print("x: "+barquito.retornarX(b)+ " y: "+barquito.retornarY(b)+"\n");
+					casillas[barquito.retornarX(b)][barquito.retornarY(b)].setIcon(
+							new ImageIcon(imagen.getImage().getScaledInstance(45,45, Image.SCALE_DEFAULT)));
+				}
+			}
+			
+		}else {
+			casillas[(int)control.retornarPosicion().getX()][(int) control.retornarPosicion().getY()].setBackground(new Color(67,179,174));
+			imagen = new ImageIcon("src/imagenes/agua.png");
+			casillas[(int)control.retornarPosicion().getX()][(int)control.retornarPosicion().getY()].setIcon(new ImageIcon(imagen.getImage().getScaledInstance(45,45, Image.SCALE_DEFAULT)));
+		}
 		if (control.perdio() == 1) {
 			JOptionPane.showMessageDialog(null,
 					"Se acabo \n Gano CPU \n De click en Iniciar de nuevo" + "\n si quiere volver a jugar");
@@ -708,22 +706,6 @@ public class VistaGUIBatallaNaval extends JFrame {
 					casillasAtacar[i][j].removeActionListener(escucha);
 				}
 			}
-		}
-		/*
-		for(int i = 0; i < 10; i++) {
-			System.out.print("Estado del barco enemigo "+i+" : "+control.estaVivoCPU(i)+"\n" );
-		}
-		*/
-		control.ataque(null);
-		historialJuego.append("El cpu tiro en [" + (int) control.retornarPosicion().getX() + ","
-				+ (int) control.retornarPosicion().getY() + "] \n");
-		if(control.hayBarco((int)control.retornarPosicion().getX(),(int) control.retornarPosicion().getY())) {
-			imagen = new ImageIcon("src/imagenes/tocado2.png");
-			casillas[(int)control.retornarPosicion().getX()][(int)control.retornarPosicion().getY()].setIcon(new ImageIcon(imagen.getImage().getScaledInstance(45,45, Image.SCALE_DEFAULT)));
-			
-		}else {
-			imagen = new ImageIcon("src/imagenes/agua.png");
-			casillas[(int)control.retornarPosicion().getX()][(int)control.retornarPosicion().getY()].setIcon(new ImageIcon(imagen.getImage().getScaledInstance(45,45, Image.SCALE_DEFAULT)));
 		}
 		if (control.retornarTurno() == 1) {
 			historialJuego.append("Tira Usuario \n");
@@ -745,20 +727,39 @@ public class VistaGUIBatallaNaval extends JFrame {
 			if(control.hayBarcoCPU(i, j)) {
 				imagen = new ImageIcon("src/imagenes/tocado2.png");
 				casillasAtacar[i][j].setIcon(new ImageIcon(imagen.getImage().getScaledInstance(45,45, Image.SCALE_DEFAULT)));
-				if(!control.estaVivoCPU(i, j)) {
-					Barcos barquito = control.getBarco(i, j);
+				if(!control.estaVivo(i, j,"C")) {
+					Barcos barquito = control.getBarco(i, j, "C"); //C de CPU
 					imagen = new ImageIcon("src/imagenes/hundido2.png");
-					for(int b = 0; b < control.getTamanoBarco(i, j); b++) {
+					for(int b = 0; b < barquito.getTamano(); b++) {
 						casillasAtacar[barquito.retornarX(b)][barquito.retornarY(b)].setIcon(
 								new ImageIcon(imagen.getImage().getScaledInstance(45,45, Image.SCALE_DEFAULT)));
 					}
 				}
-				
 			}else {
 				imagen = new ImageIcon("src/imagenes/agua.png");
 				casillasAtacar[i][j].setIcon(new ImageIcon(imagen.getImage().getScaledInstance(45,45, Image.SCALE_DEFAULT)));
 			}
-			jugar();
+			
+			if (control.perdio() == 1) { // GANA CPU
+				JOptionPane.showMessageDialog(null,
+						"Se acabo \n Gano CPU \n De click en Iniciar de nuevo" + "\n si quiere volver a jugar");
+				for (int k = 0; k < 10; k++) {
+					for (int m = 0; m < 10; m++) {
+						casillasAtacar[k][m].removeActionListener(escucha);
+					}
+				}
+
+			} else if (control.perdio() == 0) { //GANA USUARIO
+				JOptionPane.showMessageDialog(null,
+						"Se acabo \n Gano Usuario \n De click en Iniciar de nuevo" + "\n si quiere volver a jugar");
+				for (int k = 0; k < 10; k++) {
+					for (int m = 0; m < 10; m++) {
+						casillasAtacar[k][m].removeActionListener(escucha);
+					}
+				}
+			} else {
+				jugar();
+			}
 		} else {
 			historialJuego.append("Escoge de nuevo \n");
 		}

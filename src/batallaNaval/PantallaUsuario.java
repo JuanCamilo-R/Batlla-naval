@@ -141,10 +141,6 @@ private Barcos [][] barcosPantalla = new Barcos[10][10];
 			System.out.print("\n");
 		}
 	}
-	//1er numero > 2ndo numero //Izquierda
-	//1er numero < 2nd numero //Derecha
-	//[1,3] [1,5]  1 == 1, 3 < 5 //Derecha
-	//[1,3] [2,4] 1 == 2 ? , 3 == 4 ?
 	/**
 	 * Poner barco.
 	 *
@@ -162,47 +158,37 @@ private Barcos [][] barcosPantalla = new Barcos[10][10];
 			int direccion = 1;
 			if(x1==x2) {
 				if(y2-y1<0) {
-					System.out.println("Dirección izquierda");
 					barco.setDireccion("izquierda");
 					direccion=-1;
 				}
 				else {
-					System.out.println("Dirección derecha");
 					barco.setDireccion("derecha");
 				}
-				System.out.print("Despues del else de derecha");
 			}
 			else if(y1==y2) {
 				if(x2-x1<0) {
-					System.out.println("Direccion abajo");
 					barco.setDireccion("abajo");
 					direccion=-1;
 				}
 				else {
-					System.out.println("Direccion arriba");
 					barco.setDireccion("arriba");
 				}
 			}
-			System.out.println("Antes del do while");
 			do {
 				if(x1 == x2) {
 					barco.anadir(new Point(x1,y1+contador*direccion));
 					barcosPantalla[x1][y1+contador*direccion] = barco;
-					System.out.println("Puso el barco en x1: "+x1+",y1: "+(y1+contador*direccion));
 				}
 				if(y1 == y2) {
 					barco.anadir(new Point(x1+contador*direccion,y1));
 					barcosPantalla[x1+contador*direccion][y1] = barco;
-					System.out.println("Puso el barco en x1: "+(x1+contador*direccion)+",y1: "+y1);
 				}
-				System.out.print("Puso el barco \n");
 				contador++;
 			}while(contador != tamano);
-			System.out.println("Puso el barco entre x1: "+x1+",y1: "+y1+" y x2:"+x2+",y2: "+y2);
+			
 			barco.setSeleccionado(true);
 		}
 		else {
-		System.out.println("No he colocado nada");
 		}
 	}
 	
