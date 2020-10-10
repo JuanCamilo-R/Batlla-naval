@@ -40,9 +40,7 @@ import javax.swing.JToggleButton;
 import javax.swing.SwingConstants;
 import javax.swing.Timer;
 import javax.swing.border.TitledBorder;
-
 import javafx.scene.shape.Box;
-import misComponentes.Titulos;
 import javax.swing.UIManager;
 // TODO: Auto-generated Javadoc
 
@@ -124,7 +122,7 @@ public class VistaGUIBatallaNaval extends JFrame {
 	private BufferedImage bufferImage = null;
 
 	/** The titulo. 
-	 * Se usa implemento el proyecto misComponentes para darle los titulos a los JFrame
+	 * Titulos a los JFrame
 	 * */
 	private Titulos titulo;
 
