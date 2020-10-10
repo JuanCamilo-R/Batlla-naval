@@ -532,7 +532,6 @@ public class VistaGUIBatallaNaval extends JFrame {
 
 						historialJuego.append("Mi turno \n selecciona una casilla \n");
 					} else {
-						historialJuego.append(control.getRonda() + "\n");
 						historialJuego.append("Empezo CPU \n");
 						jugar();
 					}

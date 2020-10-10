@@ -12,55 +12,62 @@ import java.util.Scanner;
 // TODO: Auto-generated Javadoc
 /**
  * The Class ControlJuego.
+ *  Clase creada para identificar:
+ * -Donde se ha atacado
+ * -Determina el estado del juego
  */
 public class ControlJuego {
-
-	/** The barcos. */
 	// Atributos.
+	
+	/** The barcos. 
+	 * Nuestros barcos
+	*/
 	private ArrayList<Barcos> barcos;
+
+	/** The barcos CPU. 
+	 * Barcos de CPU
+	*/
+	private ArrayList<Barcos> barcosCPU;
 	
 	/** The posicion ataca CPU. */
 	private ArrayList<Point> posicionAtacaCPU = new ArrayList<Point>();
 
-	/** The barcos CPU. */
-	private ArrayList<Barcos> barcosCPU;
 
-	/** The posiciones atacadas CPU. */
-	// Matrices de posiciones atacadas, solo fue creado para decir que posicion ha
-	// sido atacada
-	private int[][] posicionesAtacadasCPU = new int[10][10]; // CPU
+	/** 
+	 * Matrices de posiciones atacadas, se crean para decir que casilla ha
+	 * sido atacada(tocada)
+	 * */
+	private int[][] posicionesAtacadasCPU = new int[10][10];//Casillas que ha atacado CPU
+	private int[][] posicionesAtacadas = new int[10][10]; //Casillas que hemos atacado
 
-	/** The posiciones atacadas. */
-	private int[][] posicionesAtacadas = new int[10][10]; // aliado
-
-	/** The pantalla usuario. */
+	/** The pantalla usuario. 
+	 * Pantalla donde estan barcos y demas casillas del usuario
+	*/
 	private PantallaUsuario pantallaUsuario;
 
-	/** The pantalla CPU. */
+	/** The pantalla CPU. 
+	 * Pantalla donde estan barcos y demas casillas del CPU
+	 */
 	private PantallaCPU pantallaCPU;
 
-	/** The aleatorio. */
+	/** The aleatorio. 
+	 *  Se crea para que el primer turno se haga de forma aleatoria
+	 * */
 	private Random aleatorio;
 	
-	/** The destruidos. */
+	/** The destruidos. Atributo que me indica cuantos barcos se han hundido*/
 	private int destruidos = 0;
 	
-	/** The turnos. */
-	private int turnos = 0;
-	
-	/** The ronda. */
-	private int ronda = 1;
-	
-	/** The intentos. */
+	/** The intentos.*/
 	private int intentos = 0;
 	
-	/** The turno. */
+	/** The turno. Para saber de quien es el turno */
 	private int turno;
 	
 	/** The index direccion preferida. */
 	private int indexDireccionPreferida;
 	
-	/** The activar max inteligencia CPU. */
+	/** The activar max inteligencia CPU.  */
 	private boolean activarMaxInteligenciaCPU;
 
 	/** The posicion golpeada. */
@@ -80,6 +87,9 @@ public class ControlJuego {
 	 */
 	// metodos.
 	public ControlJuego() {
+		/*Construtor
+		Se inicializa las condiciones al iniciar juego 
+		*/
 		pantallaUsuario = new PantallaUsuario();
 		pantallaCPU = new PantallaCPU();
 		pantallaUsuario = new PantallaUsuario();
@@ -93,9 +103,8 @@ public class ControlJuego {
 	}
 
 	/**
-	 * Crear barcos.
+	 * Funcion de tipo void que crea barcos CPU y  usuario
 	 */
-	// Crea barcos CPU y jugador.
 	public void crearBarcos() {
 		int aux = 4;
 		int capacidad = 1;
@@ -114,7 +123,9 @@ public class ControlJuego {
 	}
 
 	/**
-	 * Determinar juego.
+	 * Funcion tipo void
+	 *	iniciarJuegoCPU
+	 *	se crea para cuando se quiera volver a jugar, limpiamos las matrices y las volvemos a crear
 	 */
 
 	public void iniciarJuegoCPU() {
@@ -124,25 +135,16 @@ public class ControlJuego {
 		crearBarcos(); // Creamos barcos enemigos y aliados.
 	}
 
-	/**
-	 * Determinar juego.
-	 *
-	 * @param posicionAtacada the posicion atacada
-	 * @return the int
-	 */
-	// Ataca y define si alguien perdio.
-	public int determinarJuego(Point posicionAtacada) {
-		ataque(posicionAtacada);
-		return perdio();
-	}
-
+	
 	/**
 	 * Ataque valido.
-	 *
+	 * Funcion de tipo boolean
+	 * Esta funcion es creada para evitar que el usuario ataque dos o mas veces en una misma
+	 * casilla, en caso de retornar false me vuelve a pedir otra posicion
+	 * Recibe un point que se refiere a la posicion (x,y) que ha sido atacada
 	 * @param posicionesAtacadas the posiciones atacadas
 	 * @return true, if successful
 	 */
-	// recibe un point que se refiere a la posicion (x,y) que ha sido atacada
 	public boolean ataqueValido(Point posicionesAtacadas) {
 		// turno = 0 CPU
 		// turno = 1 Aliado
@@ -155,7 +157,6 @@ public class ControlJuego {
 			}
 		}
 		if(turno==1) {
-	
 			if (this.posicionesAtacadas[(int) posicionesAtacadas.getX()][(int) posicionesAtacadas.getY()] == 0) {
 				this.posicionesAtacadas[(int) posicionesAtacadas.getX()][(int) posicionesAtacadas.getY()] = 1;
 				
@@ -170,7 +171,8 @@ public class ControlJuego {
 
 	/**
 	 * Ataque.
-	 *
+	 * Funcion de tipo void
+	 * En caso de que el ataque sea valido y le pasamos el punto llamamos a la funcion atacar
 	 * @param posicionAtacada the posicion atacada
 	 */
 	public void ataque(Point posicionAtacada) { // ataque aliado
@@ -190,30 +192,19 @@ public class ControlJuego {
 							break;
 						}
 					}
-					decidirTurno();
-					
+					//para saber a quien le sigue despues de atacar
+					decidirTurno();	
 					break;
-
-			}
-			ronda++;
-		
+			}	
 	}
 
 	/**
-	 * Gets the ronda.
-	 *
-	 * @return the ronda
-	 */
-	public int getRonda() {
-		return ronda;
-	}
-
-	/**
-	 * Perdio usuario.
-	 *
+	 * Perdio .
+	 * Funcion tipo int que retorna un numero de acuerdo a si ya gano alguno o no
 	 * @return the int
 	 */
 	public int perdio() {
+		//cuenta cuantos barcos han muerto
 		int contadorUsuario = 0;
 		int contadorCPU = 0;
 		for (int i = 0; i < barcos.size(); i++) {
@@ -358,6 +349,7 @@ public class ControlJuego {
 
 	/**
 	 * Decidir turno.
+	 * Me indica de quien es el siguiente turno
 	 */
 	public void decidirTurno() {
 		// turno = 0 CPU
@@ -386,7 +378,6 @@ public class ControlJuego {
 
 	/**
 	 * Retornar turno.
-	 *
 	 * @return the int
 	 */
 	public int retornarTurno() {
