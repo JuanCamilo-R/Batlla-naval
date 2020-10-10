@@ -29,15 +29,16 @@ public class ControlJuego {
 	*/
 	private ArrayList<Barcos> barcosCPU;
 	
-	/** The posicion ataca CPU. */
+	/** The posicion ataca CPU. 
+	 * Se guardan las posiciones donde va atacar la CPU
+	 * */
 	private ArrayList<Point> posicionAtacaCPU = new ArrayList<Point>();
 
 
-	/** 
-	 * Matrices de posiciones atacadas, se crean para decir que casilla ha
-	 * sido atacada(tocada)
-	 * */
+	/**   Matrices de posiciones atacadas, se crean para decir que casilla ha sido atacada(tocada). */
 	private int[][] posicionesAtacadasCPU = new int[10][10];//Casillas que ha atacado CPU
+	
+	/** The posiciones atacadas. */
 	private int[][] posicionesAtacadas = new int[10][10]; //Casillas que hemos atacado
 
 	/** The pantalla usuario. 
@@ -88,7 +89,7 @@ public class ControlJuego {
 	// metodos.
 	public ControlJuego() {
 		/*Construtor
-		Se inicializa las condiciones al iniciar juego 
+		Se inicializa las condiciones al iniciar ControlJuego 
 		*/
 		pantallaUsuario = new PantallaUsuario();
 		pantallaCPU = new PantallaCPU();
@@ -103,7 +104,7 @@ public class ControlJuego {
 	}
 
 	/**
-	 * Funcion de tipo void que crea barcos CPU y  usuario
+	 * Funcion de tipo void que crea barcos CPU y  usuario.
 	 */
 	public void crearBarcos() {
 		int aux = 4;
@@ -124,8 +125,8 @@ public class ControlJuego {
 
 	/**
 	 * Funcion tipo void
-	 *	iniciarJuegoCPU
-	 *	se crea para cuando se quiera volver a jugar, limpiamos las matrices y las volvemos a crear
+	 * 	iniciarJuegoCPU
+	 * 	se crea para cuando se quiera volver a jugar, limpiamos las matrices y las volvemos a crear.
 	 */
 
 	public void iniciarJuegoCPU() {
@@ -192,7 +193,7 @@ public class ControlJuego {
 							break;
 						}
 					}
-					//para saber a quien le sigue despues de atacar
+					//para saber a quien le toca despues de atacar
 					decidirTurno();	
 					break;
 			}	
@@ -244,12 +245,10 @@ public class ControlJuego {
 					&& posicionesAtacadasCPU[posicion.x][posicion.y] == 0) {
 				posicionesAtacadasCPU[posicion.x][posicion.y] = 2;
 				posicionAtacada = posicion;
-				System.out.println("Posici贸n atacada exitosamente: (" + posicion.x + "," + posicion.y + ")");
 				activarMaxInteligenciaCPU = true;
 				posicionReferencia = posicion;
 				pantallaUsuario.atacarBarco(posicion);
 				if (!pantallaUsuario.barcoVivo(posicionReferencia.x, posicionReferencia.y)) {
-					System.out.println("Barco destruido, conservando inteligencia normal");
 					destruidos++;
 					activarMaxInteligenciaCPU = false;
 				}
@@ -258,7 +257,6 @@ public class ControlJuego {
 			} else {
 				posicionesAtacadasCPU[posicion.x][posicion.y] = 1;
 				posicionAtacada = posicion;
-				System.out.println("Posici贸n atacada: (" + posicion.x + "," + posicion.y + ")");
 			}
 		}
 	}
@@ -304,7 +302,6 @@ public class ControlJuego {
 				break;
 			}
 		}
-		System.out.println("escalar:" + escalar);
 		if (!cercano) {
 			direccionesPosibles.remove(indexDireccionElegida);
 			intentos++;
@@ -316,12 +313,8 @@ public class ControlJuego {
 			intentos++;
 			posicionAtacada = new Point(posicionReferencia.x + direccionElegida.x * escalar,posicionReferencia.y
 					+ direccionElegida.y * escalar);
-			System.out.println("Posici贸n atacada MAX: (" + (posicionReferencia.x + direccionElegida.x * escalar) + ","
-					+ (posicionReferencia.y + direccionElegida.y * escalar) + ")");
 			direccionesPosibles.remove(indexDireccionElegida);
 		} else {
-			System.out
-					.println("direcci贸n: (" + direccionElegida.x + "," + direccionElegida.y + "), escalar: " + escalar);
 			intentos = 0;
 			direccionesPosibles.clear();
 			direccionesPosibles.add(direccionElegida);
@@ -331,13 +324,9 @@ public class ControlJuego {
 			posicionAtacada = new Point(posicionReferencia.x + direccionElegida.x * escalar, posicionReferencia.y + direccionElegida.y * escalar);
 			pantallaUsuario.atacarBarco(new Point(posicionReferencia.x + direccionElegida.x * escalar,
 					posicionReferencia.y + direccionElegida.y * escalar));
-			System.out.println(
-					"Posici贸n atacada exitosamente MAX: (" + (posicionReferencia.x + direccionElegida.x * escalar) + ","
-							+ (posicionReferencia.y + direccionElegida.y * escalar) + ")");
 			posicionReferencia.setLocation(posicionReferencia.x + direccionElegida.x * escalar,
 					posicionReferencia.y + direccionElegida.y * escalar);
 			if (!pantallaUsuario.barcoVivo(posicionReferencia.x, posicionReferencia.y)) {
-				System.out.println("Barco destruido, volviendo a inteligencia normal");
 				destruidos++;
 				posicionesAtacadasCPU[posicionReferencia.x][posicionReferencia.y] = 3;
 				direccionesPosibles.clear();
@@ -363,6 +352,9 @@ public class ControlJuego {
 
 	/**
 	 * Poner barco.
+	 * Metodo de tipo void usado para indicar donde se van a poner los barcos del usuario
+	 * recibiendo como parametro la posicion de la cabeza y cola del barco
+	 * tama駉 del barco que va a poner y un Barco
 	 *
 	 * @param x1 the x 1
 	 * @param y1 the y 1
@@ -373,11 +365,10 @@ public class ControlJuego {
 	 */
 	public void ponerBarco(int x1, int y1, int x2, int y2, int tamano, Barcos barco) {
 		pantallaUsuario.ponerBarco(x1, y1, x2, y2, tamano, barco);
-
 	}
 
 	/**
-	 * Retornar turno.
+	 * Retornar un int que me indica de quien es el turno.
 	 * @return the int
 	 */
 	public int retornarTurno() {
@@ -386,43 +377,48 @@ public class ControlJuego {
 
 	/**
 	 * Retornar barco.
-	 *
+	 * Me retorna un barco de usuario dependiendo del tama駉
 	 * @param tamano the tamano
 	 * @return the barcos
 	 */
 	public Barcos retornarBarco(int tamano) {
 		for (int i = 0; i < barcos.size(); i++) {
 			if (barcos.get(i).getTamano() == tamano && barcos.get(i).isSeleccionado() == false) {
-
 				return barcos.get(i);
 			}
 		}
 		return null;
 	}
+	
 	/**
 	 * Retornar barco CPU.
-	 *
+	 * Me retorna un barco de CPU dependiendo del tama駉
 	 * @param tamano the tamano
 	 * @return the barcos CPU
 	 */
 	public Barcos retornarBarcoCPU(int tamano) {
 		for (int i = 0; i < barcosCPU.size(); i++) {
 			if (barcosCPU.get(i).getTamano() == tamano) {
-
 				return barcosCPU.get(i);
 			}
 		}
 		return null;
 	}
-	//barcos CPU se usa en la ventana de ver Barcos CPU
+	
+	/**
+	 * Dar barco por indice.
+	 *	se usa en la ventana de ver Barcos CPU para pintar los barcos en pantalla
+	 * @param indice the indice
+	 * @return the barcos
+	 */
 	public Barcos darBarcoPorIndice(int indice) {
 		 return barcosCPU.get(indice);
 	}
 
 	/**
 	 * Limpiar barcos.
+	 * Usada cuando se reinicia el juego
 	 */
-	//Usada cuando se reinicia el juego
 	public void limpiarBarcos() {
 		for (int i = 0; i < barcos.size(); i++) {
 			barcos.get(i).setSeleccionado(false);
@@ -433,21 +429,40 @@ public class ControlJuego {
 	
 	/**
 	 * Retornar posicion.
-	 *
+	 *Usada en la funcion jugar en vistaBatallaNaval
+	 * Se usa para retornar la posicion en la que ataco CPU
 	 * @return the point
 	 */
-	//Usada en la funcion jugar en vistaBatallaNaval
-	//Se usa para retornar la 
+	//
 	public Point retornarPosicion() {
 		return posicionAtacada;
 	}
 	
+	/**
+	 * Hay barco CPU.
+	 * Me recibe como parametro dos enteros que representan una posicion
+	 * casilla en el tablero
+	 * Me retorna un true si hay un barco de CPU en esa posicion
+	 * @param x the x
+	 * @param y the y
+	 * @return true, if successful
+	 */
 	public boolean hayBarcoCPU(int x, int y) {
 		if(pantallaCPU.hayBarco(x, y)) {
 			return true;
 		}
 		return false;
 	}
+	
+	/**
+	 * Hay barco usuario
+	 *Me recibe como parametro dos enteros que representan una posicion
+	 * casilla en el tablero
+	 * Me retorna un true si hay un barco de usuario en esa posicion
+	 * @param x the x
+	 * @param y the y
+	 * @return true, if successful
+	 */
 	public boolean hayBarco(int x, int y) {
 		if(pantallaUsuario.hayBarco(x, y)) {
 			return true;
@@ -455,6 +470,15 @@ public class ControlJuego {
 		return false;
 	}
 	
+	/**
+	 * Esta vivo.
+	 * Metodo de tipo boolean que me verifica si el barco esta vivo, me reibe una posicion
+	 *  A se refiere a que esta en pantallaUsuario
+	 * @param i the i
+	 * @param j the j
+	 * @param pantalla the pantalla
+	 * @return true, if successful
+	 */
 	public boolean estaVivo(int i, int j, String pantalla) {
 		if(pantalla == "A") {
 			return pantallaUsuario.barcoVivo(i, j);
@@ -462,6 +486,15 @@ public class ControlJuego {
 		return pantallaCPU.barcoVivo(i, j);
 	}
 	
+	/**
+	 * Gets the tamano barco.
+	 * Me recibe una posicion ( i,j) y un String para saber en que pantalla esta
+	 * y me da el tama駉
+	 * @param i the i
+	 * @param j the j
+	 * @param pantalla the pantalla
+	 * @return the tamano barco
+	 */
 	public int getTamanoBarco(int i, int j, String pantalla){
 		if(pantalla == "A" ) { //A de aliado
 			return pantallaUsuario.getTamanoBarco(i, j);
@@ -469,11 +502,21 @@ public class ControlJuego {
 		return pantallaCPU.getTamanoBarco(i, j);
 	}
 	
+	/**
+	 * Gets the barco.
+	 * Me retorna el barco que esta en la posicion (i,j) y me recibe un string 
+	 * dependiendo de que pantalla esta
+	 * @param i the i
+	 * @param j the j
+	 * @param pantalla the pantalla
+	 * @return the barco
+	 */
 	public Barcos getBarco(int i, int j, String pantalla) {
 		if(pantalla == "A") { //Aliados
 			return pantallaUsuario.getBarco(i, j);
 		}
 		return pantallaCPU.getBarco(i, j);
 	}
+	
 }
 
