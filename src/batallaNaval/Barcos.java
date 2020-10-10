@@ -16,7 +16,7 @@ public class Barcos {
 	
 	//atributos
 	
-	/** Tamaño del barco. */
+	/** Tamano del barco. */
 	private int tamano; 
 	
 	/** Las veces que ha sido atacado. */
@@ -63,7 +63,8 @@ public class Barcos {
 	}
 	
 	/**
-	 * 
+	 * Gets the posiciones atacadas.
+	 *
 	 * @return un punto donde he sido atacado
 	 */
 	public Point getPosicionesAtacadas() {
@@ -116,7 +117,7 @@ public class Barcos {
 	}
 	
 	/**
-	 * Retornar x
+	 * Retornar x.
 	 *
 	 * @param indice the indice
 	 * @return the int
@@ -176,12 +177,18 @@ public class Barcos {
 	}
 	
 	/**
-	 * Limpiar posiciones donde estan los barcos
+	 * Limpiar posiciones donde estan los barcos.
 	 */
 	public void limpiarPosiciones() {
 		posiciones.clear();
 	}
 	
+	/**
+	 * Retornar tipo barco.
+	 * Me dice que tipo de barco es dependiendo del tamano, funcion usada para pintar barcos CPU
+	 * @param tamano the tamano
+	 * @return the string
+	 */
 	public String retornarTipoBarco(int tamano) {
 		switch(tamano) {
 			
@@ -198,7 +205,13 @@ public class Barcos {
 		}
 	}
 	
+	/**
+	 * Retornar posiciones que usa el Barco
+	 *
+	 * @return the array list
+	 */
 	public ArrayList<Point> retornarPosiciones(){
 		return posiciones;
 	}
+	
 }

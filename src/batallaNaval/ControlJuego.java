@@ -354,7 +354,7 @@ public class ControlJuego {
 	 * Poner barco.
 	 * Metodo de tipo void usado para indicar donde se van a poner los barcos del usuario
 	 * recibiendo como parametro la posicion de la cabeza y cola del barco
-	 * tamaño del barco que va a poner y un Barco
+	 * tamano del barco que va a poner y un Barco
 	 *
 	 * @param x1 the x 1
 	 * @param y1 the y 1
@@ -377,7 +377,7 @@ public class ControlJuego {
 
 	/**
 	 * Retornar barco.
-	 * Me retorna un barco de usuario dependiendo del tamaño
+	 * Me retorna un barco de usuario dependiendo del tamano
 	 * @param tamano the tamano
 	 * @return the barcos
 	 */
@@ -392,7 +392,7 @@ public class ControlJuego {
 	
 	/**
 	 * Retornar barco CPU.
-	 * Me retorna un barco de CPU dependiendo del tamaño
+	 * Me retorna un barco de CPU dependiendo del tamano
 	 * @param tamano the tamano
 	 * @return the barcos CPU
 	 */
@@ -489,7 +489,7 @@ public class ControlJuego {
 	/**
 	 * Gets the tamano barco.
 	 * Me recibe una posicion ( i,j) y un String para saber en que pantalla esta
-	 * y me da el tamaño
+	 * y me da el tamano
 	 * @param i the i
 	 * @param j the j
 	 * @param pantalla the pantalla
