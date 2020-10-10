@@ -86,7 +86,7 @@ public class VistaGUIBatallaNaval extends JFrame {
 	private JLabel[][] flota = new JLabel[10][10];
 
 	/** The iniciar denuevo. */
-	private JButton limpiar, confirmar, salir, instrucciones, verBarcosCPU, rendirse, confirmarAtaque, iniciarDenuevo;
+	private JButton limpiar, confirmar, salir, instrucciones, verBarcosCPU, rendirse, ayuda2, iniciarDenuevo;
 
 	/** The imagen. */
 	private ImageIcon imagen;
@@ -125,6 +125,8 @@ public class VistaGUIBatallaNaval extends JFrame {
 	private GridBagConstraints constraints;
 
 	private VerBarcosCPU ayuda;
+	
+	private AyudaImagenes ventanaAyuda;
 	
 	// methods
 
@@ -404,7 +406,7 @@ public class VistaGUIBatallaNaval extends JFrame {
 		add(zonaLogo, constraints);
 
 		zonaBotones.removeAll(); // Contiene el historial juego y el boton ver barcos CPU
-		historialJuego = new JTextArea(27, 5);
+		historialJuego = new JTextArea(27, 10);
 		historialJuego.setEditable(false);
 		JScrollPane scroll = new JScrollPane(historialJuego);
 		constraints.gridx = 2;
@@ -417,20 +419,20 @@ public class VistaGUIBatallaNaval extends JFrame {
 
 		zonaBotones.setLayout(new GridLayout(4, 1));
 		verBarcosCPU = new JButton("Ver barcos CPU");
-		verBarcosCPU.setPreferredSize(new Dimension(120, 30));
+		verBarcosCPU.setPreferredSize(new Dimension(120, 50));
 		verBarcosCPU.addActionListener(escucha);
 		rendirse = new JButton("Rendirse");
-		rendirse.setPreferredSize(new Dimension(120, 30));
+		rendirse.setPreferredSize(new Dimension(120, 50));
 		rendirse.addActionListener(escucha);
-		confirmarAtaque = new JButton("Confirmar ataque");
-		confirmarAtaque.setPreferredSize(new Dimension(120, 30));
-		confirmarAtaque.addActionListener(escucha);
+		ayuda2 = new JButton("Convenciones imagenes");
+		ayuda2.setPreferredSize(new Dimension(120, 50));
+		ayuda2.addActionListener(escucha);
 		iniciarDenuevo = new JButton("Iniciar de nuevo");
-		iniciarDenuevo.setPreferredSize(new Dimension(120, 30));
+		iniciarDenuevo.setPreferredSize(new Dimension(120, 50));
 		iniciarDenuevo.addActionListener(escucha);
 		zonaBotones.add(verBarcosCPU);
 		zonaBotones.add(rendirse);
-		zonaBotones.add(confirmarAtaque);
+		zonaBotones.add(ayuda2);
 		zonaBotones.add(iniciarDenuevo);
 		constraints.gridx = 2;
 		constraints.gridy = 2;
@@ -462,11 +464,17 @@ public class VistaGUIBatallaNaval extends JFrame {
 		public void actionPerformed(ActionEvent event) {
 			// TODO Auto-generated method stub
 			if (event.getSource() == verBarcosCPU) {
-				miMisma.setVisible(false);
+				
 				ayuda = new VerBarcosCPU(miMisma,control);
 				ayuda.setVisible(true);
 
 			}
+			if (event.getSource() == ayuda2) {
+				ventanaAyuda = new AyudaImagenes();
+				ventanaAyuda.setVisible(true);
+
+			}
+			
 			if (event.getSource() == instrucciones) {
 				String[] options = { "Aceptar" };
 				// mensajeL.setFont(new Font("Arial", Font.BOLD, 18));
@@ -479,7 +487,8 @@ public class VistaGUIBatallaNaval extends JFrame {
 								+ "				El segundo barco tiene un tamano de 3 casillas\n"
 								+ "				El tercer barco tiene un tamano de 2 casillas.\n"
 								+ "				El cuarto barco tiene un tamano de 1 casilla \n"
-								+ "               Nota: Solo se aceptan barcos de forma vertica y horizontal",
+								+ "             Nota: Solo se aceptan barcos de forma vertical y horizontal \n"
+								+"				El boton limpiar te permite poner los barcos de nuevo",
 						"INSTRUCCIONES", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options,
 						options[0]);
 			}

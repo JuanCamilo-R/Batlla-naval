@@ -97,6 +97,7 @@ public class AyudaImagenes extends JFrame {
 		contraints.gridy=2;
 		contraints.gridwidth=1;
 		contraints.gridheight=1;
+		contraints.anchor = GridBagConstraints.WEST;
 		add(textoHundido,contraints);
 
 		escucha = new Escuchas();
