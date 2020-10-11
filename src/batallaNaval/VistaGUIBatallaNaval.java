@@ -733,7 +733,7 @@ public class VistaGUIBatallaNaval extends JFrame {
 								}
 								posicionesEscoger.clear();
 							}
-						}//Aqui termina el if del source
+						}
 					}
 				}
 			}
