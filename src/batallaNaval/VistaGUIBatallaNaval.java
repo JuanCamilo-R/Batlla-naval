@@ -536,6 +536,7 @@ public class VistaGUIBatallaNaval extends JFrame {
 			
 			//Boton que muestra un JFrame que contiene los barcos del CPU
 			if (event.getSource() == verBarcosCPU) {
+				ayuda = new VerBarcosCPU(miMisma,control);
 				ayuda.setVisible(true);
 			}
 			
@@ -827,10 +828,10 @@ public class VistaGUIBatallaNaval extends JFrame {
 		}
 		//Si retorna 1 es porque el usuario perdio
 		if (control.perdio() == 1) {
-			JOptionPane.showMessageDialog(null,
-					"Se acabo \n Gano CPU \n De click en Iniciar de nuevo" + "\n si quiere volver a jugar");
 			historialJuego.append("El cpu tiro en [" + (int) control.retornarPosicion().getX() + ","
 					+ (int) control.retornarPosicion().getY() + "] \n");
+			JOptionPane.showMessageDialog(null,
+					"Se acabo \n Gano CPU \n De click en Iniciar de nuevo" + "\n si quiere volver a jugar");
 			for (int i = 0; i < 10; i++) {
 				for (int j = 0; j < 10; j++) {
 					casillasAtacar[i][j].removeActionListener(escucha);
@@ -892,7 +893,6 @@ public class VistaGUIBatallaNaval extends JFrame {
 						casillasAtacar[k][m].removeActionListener(escucha);
 					}
 				}
-
 			} else if (control.perdio() == 0) { //GANA USUARIO
 				historialJuego.append("El usuario tiro en[" + i + "," + j + "] \n");
 				JOptionPane.showMessageDialog(null,
