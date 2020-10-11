@@ -58,7 +58,7 @@ public class VerBarcosCPU extends JFrame {
 	private JLabel[] reglaVertical;
 	
 	/** The pantalla principal. */
-	private JFrame pantallaPrincipal;
+	private JFrame pantallaPrincipal, miMisma;
 	
 	/** The control. */
 	private ControlJuego control;
@@ -84,7 +84,7 @@ public class VerBarcosCPU extends JFrame {
 	 * Inits the GUI.
 	 */
 	private void initGUI () {
-		
+		miMisma = this;
 		this.getContentPane().setLayout(new GridBagLayout());
 		GridBagConstraints constraints = new GridBagConstraints();
 		pantalla = new JButton[10][10];
@@ -161,6 +161,7 @@ public class VerBarcosCPU extends JFrame {
 		public void actionPerformed(ActionEvent event) {
 			// TODO Auto-generated method stub
 			if(event.getSource() == volver) {
+				
 				pantallaPrincipal.setVisible(true);
 				dispose();
 			}
@@ -169,6 +170,7 @@ public class VerBarcosCPU extends JFrame {
 		
 	}
 	public void cerrar() {
+		this.dispose();
 		System.exit(0);
 	}
 	/**

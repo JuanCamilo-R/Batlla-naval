@@ -538,7 +538,6 @@ public class VistaGUIBatallaNaval extends JFrame {
 			if (event.getSource() == verBarcosCPU) {
 				ayuda = new VerBarcosCPU(miMisma,control);
 				ayuda.setVisible(true);
-
 			}
 			
 			//Boton que muestra un JFrame que contiene ayuda para el usuario entender
@@ -692,7 +691,7 @@ public class VistaGUIBatallaNaval extends JFrame {
 				setResizable(false);
 				setVisible(true);
 				setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+				ayuda.cerrar();
 			}
 			
 			try {
@@ -809,8 +808,6 @@ public class VistaGUIBatallaNaval extends JFrame {
 	private void jugar() {
 		control.ataque(null);
 		//Ponemos donde tiro el CPU
-		historialJuego.append("El cpu tiro en [" + (int) control.retornarPosicion().getX() + ","
-				+ (int) control.retornarPosicion().getY() + "] \n");
 		if(control.hayBarco((int)control.retornarPosicion().getX(),(int) control.retornarPosicion().getY())) {
 			casillas[(int)control.retornarPosicion().getX()][(int) control.retornarPosicion().getY()].setBackground(new Color(67,179,174));
 			imagen = new ImageIcon("src/imagenes/tocado2.png");
@@ -850,6 +847,8 @@ public class VistaGUIBatallaNaval extends JFrame {
 				}
 			}
 		}else {
+			historialJuego.append("El cpu tiro en [" + (int) control.retornarPosicion().getX() + ","
+					+ (int) control.retornarPosicion().getY() + "] \n");
 			if(empiezaUsuario == true) {
 				ronda++;
 				historialJuego.append("Ronda: "+ronda+"\n");
