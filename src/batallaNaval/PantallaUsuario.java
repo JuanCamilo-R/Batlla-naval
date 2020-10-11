@@ -42,7 +42,9 @@ private Barcos [][] barcosPantalla = new Barcos[10][10];
 		int distancia = ((int) Math.sqrt(Math.pow(x2-x1,2)+Math.pow(y2-y1,2))) + 1;
 		//Pregunta si los puntos dados estan disponibles, dado su tamano y que los puntos no esten en diagonal
 		if(barcosPantalla[x1][y1]==null && barcosPantalla[x2][y2]==null && tamano ==distancia && (x1==x2 || y1==y2 )) {
+			//Pregunta si tamano es mayor a 2
 			if(tamano > 2) {
+				//Pregunta si las posiciones entre los puntos (x1,y1) y (x2,y2) estan disponibles
 				if(verificarMitad(x1, y1, x2, y2, tamano)) {
 					return true;
 				}
@@ -81,7 +83,8 @@ private Barcos [][] barcosPantalla = new Barcos[10][10];
 	}
 	
 	/**
-	 * Verificar mitad.
+	 * Verificar mitad. Verifica que las posiciones entre los puntos
+	 *(x1,y1) y (x2,y2) esten disponibles
 	 *
 	 * @param x1 the x 1
 	 * @param y1 the y 1
@@ -91,27 +94,34 @@ private Barcos [][] barcosPantalla = new Barcos[10][10];
 	 * @return true, if successful
 	 */
 	protected boolean verificarMitad(int x1,int y1,int x2, int y2,int tamano) {
+		//Define la direccion en la que se van a verificar las posiciones
+		//1 si es de izquierda a derecha o de arriba hacia abajo
+		//-1 si es de derecha a izquierda o de abajo hacia arriba
 		int direccion = 1;
+		//Pregunta si los puntos dados como parametros estan en la misma fila
 		if(x1==x2) {
+			//Pregunta si el segundo punto esta a la izquierda del primero
 			if(y2-y1<0) {
 				direccion=-1;
 			}
-		}
-		if(y1==y2) {
-			if(x2-x1<0) {
-				direccion=-1;
-			}
-		}
-		if( x1 == x2) {
+			//Verifica que los puntos entre el primero y el segundo esten disponibles
 			for(int i = 0; i <= Math.abs(y2-y1)-1; i++) {
+				//Pregunta si el punto que se esta evaluando esta ocupado
 				if(barcosPantalla[x1][y1+i*direccion] != null) {
 					return false;
 			 	}
 			}
 			return true;
 		}
-		else if( y1 == y2 ) {
+		//Pregunta si los puntos dados como parametros estan en la misma columna
+		else if(y1==y2) {
+			//Pregunta si el segundo punto esta arriba del primero
+			if(x2-x1<0) {
+				direccion=-1;
+			}
+			//Verifica que los puntos entre el primero y el segundo esten disponibles
 			for(int i = 1; i <= Math.abs(x2-x1)-1; i++) {
+				//Pregunta si el punto que se esta evaluando esta ocupado
 				if(barcosPantalla[x1+i*direccion][y1] != null) {
 					return false;
 				}
@@ -169,12 +179,10 @@ private Barcos [][] barcosPantalla = new Barcos[10][10];
 			
 			barco.setSeleccionado(true);
 		}
-		else {
-		}
 	}
 	
 	/**
-	 * Limpiar pantalla.
+	 * Limpiar pantalla. Elimina todos los barcos de la pantalla
 	 */
 	public void limpiarPantalla() {
 		for(int i = 0; i < 10; i++) {
@@ -207,7 +215,8 @@ private Barcos [][] barcosPantalla = new Barcos[10][10];
 	}
 	
 	/**
-	 * Atacar barco.
+	 * Atacar barco. 
+	 * Ataca el barco presente en la posicion que recibe como parametro
 	 *
 	 * @param posicion the posicion
 	 */

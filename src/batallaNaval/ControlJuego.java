@@ -28,11 +28,6 @@ public class ControlJuego {
 	 * Barcos de CPU
 	*/
 	private ArrayList<Barcos> barcosCPU;
-	
-	/** The posicion ataca CPU. 
-	 * Se guardan las posiciones donde va atacar la CPU
-	 * */
-	private ArrayList<Point> posicionAtacaCPU = new ArrayList<Point>();
 
 
 	/**   Matrices de posiciones atacadas, se crean para decir que casilla ha sido atacada(tocada). */
@@ -231,31 +226,48 @@ public class ControlJuego {
 
 	/**
 	 * Inteligencia CPU.
+	 * Funcion tipo void que escoge y ataca aleatoriamente una posicion de la pantalla del usuario
+	 * Si ataca exitosamente un barco y no lo destruye por completo, cambia el atributo activarMaxInteligenciaCPU a verdadero.
+	 * Si el atributo activarMaxInteligenciaCPU es verdadero, ejecuta la funcion maxInteligenciaCPU en lugar de esta.
 	 */
-	public void inteligenciaCPU() { // decide que posiciones va a elegir.
-		posicionAtacaCPU.clear();
+	public void inteligenciaCPU() {
+		//Pregunta si activarMaxInteligenciaCPU es verdadero y si la inteligencia ha intentado dar con el barco sin exito menos de 10 veces
 		if (activarMaxInteligenciaCPU && intentos < 10) {
 			maxInteligenciaCPU();
 		} else {
+			//Reinicia el numero de intentos
 			intentos = 0;
+			//En caso de que activarMaxInteligencia sea verdadero, lo cambia a falso
 			activarMaxInteligenciaCPU = false;
 			Point posicion = new Point();
+			//Escoge un punto aleatorio de (0,0) a (9,9)
 			posicion.setLocation(aleatorio.nextInt(10), aleatorio.nextInt(10));
+			//Pregunta si hay un barco del usuario en ese punto y si no se ha atacado todavia
 			if (pantallaUsuario.hayBarco((int) posicion.getX(), (int) posicion.getY())
 					&& posicionesAtacadasCPU[posicion.x][posicion.y] == 0) {
+				//Cambia la posicion a atacada con exito (2)
 				posicionesAtacadasCPU[posicion.x][posicion.y] = 2;
+				//Informa que posicion se ha atacado
 				posicionAtacada = posicion;
+				//Se activa la inteligencia maxima
 				activarMaxInteligenciaCPU = true;
+				//Informa la ultima posicion conocida donde se ataco exitosamente
 				posicionReferencia = posicion;
+				//Ataca al barco del usuario en la posicion escogida
 				pantallaUsuario.atacarBarco(posicion);
+				//Pregunta si el barco ha sido destruido de inmediato
 				if (!pantallaUsuario.barcoVivo(posicionReferencia.x, posicionReferencia.y)) {
 					destruidos++;
+					//Desactiva la maxima inteligencia
 					activarMaxInteligenciaCPU = false;
 				}
+				//Pregunta si el punto aleatorio escogido ya ha sido atacado
 			} else if (posicionesAtacadasCPU[posicion.x][posicion.y] != 0) {
 				inteligenciaCPU();
 			} else {
+				//Cambia la posicion a atacado (1)
 				posicionesAtacadasCPU[posicion.x][posicion.y] = 1;
+				//Informa que posicion se ha atacado
 				posicionAtacada = posicion;
 			}
 		}
@@ -263,38 +275,64 @@ public class ControlJuego {
 
 	/**
 	 * Max inteligencia CPU.
+	 * Funcion tipo void que, despues de atacar exitosamente un barco del usuario y no haberlo destruido, 
+	 * ataca posiciones cercanas a la ultima posicion conocida exitosa hasta acabar con el.
+	 * Cuando logra destruirlo, cambia el atributo activarMaxInteligenciaCPU a falso
 	 */
 	public void maxInteligenciaCPU() {
+		//Pregunta si aun no se han determinado las posibles direcciones en las que puede encontrar los restos del barco
 		if (direccionesPosibles.isEmpty()) {
+			//Pregunta si la componente x de la posicion referencia no es el origen de la pantalla
 			if (posicionReferencia.x != 0) {
+				//Añade la direccion "arriba" (-1,0)
 				direccionesPosibles.add(new Point(-1, 0));
 			}
+			//Pregunta si la componente x de la posicion referencia no es el fin de la pantalla
 			if (posicionReferencia.x != 9) {
+				//Añade la direccion "abajo" (1,0)
 				direccionesPosibles.add(new Point(1, 0));
 			}
+			//Pregunta si la componente y de la posicion referencia no es el origen de la pantalla
 			if (posicionReferencia.y != 0) {
+				//Añade la direccion "izquierda" (0,-1)
 				direccionesPosibles.add(new Point(0, -1));
 			}
+			//Pregunta si la componente y de la posicion referencia no es el fin de la pantalla
 			if (posicionReferencia.y != 9) {
+				//Añade la direccion "derecha" (0,1)
 				direccionesPosibles.add(new Point(0, 1));
 			}
 		}
+		/*
+		Determina si en la direccion elegida no se han atacado los 4 (tamano maximo de un barco)
+		puntos mas cercanos a la posicion referencia. Inicia como falso (todos los 4 puntos mas cercanos ya se atacaron)
+		*/
 		boolean cercano = false;
+		//Determina la distancia entre el punto que se quiere atacar y la posicion referencia
+		//Inicia como 1 (el punto limita con la posicion referencia)
 		int escalar = 1;
+		//Determina el indice de la direccion elegida para atacar
 		int indexDireccionElegida;
+		//Pregunta si no hay una direccion preferida escogida aun (explicacion mas adelante)
 		if (indexDireccionPreferida == -1) {
+			//Escoge aleatoriamente el indice
 			indexDireccionElegida = aleatorio.nextInt(direccionesPosibles.size());
 		} else {
+			//Equipara el indice al indice de la direccion preferida
 			indexDireccionElegida = indexDireccionPreferida;
 		}
+		//Obtiene la direccion del indice escogido
 		Point direccionElegida = direccionesPosibles.get(indexDireccionElegida);
+		//Verifica si hay puntos cercanos disponibles para atacar en la direccion elegida
 		for (escalar = 1; escalar <= 4; escalar++) {
+			//Pregunta si el punto evaluado esta dentro de los limites de la pantalla
 			if (posicionReferencia.x + direccionElegida.x * escalar < 10
 					&& posicionReferencia.x + direccionElegida.x * escalar >= 0
 					&& posicionReferencia.y + direccionElegida.y * escalar < 10
 					&& posicionReferencia.y + direccionElegida.y * escalar >= 0) {
-				if (posicionesAtacadasCPU[posicionReferencia.x + direccionElegida.x * escalar][posicionReferencia.y
-						+ direccionElegida.y * escalar] == 0) {
+				//Pregunta si el punto evaluado no se ha atacado
+				if (posicionesAtacadasCPU[posicionReferencia.x + direccionElegida.x * escalar]
+						[posicionReferencia.y + direccionElegida.y * escalar] == 0) {
 					cercano = true;
 					break;
 				}
@@ -302,30 +340,50 @@ public class ControlJuego {
 				break;
 			}
 		}
+		//Pregunta si no hay puntos cercanos no atacados
 		if (!cercano) {
+			//Descarta la direccion actual
 			direccionesPosibles.remove(indexDireccionElegida);
+			//Concluye que la inteligencia maxima ha fracasado e incrementa el numero de intentos
 			intentos++;
 			inteligenciaCPU();
-		} else if (!pantallaUsuario.hayBarco(posicionReferencia.x + direccionElegida.x * escalar,
+		}
+		//Pregunta si en el punto que se quiere atacar no hay un barco
+		else if (!pantallaUsuario.hayBarco(posicionReferencia.x + direccionElegida.x * escalar,
 				posicionReferencia.y + direccionElegida.y * escalar)) {
-			posicionesAtacadasCPU[posicionReferencia.x + direccionElegida.x * escalar][posicionReferencia.y
-					+ direccionElegida.y * escalar] = 1;
+			//Cambia la posicion a atacado (1)
+			posicionesAtacadasCPU[posicionReferencia.x + direccionElegida.x * escalar]
+					[posicionReferencia.y + direccionElegida.y * escalar] = 1;
+			//Concluye que la inteligencia maxima ha fracasado e incrementa el numero de intentos
 			intentos++;
-			posicionAtacada = new Point(posicionReferencia.x + direccionElegida.x * escalar,posicionReferencia.y
-					+ direccionElegida.y * escalar);
+			//Informa la posicion que se ha atacado
+			posicionAtacada = new Point(posicionReferencia.x + direccionElegida.x * escalar,
+					posicionReferencia.y + direccionElegida.y * escalar);
+			//Descarta la direccion actual
 			direccionesPosibles.remove(indexDireccionElegida);
 		} else {
+			//Concluye que la inteligencia maxima ha triunfado y resetea el numero de intentos
 			intentos = 0;
+			//Descarta todas las posibles direcciones
 			direccionesPosibles.clear();
+			//Añade la direccion escogida, puesto que ya sabe que ahi se encuentra el barco
 			direccionesPosibles.add(direccionElegida);
+			//Añade la direccion opuesta en caso de que la retaguardia del barco no haya sido atacada
 			direccionesPosibles.add(new Point(direccionElegida.x * -1, direccionElegida.y * -1));
+			//Determina la direccion preferida dependiendo de la ultima direccion donde se haya atacado el barco exitosamente
+			//Equipara la direccion preferida a la direccion actual
 			indexDireccionPreferida = 0;
+			//Cambia la posicion a atacado exitosamente (2)
 			posicionesAtacadasCPU[posicionReferencia.x + direccionElegida.x][posicionReferencia.y + direccionElegida.y] = 2;
+			//Informa la posicion que se ha atacado
 			posicionAtacada = new Point(posicionReferencia.x + direccionElegida.x * escalar, posicionReferencia.y + direccionElegida.y * escalar);
+			//Ataca al barco del usuario en la posicion escogida
 			pantallaUsuario.atacarBarco(new Point(posicionReferencia.x + direccionElegida.x * escalar,
 					posicionReferencia.y + direccionElegida.y * escalar));
+			//Actualiza la posicion referencia a la posicion donde se ha atacado
 			posicionReferencia.setLocation(posicionReferencia.x + direccionElegida.x * escalar,
 					posicionReferencia.y + direccionElegida.y * escalar);
+			//Pregunta si el barco ha sido destruido
 			if (!pantallaUsuario.barcoVivo(posicionReferencia.x, posicionReferencia.y)) {
 				destruidos++;
 				posicionesAtacadasCPU[posicionReferencia.x][posicionReferencia.y] = 3;
