@@ -101,22 +101,16 @@ private Barcos [][] barcosPantalla = new Barcos[10][10];
 			}
 		}
 		if( x1 == x2) {
-			System.out.println("Horizontal");
 			for(int i = 0; i <= Math.abs(y2-y1)-1; i++) {
-				System.out.println("Verificando posición x: "+(x1)+",y: "+(y1+i*direccion));
 				if(barcosPantalla[x1][y1+i*direccion] != null) {
-					System.out.println("Ocupado");
 					return false;
 			 	}
 			}
 			return true;
 		}
 		else if( y1 == y2 ) {
-			System.out.println("Vertical");
 			for(int i = 1; i <= Math.abs(x2-x1)-1; i++) {
-				System.out.println("Verificando posición x: "+(x1+i*direccion)+",y: "+(y1));
 				if(barcosPantalla[x1+i*direccion][y1] != null) {
-					System.out.println("Ocupado");
 					return false;
 				}
 			}
@@ -126,21 +120,6 @@ private Barcos [][] barcosPantalla = new Barcos[10][10];
 		return false;
 	}
 	
-	/**
-	 * Mostrar.
-	 */
-	public void mostrar() {
-		for(int i = 0; i < 10; i++) {
-			for(int j = 0; j < 10; j++) {
-				if(barcosPantalla[i][j] != null) {
-					System.out.print("1 ");
-				}else {
-					System.out.print("0 ");
-				}
-			}
-			System.out.print("\n");
-		}
-	}
 	/**
 	 * Poner barco.
 	 *

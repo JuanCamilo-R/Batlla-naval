@@ -40,9 +40,7 @@ import javax.swing.JToggleButton;
 import javax.swing.SwingConstants;
 import javax.swing.Timer;
 import javax.swing.border.TitledBorder;
-
 import javafx.scene.shape.Box;
-import misComponentes.Titulos;
 import javax.swing.UIManager;
 // TODO: Auto-generated Javadoc
 
@@ -50,54 +48,89 @@ import javax.swing.UIManager;
  * The Class VistaGUIBatallaNaval.
  */
 public class VistaGUIBatallaNaval extends JFrame {
-
-	/** The posiciones escoger. */
 	// attributes
+	/** The posiciones escoger.
+	 * 	Guarda la posicion de la casilla que escogio el usuario
+	 *  */
 	private ArrayList<Point> posicionesEscoger;
 
-	/** The control. */
+	/** The control. 
+	 *  Controla el juego
+	 * */
 	private ControlJuego control;
 	
 
-	/** The tipo barco escoger. */
+	/** The tipo barco escoger. 
+	 *  Cada tipo de barco tiene un nombre, cuando escoja uno se cambia ese String
+	 * */
 	private String tipoBarcoEscoger = "";
 
 	/** The tamano barco escoger. */
 	private int tamanoBarcoEscoger = 0, ronda = 1;
 
-	
+	/** The tamano barco escoger.
+	 * Cada tipo de barco tiene un tamano, cuando escoja uno se cambia ese Int
+	 * */
 
-	/** The zona atacar. */
-	private JPanel zonaUnidades, zonaCasillas, zonaLogo, zonaBotones, zonaCasillasAtacar, zonaAtacar;
+	/** The zona atacar. 
+	 * Jpanel para el diseño de la ventana
+	 * ZonaUnidades para poner un boton que contiene cada tipo de barco
+	 * ZonaCasillas donde pongo los barcos del usuario
+	 * ZonaLogo para poner el logo del juego
+	 * ZonaBotones donde pongo los botones que necesite segun la ventana
+	 * ZonaAtacar casillas donde voy atacar al CPU
+	 * */
+	private JPanel zonaUnidades, zonaCasillas, zonaLogo, zonaBotones, zonaAtacar;
 
-	/** The casillas. */
-	private JButton[][] casillas = new JButton[10][10]; // Casillas donde se pone los barcos
+	/** The casillas. 
+	 * Casillas donde se pone los barcos del usuario
+	 * */
+	private JButton[][] casillas = new JButton[10][10]; 
 
-	/** The casillas atacar. */
+	/** The casillas atacar.
+	 *  Casillas donde voy atacar
+	 *  */
 	private JButton[][] casillasAtacar = new JButton[10][10];
 
 	/** The regla vertical ataque. */
 	private JLabel[] reglaHorizontal, reglaVertical, reglaHorizontalAtaque, reglaVerticalAtaque;
 
-	/** The historial juego. */
+	/** The historial juego.
+	 * Ponemos cuales han sido mis ataques y los del CPU, y quien inicia
+	 *  */
 	private JTextArea historialJuego;
 
-	/** The flota. */
-	private JLabel[][] flota = new JLabel[10][10];
-
-	/** The iniciar denuevo. */
+	/** The iniciar denuevo.
+	 * Uso de los botones:
+	 * limpiar: Para que el usuario vuelva a poner todos sus barcos en caso de que quiera
+	 * confirmar: cuando ya el usuario pone todos sus barcos al dar confimar se da inicio al juego
+	 * salir: para abandonar el juego
+	 * instrucciones: Explicarle al usuario como poner los barcos
+	 * verBarcosCPU: para mirar donde estan ubicados los barcos del CPU
+	 * rendirse: Para salirse del juego
+	 * ayuda2: Se explica las convenciones de las imagenes
+	 * iniciarDeNuevo: Para iniciar un nuevo juego
+	 *  */
 	private JButton limpiar, confirmar, salir, instrucciones, verBarcosCPU, rendirse, ayuda2, iniciarDenuevo;
 
-	/** The imagen. */
+	/** The imagen. 
+	 * Para poner las imaganes necesarias
+	 * */
 	private ImageIcon imagen;
 
-	/** The buffer image. */
+	/** The buffer image. 
+	 * Para dividir las imagenes
+	 * */
 	private BufferedImage bufferImage = null;
 
-	/** The titulo. */
+	/** The titulo. 
+	 * Titulos a los JFrame
+	 * */
 	private Titulos titulo;
 
-	/** The escucha. */
+	/** The escucha.
+	 * Escuchas de la clase
+	 *  */
 	private Escuchas escucha;
 
 	/** The plane. */
@@ -106,26 +139,44 @@ public class VistaGUIBatallaNaval extends JFrame {
 	/** The unidades. */
 	private ButtonGroup unidades;
 
-	/** The planes. */
+	/** The planes. 
+	 * Indica que puedo poner 4 barcos de tipo planes
+	 * */
 	private int planes = 4;
 
-	/** The destroyers. */
+	/** The destroyers. 
+	 * Indica que puedo poner 3 barcos de tipo destroyers
+	 * */
 	private int destroyers = 3;
 
-	/** The cruisers. */
+	/** The cruisers. 
+	 * Indica que puedo poner 2 barcos de tipo cruisers
+	 * */
 	private int cruisers = 2;
 
-	/** The battleships. */
+	/** The battleships. 
+	 * Indica que puedo poner 1 barco de tipo battleships
+	 * */
 	private int battleships = 1;
 
-	/** The mi misma. */
+	/** The mi misma. 
+	 * Referencia a la ventana
+	 * */
 	private JFrame miMisma = this;
 
-	/** The constraints. */
+	/** The constraints. 
+	 * Contenedor usado
+	 * */
 	private GridBagConstraints constraints;
 
+	/** The ayuda. 
+	 * Ventana para ver los barcos los CPU
+	 * */
 	private VerBarcosCPU ayuda;
 	
+	/** The ventana ayuda. 
+	 * Ventana para explicarle al usuario las imagenes que salen al tocar una casilla
+	 * */
 	private AyudaImagenes ventanaAyuda;
 	
 	private boolean empiezaUsuario = false;
@@ -136,6 +187,7 @@ public class VistaGUIBatallaNaval extends JFrame {
 	 * Instantiates a new vista GUI batalla naval.
 	 */
 	public VistaGUIBatallaNaval() {
+		//Se iniciar al GUI, se crean los barcos y se da inicio al juego
 		initGUI();
 		crearJuego();
 		ayuda = new VerBarcosCPU(miMisma, control);
@@ -149,33 +201,36 @@ public class VistaGUIBatallaNaval extends JFrame {
 	}
 
 	/**
-	 * Crear juego.
+	 * metodo void de la clase Crear juego.
+	 * Condiciones iniciales del juego
 	 */
 	private void crearJuego() {
 		control.iniciarJuegoCPU();
 	}
 
 	/**
-	 * Inits the GUI.
+	 * Se ponen las componentes de la ventana(botones,label,Jpanel)
 	 */
 	private void initGUI() {
-		
 		
 		control = new ControlJuego();
 		// Posiciones escoger
 		posicionesEscoger = new ArrayList<Point>();
+		
 		// Inicializar escucha.
 		escucha = new Escuchas();
 		this.getContentPane().setLayout(new GridBagLayout());
 		constraints = new GridBagConstraints();
+		
+		//Ponemos un titulo en el JFrame
 		titulo = new Titulos("¡Organiza tu flota!", 30, Color.black);
 		constraints.gridx = 0;
 		constraints.gridy = 0;
 		constraints.gridwidth = 3;
 		constraints.fill = GridBagConstraints.HORIZONTAL;
-
 		add(titulo, constraints);
 
+		//Ponemos los botones, cada uno tiene un tipo de barco
 		zonaUnidades = new JPanel();
 		zonaUnidades.setLayout(new BoxLayout(zonaUnidades, BoxLayout.Y_AXIS));
 		imagen = new ImageIcon("src/imagenes/Battleship.png");
@@ -188,7 +243,6 @@ public class VistaGUIBatallaNaval extends JFrame {
 		cruiser.addActionListener(escucha);
 		cruiser.setIcon(imagen);
 		cruiser.setVerticalTextPosition(SwingConstants.TOP);
-
 		imagen = new ImageIcon("src/imagenes/Destroyer.png");
 		destroyer = new JToggleButton("" + destroyers);
 		destroyer.addActionListener(escucha);
@@ -218,8 +272,9 @@ public class VistaGUIBatallaNaval extends JFrame {
 		constraints.gridwidth = 1;
 		constraints.gridheight = 2;
 		constraints.fill = GridBagConstraints.BOTH;
-
 		add(zonaUnidades, constraints);
+		
+		//JPanel de las casillas de los barcos del usuario y donde voy atacar
 		zonaAtacar = new JPanel(new GridLayout(11, 11));
 		zonaCasillas = new JPanel();
 		zonaCasillas.setLayout(new GridLayout(11, 11));
@@ -243,6 +298,7 @@ public class VistaGUIBatallaNaval extends JFrame {
 					casillas[i][j - 1].addActionListener(escucha);
 					casillas[i][j - 1].setPreferredSize(new Dimension(50, 50));
 					casillas[i][j - 1].setBackground(Color.blue);
+					//Agregamos la casillas donde el usuario pone los barcos
 					zonaCasillas.add(casillas[i][j - 1]);
 				}
 			}
@@ -252,9 +308,9 @@ public class VistaGUIBatallaNaval extends JFrame {
 		constraints.gridwidth = 2;
 		constraints.gridheight = 1;
 		constraints.fill = GridBagConstraints.NONE;
-
 		add(zonaCasillas, constraints);
 
+		//Logo del juego
 		zonaLogo = new JPanel();
 		JLabel Logo = new JLabel();
 		imagen = new ImageIcon("src/imagenes/Logo.png");
@@ -267,6 +323,7 @@ public class VistaGUIBatallaNaval extends JFrame {
 		constraints.fill = GridBagConstraints.NONE;
 		add(zonaLogo, constraints);
 
+		//Botones que se van a usar para el usuario
 		zonaBotones = new JPanel();
 		zonaBotones.setLayout(new GridLayout(4, 1));
 		zonaBotones.setPreferredSize(new Dimension(150, 100));
@@ -332,8 +389,10 @@ public class VistaGUIBatallaNaval extends JFrame {
 	/**
 	 * Redisenar.
 	 */
-	// Redisena la interfaz despues de colocar los 10 barcos.
+	// Redisena la interfaz despues de colocar los 10 barcos
+	//se añaden las casillas donde vamos atacar, nuevos botones y el historial del juego
 	private void redisenar() {
+		//Borramos lo que tenia el contenedor
 		getContentPane().removeAll();
 		
 		this.getContentPane().setLayout(new GridBagLayout());
@@ -341,6 +400,7 @@ public class VistaGUIBatallaNaval extends JFrame {
 		zonaBotones.removeAll();
 		remove(zonaUnidades);
 		this.repaint();
+		//Creamos las casillas donde vamos atacar
 		for (int i = 0; i < 10; i++) {
 			for (int j = 0; j < 10; j++) {
 				casillasAtacar[i][j] = new JButton();
@@ -365,15 +425,16 @@ public class VistaGUIBatallaNaval extends JFrame {
 				} else {
 					casillasAtacar[i][j - 1] = new JButton();
 					casillasAtacar[i][j - 1].addActionListener(escucha);
-					// Cambie esto
 					casillasAtacar[i][j - 1].setPreferredSize(new Dimension(45, 45));
-
 					casillasAtacar[i][j - 1].setBackground(Color.blue);
 					casillas[i][j - 1].setPreferredSize(new Dimension(45, 45));
+					//agregamos las casillas donde ataca el usuario
 					zonaAtacar.add(casillasAtacar[i][j - 1]);
 				}
 			}
 		}
+		
+		//Ponemos de nuevo el titulo del juego
 		titulo.setText("ATACA!");
 		titulo.setFont(new Font(titulo.getText(), 1, 30));
 		constraints.gridx = 0;
@@ -383,23 +444,25 @@ public class VistaGUIBatallaNaval extends JFrame {
 		constraints.fill = GridBagConstraints.BOTH;
 		add(titulo, constraints);
 
+		//Agregamos la zonaCasillas(los barcos del usuario)
 		zonaCasillas.setBorder(new TitledBorder("Mis barcos"));
-
 		constraints.gridx = 0;
 		constraints.gridy = 1;
 		constraints.gridwidth = 1;
 		constraints.gridheight = 1;
 		constraints.fill = GridBagConstraints.BOTH;
 		add(zonaCasillas, constraints);
-
+		
+		//Ponemos las casillas donde vamos atacar
 		zonaAtacar.setBorder(new TitledBorder("Zona Atacar"));
 		constraints.gridx = 1;
 		constraints.gridy = 1;
 		constraints.gridwidth = 1;
 		constraints.gridheight = 1;
 		constraints.fill = GridBagConstraints.BOTH;
-		add(zonaAtacar, constraints); // zona de ataque
-
+		add(zonaAtacar, constraints); 
+		
+		//Ponemos el logo
 		constraints.gridx = 0;
 		constraints.gridy = 2;
 		constraints.gridwidth = 1;
@@ -407,7 +470,8 @@ public class VistaGUIBatallaNaval extends JFrame {
 		constraints.fill = GridBagConstraints.NONE;
 		add(zonaLogo, constraints);
 
-		zonaBotones.removeAll(); // Contiene el historial juego y el boton ver barcos CPU
+		// Contiene el historial juego y el boton ver barcos CPU
+		zonaBotones.removeAll(); 
 		historialJuego = new JTextArea(27, 10);
 		historialJuego.setEditable(false);
 		JScrollPane scroll = new JScrollPane(historialJuego);
@@ -416,9 +480,9 @@ public class VistaGUIBatallaNaval extends JFrame {
 		constraints.gridwidth = 1;
 		constraints.gridheight = 1;
 		constraints.fill = GridBagConstraints.HORIZONTAL;
-		// constraints.anchor = GridBagConstraints.NORTHWEST;
 		add(scroll, constraints);
 
+		//Ponemos los nuevos botones
 		zonaBotones.setLayout(new GridLayout(4, 1));
 		verBarcosCPU = new JButton("Ver barcos CPU");
 		verBarcosCPU.setPreferredSize(new Dimension(150, 50));
@@ -462,21 +526,25 @@ public class VistaGUIBatallaNaval extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent event) {
 			// TODO Auto-generated method stub
+			
+			//Boton que muestra un JFrame que contiene los barcos del CPU
 			if (event.getSource() == verBarcosCPU) {
-				
 				ayuda = new VerBarcosCPU(miMisma,control);
 				ayuda.setVisible(true);
 
 			}
+			
+			//Boton que muestra un JFrame que contiene ayuda para el usuario entender
+			//las imagenes que le sale al atacar
 			if (event.getSource() == ayuda2) {
 				ventanaAyuda = new AyudaImagenes();
 				ventanaAyuda.setVisible(true);
 
 			}
 			
+			//Mensaje de instruccion de como se deben poner los barcos
 			if (event.getSource() == instrucciones) {
 				String[] options = { "Aceptar" };
-				// mensajeL.setFont(new Font("Arial", Font.BOLD, 18));
 				JOptionPane.showOptionDialog(null,
 						"Para iniciar el juego debes colocar todos los barcos y dar en confirmar \n"
 								+ "				Para colocar un barco:  \n"
@@ -491,10 +559,12 @@ public class VistaGUIBatallaNaval extends JFrame {
 						"INSTRUCCIONES", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options,
 						options[0]);
 			}
+			
+			//Boton para salirse del juego
 			if (event.getSource() == salir) {
 				System.exit(0);
 			} else if (event.getSource() == limpiar) {
-
+				//El boton limpiar sirve por si el usuario quiere poner de nuevo sus barcos
 				// Limpiamos el string
 				tipoBarcoEscoger = "";
 				for (int i = 0; i < 10; i++) {
@@ -517,51 +587,71 @@ public class VistaGUIBatallaNaval extends JFrame {
 				unidades.clearSelection();
 				// Limpiar toda la matriz
 			} else if (event.getSource() == confirmar) {
+				/*Cuando se ponen todos los barcos y se da en confirmar se redisena la
+				 * ventana y empieza el usuario ya puede atacar los barcos del CPU */
+				
+				//Se verifica que el usuario ya puso todos sus barcos
 				if (cruisers == 0 && battleships == 0 && destroyers == 0 && planes == 0) {
+					
 					// Remover los escuchas de las casillas de los barcos aliados.
 					for (int i = 0; i < 10; i++) {
 						for (int j = 0; j < 10; j++) {
 							casillas[i][j].removeActionListener(escucha);
 						}
 					}
+					//Rediseñamos la ventana para poner la zonaAtaque, otros botones y el historial del juego
 					redisenar();
 
-					// Empieza el juego
+
 					historialJuego.append("Ronda: "+ronda+ "\n");
-					if (control.retornarTurno() == 1) {
+					if (control.retornarTurno() == 1) { //Empieza usuario
 						empiezaUsuario = true;
 						historialJuego.append("Empieza el usuario \n");
 					} else {
+						//Empieza CPU
 						empiezaUsuario = false;
-						//historialJuego.append("Empieza CPU \n");
+						historialJuego.append("Empezo CPU \n");
 						jugar();
 					}
 				} else {
+					//Si no ha puesto todos lols barcos le informamos que lo debe hacer
 					JOptionPane.showMessageDialog(null, "Coloque todos los barcos");
 				}
 
-			} else if (event.getSource() == plane && Integer.parseInt(plane.getText()) != 0) { // Tamano 1, cantidad: 4
+			} else if (event.getSource() == plane && Integer.parseInt(plane.getText()) != 0) { 
+				/*Si se presiona ese boton quiere decir que el usuario quiere poner ese barco
+				que tiene estas caracteristicas:
+				 Tamano 1, cantidad: 4*/
 				tipoBarcoEscoger = "plane";
 				tamanoBarcoEscoger = 1;
 				posicionesEscoger.clear();
 
-			} else if (event.getSource() == battleship && Integer.parseInt(battleship.getText()) != 0) { // Tamano 4,
-																											// cantidad
-																											// 1
+			} else if (event.getSource() == battleship && Integer.parseInt(battleship.getText()) != 0) { 
+				/*Si se presiona ese boton quiere decir que el usuario quiere poner ese barco
+				que tiene estas caracteristicas:
+				 Tamano 4, cantidad: 1*/
 				tipoBarcoEscoger = "battleship";
-				System.out.print("Entro aqui");
 				tamanoBarcoEscoger = 4;
 				posicionesEscoger.clear();
-			} else if (event.getSource() == destroyer) { // tamano 2 , cantidad: 3
+				
+			} else if (event.getSource() == destroyer) { 
+				/*Si se presiona ese boton quiere decir que el usuario quiere poner ese barco
+				que tiene estas caracteristicas:
+				 tamano 2 , cantidad: 3*/
 				tipoBarcoEscoger = "destroyer";
 				tamanoBarcoEscoger = 2;
 				posicionesEscoger.clear();
-			} else if (event.getSource() == cruiser) { // tamano 3 , cantidad: 2
+				
+			} else if (event.getSource() == cruiser) { 
+				/*Si se presiona ese boton quiere decir que el usuario quiere poner ese barco
+				que tiene estas caracteristicas:
+				tamano 3 , cantidad: 2*/
 				tamanoBarcoEscoger = 3;
 				tipoBarcoEscoger = "cruiser";
 				posicionesEscoger.clear();
 			}
-			// Volver a iniciar Juego
+			
+			// Si quiere volver a jugar, volvemos  las condiciones iniciales
 			if (event.getSource() == iniciarDenuevo) {
 				getContentPane().removeAll();
 				tipoBarcoEscoger = "";
@@ -571,18 +661,21 @@ public class VistaGUIBatallaNaval extends JFrame {
 					}
 				}
 				control.limpiarBarcos();
+				
 				// Actualizamos las cantidades de los barcos
 				planes = 4;
 				battleships = 1;
 				cruisers = 2;
 				destroyers = 3;
 				actualizar();
+				
 				// Activamos los botones
 				plane.setEnabled(true);
 				battleship.setEnabled(true);
 				cruiser.setEnabled(true);
 				destroyer.setEnabled(true);
 				unidades.clearSelection();
+				//Iniciamos la GUI
 				initGUI();
 				control.iniciarJuegoCPU();
 				setTitle("Batalla Naval");
@@ -593,17 +686,9 @@ public class VistaGUIBatallaNaval extends JFrame {
 				setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 			}
+			
 
-			// Turno aliado
-			for (int i = 0; i < 10; i++) {
-				for (int j = 0; j < 10; j++) {
-					if (event.getSource() == casillasAtacar[i][j]) {
-						ataqueAliado(i, j);
-					}
-				}
-			}
-
-			// Colocar barcos
+			//Para que el usuario ponga los barcos
 			for (int i = 0; i < 10; i++) {
 				for (int j = 0; j < 10; j++) {
 					if (casillas[i][j] == event.getSource()) {
@@ -642,17 +727,27 @@ public class VistaGUIBatallaNaval extends JFrame {
 									}
 
 									actualizar();
-								} else {
-
-									JOptionPane.showMessageDialog(null, "No coloco barco, intentalo de nuevo");
-								}
-								posicionesEscoger.clear();
-
+							} else {
+								//Sale en caso de que se pone un barco con tamano equivocado o de forma diagonal
+								JOptionPane.showMessageDialog(null, "No coloco barco, intentalo de nuevo");
 							}
+								posicionesEscoger.clear();
 						}
 					}//Aqui termina el if del source
 				}
 			}
+			}
+			// Cuando el usuario va atacar le damos esa informacion a la funcion ataqueAliado
+						//pasandole la posicion que escogio
+						for (int i = 0; i < 10; i++) {
+							for (int j = 0; j < 10; j++) {
+								if (event.getSource() == casillasAtacar[i][j]) {
+									ataqueAliado(i, j);
+								}
+							}
+						}
+						
+			//Si el usuario se rinde tiene la opcion de salirse o seguir si le dio por equivacion
 			if (event.getSource() == rendirse) {
 				String[] options = { "Si", "No" };
 				int input = JOptionPane.showOptionDialog(null, "¿Seguro?", "Rendirse", JOptionPane.YES_NO_OPTION,
@@ -675,8 +770,10 @@ public class VistaGUIBatallaNaval extends JFrame {
 	 * Jugar.
 	 * Funcion que usa la CPU para jugar
 	 */
+	//Tira el CPU y ponemos las imagenes indiacado si es agua, tocado o hundido
 	private void jugar() {
 		control.ataque(null);
+		//Ponemos donde tiro el CPU
 		historialJuego.append("El cpu tiro en [" + (int) control.retornarPosicion().getX() + ","
 				+ (int) control.retornarPosicion().getY() + "] \n");
 		if(empiezaUsuario == true) {
@@ -691,7 +788,6 @@ public class VistaGUIBatallaNaval extends JFrame {
 				Barcos barquito = control.getBarco((int)control.retornarPosicion().getX(), (int) control.retornarPosicion().getY(), "A");
 				imagen = new ImageIcon("src/imagenes/hundido2.png");
 				for(int b = 0; b < barquito.getTamano(); b++) {
-					System.out.print("x: "+barquito.retornarX(b)+ " y: "+barquito.retornarY(b)+"\n");
 					casillas[barquito.retornarX(b)][barquito.retornarY(b)].setIcon(
 							new ImageIcon(imagen.getImage().getScaledInstance(45,45, Image.SCALE_DEFAULT)));
 				}
@@ -702,6 +798,7 @@ public class VistaGUIBatallaNaval extends JFrame {
 			imagen = new ImageIcon("src/imagenes/agua.png");
 			casillas[(int)control.retornarPosicion().getX()][(int)control.retornarPosicion().getY()].setIcon(new ImageIcon(imagen.getImage().getScaledInstance(45,45, Image.SCALE_DEFAULT)));
 		}
+		//Si retorna 1 es porque el usuario perdio
 		if (control.perdio() == 1) {
 			JOptionPane.showMessageDialog(null,
 					"Se acabo \n Gano CPU \n De click en Iniciar de nuevo" + "\n si quiere volver a jugar");
@@ -710,7 +807,7 @@ public class VistaGUIBatallaNaval extends JFrame {
 					casillasAtacar[i][j].removeActionListener(escucha);
 				}
 			}
-
+			//Si retorna 0 es porque el CPU perdio
 		} else if (control.perdio() == 0) {
 			JOptionPane.showMessageDialog(null,
 					"Se acabo \n Gano Usuario \n De click en Iniciar de nuevo" + "\n si quiere volver a jugar");
@@ -720,14 +817,17 @@ public class VistaGUIBatallaNaval extends JFrame {
 				}
 			}
 		}
+		
 		if (control.retornarTurno() == 1) {
 			//historialJuego.append("Tira Usuario \n");
 		}
 	}
 
 	/**
+	 * 
 	 * Ataque aliado.
-	 *
+	 *Recibe como parametro la posicion donde ataco el usuario
+	 * Tira el usuario y ponemos las imagenes indiacado si es agua, tocado o hundido
 	 * @param i the i
 	 * @param j the j
 	 */
@@ -775,25 +875,15 @@ public class VistaGUIBatallaNaval extends JFrame {
 					}
 				}
 			} else {
+				//Si no ha ganado tira CPU
 				jugar();
 			}
 		} else {
+			//Si escoge una casilla donde ya habia escogido antes
 			historialJuego.append("Escoge de nuevo \n");
 		}
 	}
 
-	// Escribir mensajes en el JTextArea historialJuego
-	
-	  public void slowPrint(String message, int millisPerChar) {
-	  
-		  Timer timer = new Timer(millisPerChar, null); timer.addActionListener(new
-				  ActionListener() { int counter = 0;
-	  
-				  @Override public void actionPerformed(ActionEvent e) {
-					  historialJuego.append(String.valueOf(message.charAt(counter++)));
-					  historialJuego.setCaretPosition(historialJuego.getDocument().getLength());
-					  if(counter>= message.length()) { timer.stop(); } } }); timer.start(); }
-	 
 
 	// Actualiza el estado de los JToggleButtons
 
@@ -841,7 +931,7 @@ public class VistaGUIBatallaNaval extends JFrame {
 		if (barcoAPintar.getTamano() == 1) {
 			casillas[barcoAPintar.retornarX(0)][barcoAPintar.retornarY(0)].setIcon(new ImageIcon(filePath));
 		} else {
-			// Ã¡ngulo de rotacion
+			// angulo de rotacion
 
 			int angulo = 0;
 
@@ -890,7 +980,6 @@ public class VistaGUIBatallaNaval extends JFrame {
 			}
 			bufferImage = rotateImageByDegrees(bufferImage, angulo);
 			for (int i = 0; i < barcoAPintar.getTamano(); i++) {
-				System.out.println("Barco en x: " + barcoAPintar.retornarX(i) + ",y: " + barcoAPintar.retornarY(i));
 				Image subimagen = bufferImage.getSubimage(
 						bufferImage.getWidth() * x0 + (i + posicionInicial) * xIncremento * 50,
 						bufferImage.getHeight() * y0 + (i + posicionInicial) * yIncremento * 50,
