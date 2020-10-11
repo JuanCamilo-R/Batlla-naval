@@ -168,7 +168,9 @@ public class VerBarcosCPU extends JFrame {
 		}
 		
 	}
-	
+	public void cerrar() {
+		System.exit(0);
+	}
 	/**
 	 * Pintar barco.
 	 *

@@ -768,6 +768,7 @@ public class VistaGUIBatallaNaval extends JFrame {
 
 				if (input == 0) {
 					JOptionPane.showMessageDialog(null, "Has abandonado el juego");
+					ayuda.cerrar();
 					System.exit(0);
 				} else {
 					// Sigue el juego
