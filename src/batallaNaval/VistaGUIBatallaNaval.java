@@ -715,7 +715,6 @@ public class VistaGUIBatallaNaval extends JFrame {
 										battleships--;
 										break;
 									case "cruiser":
-										System.out.print("Entro a cruisers");
 										cruisers--;
 										break;
 									case "destroyer":
@@ -727,15 +726,15 @@ public class VistaGUIBatallaNaval extends JFrame {
 									}
 
 									actualizar();
-							} else {
-								//Sale en caso de que se pone un barco con tamano equivocado o de forma diagonal
-								JOptionPane.showMessageDialog(null, "No coloco barco, intentalo de nuevo");
-							}
+								} else {
+									//Sale en caso de que se pone un barco con tamano equivocado o de forma diagonal
+									JOptionPane.showMessageDialog(null, "No coloco barco, intentalo de nuevo");
+								}
 								posicionesEscoger.clear();
-						}
-					}//Aqui termina el if del source
+							}
+						}//Aqui termina el if del source
+					}
 				}
-			}
 			}
 			// Cuando el usuario va atacar le damos esa informacion a la funcion ataqueAliado
 						//pasandole la posicion que escogio
