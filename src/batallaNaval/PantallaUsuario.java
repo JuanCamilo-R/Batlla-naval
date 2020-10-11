@@ -38,7 +38,9 @@ private Barcos [][] barcosPantalla = new Barcos[10][10];
 	 * @return true, if successful
 	 */
 	protected boolean estaDisponible(int x1,int y1,int x2, int y2,int tamano) {
+		//Calcula la distancia entre los puntos (x1,y1) y (y1,y2)
 		int distancia = ((int) Math.sqrt(Math.pow(x2-x1,2)+Math.pow(y2-y1,2))) + 1;
+		//Pregunta si los puntos dados estan disponibles, dado su tamano y que los puntos no esten en diagonal
 		if(barcosPantalla[x1][y1]==null && barcosPantalla[x2][y2]==null && tamano ==distancia && (x1==x2 || y1==y2 )) {
 			if(tamano > 2) {
 				if(verificarMitad(x1, y1, x2, y2, tamano)) {
@@ -182,15 +184,35 @@ private Barcos [][] barcosPantalla = new Barcos[10][10];
 		}
 	}
 	
+	/**
+	 * Gets the tamano barco.
+	 *
+	 * @param i the i
+	 * @param j the j
+	 * @return the tamano barco
+	 */
 	public int getTamanoBarco(int i, int j) {
 		return barcosPantalla[i][j].getTamano();
 	}
 	
+	/**
+	 * Gets the barco.
+	 *
+	 * @param i the i
+	 * @param j the j
+	 * @return the barco
+	 */
 	public Barcos getBarco(int i, int j) {
 		return barcosPantalla[i][j];
 	}
 	
+	/**
+	 * Atacar barco.
+	 *
+	 * @param posicion the posicion
+	 */
 	public void atacarBarco(Point posicion) {
 		barcosPantalla[posicion.x][posicion.y].atacado();
 	}
+	
 }

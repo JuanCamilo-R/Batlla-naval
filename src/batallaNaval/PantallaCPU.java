@@ -54,7 +54,7 @@ public class PantallaCPU extends PantallaUsuario {
 	
 	/**
 	 * Poner barco 2.
-	 *
+	 * Coloca los barcos de CPU
 	 * @param tamano the tamano
 	 * @param barquito the barquito
 	 */
@@ -62,6 +62,7 @@ public class PantallaCPU extends PantallaUsuario {
 		Random aleatorio= new Random();
 		Point direccion = new Point(0,0);
 		int x=0,y=0;
+		//Bucle que asigna las posiciones (x,y) de los barcos CPU
 		do {
 			x=aleatorio.nextInt(10);
 			y=aleatorio.nextInt(10);
@@ -89,6 +90,7 @@ public class PantallaCPU extends PantallaUsuario {
 			}
 		}while(!Disponible(x,y,direccion,tamano));
 		
+		//Se anaden los barcos CPU en la pantallaCPU (matriz enemiga)
 		for(int i=0 ;i < tamano; i++){
 			barquito.anadir(new Point( y+direccion.x*i, x+direccion.y*i));
 			barcosPantalla[y+direccion.x*i][x+direccion.y*i] = barquito;
@@ -135,9 +137,10 @@ public class PantallaCPU extends PantallaUsuario {
 	 *
 	 * @param x the x
 	 * @param y the y
-	 * @param dirección the dirección
+	 * @param direccion the direccion
 	 * @param tamano the tamano
 	 * @return true, if successful
+	 * Verifica que la posicion x, y generada en la funcion poner barco es valida
 	 */
 	private boolean Disponible(int x, int y, Point direccion, int tamano) {
 		// TODO Auto-generated method stub
@@ -161,6 +164,9 @@ public class PantallaCPU extends PantallaUsuario {
 	
 
 	
+	/**
+	 * Limpiar pantalla.
+	 */
 	public void limpiarPantalla() {
 		for(int i = 0; i < 10; i++) {
 			for(int j = 0; j < 10; j++) {
@@ -168,9 +174,25 @@ public class PantallaCPU extends PantallaUsuario {
 			}
 		}
 	}
+	
+	/**
+	 * Gets the tamano barco.
+	 *
+	 * @param i the i
+	 * @param j the j
+	 * @return the tamano barco
+	 */
 	public int getTamanoBarco(int i, int j) {
 		return barcosPantalla[i][j].getTamano();
 	}
+	
+	/**
+	 * Gets the barco.
+	 *
+	 * @param i the i
+	 * @param j the j
+	 * @return the barco
+	 */
 	public Barcos getBarco(int i, int j) {
 		return barcosPantalla[i][j];
 	}

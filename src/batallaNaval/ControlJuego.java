@@ -472,7 +472,7 @@ public class ControlJuego {
 	
 	/**
 	 * Esta vivo.
-	 * Metodo de tipo boolean que me verifica si el barco esta vivo, me reibe una posicion
+	 * Metodo de tipo boolean que me verifica si el barco esta vivo, me recibe una posicion
 	 *  A se refiere a que esta en pantallaUsuario
 	 * @param i the i
 	 * @param j the j

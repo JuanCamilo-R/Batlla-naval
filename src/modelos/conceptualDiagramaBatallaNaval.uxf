@@ -4,17 +4,23 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>140</x>
-      <y>260</y>
-      <w>180</w>
-      <h>100</h>
+      <x>130</x>
+      <y>160</y>
+      <w>240</w>
+      <h>180</h>
     </coordinates>
     <panel_attributes>PantallaUsuario
 --
 Array[][] numerosPantalla
 --
-public void estaDisponible()
-public void ponerBarco()</panel_attributes>
+estaDisponible()
+ponerBarco()
+barcoVivo()
+hayBarco()
+atacarBarco()
+limpiarBarco()
+getTamanoBarco()
+getBarco()</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -22,8 +28,8 @@ public void ponerBarco()</panel_attributes>
     <coordinates>
       <x>420</x>
       <y>220</y>
-      <w>250</w>
-      <h>150</h>
+      <w>230</w>
+      <h>230</h>
     </coordinates>
     <panel_attributes>ControlJuego
 --
@@ -34,89 +40,105 @@ pantallaCPU pantallaCPU
 determinarJuego()
 recibirPosiciones(int x, int y)
 decidirTurno()
-eliminarBarco()</panel_attributes>
+estaVivo()
+retornarBarcos()
+inteligenciaCPU()
+perdio()
+ataque()
+crearBarcos()</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>670</x>
-      <y>380</y>
-      <w>130</w>
-      <h>100</h>
+      <x>680</x>
+      <y>460</y>
+      <w>240</w>
+      <h>200</h>
     </coordinates>
     <panel_attributes>Barcos
 --
 int tamano
 int vecesTocado
+String direccion
+ArrayList&lt;Point&gt; posicionesAtacadas
 boolean vivo
 --
-public void atacar()
+atacar()
+posicionesAtacadas()
+atacado()
+atacar()
+anadir()
 </panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>400</x>
-      <y>460</y>
-      <w>180</w>
-      <h>70</h>
+      <x>440</x>
+      <y>570</y>
+      <w>200</w>
+      <h>160</h>
     </coordinates>
     <panel_attributes>VistaGUIBatallaNaval
 --
 ControlJuego control
 --
-public void verificador()
-</panel_attributes>
+verificador()
+ataqueAliado()
+jugar()
+actualizar()
+pintarBarco()
+redisenar()
+rotateImageByDegrees()</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>310</x>
-      <y>220</y>
-      <w>130</w>
-      <h>70</h>
+      <x>360</x>
+      <y>160</y>
+      <w>80</w>
+      <h>110</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-
 m1=1
 
 </panel_attributes>
-    <additional_attributes>10.0;50.0;110.0;10.0</additional_attributes>
+    <additional_attributes>10.0;10.0;60.0;90.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>450</x>
-      <y>360</y>
-      <w>70</w>
-      <h>120</h>
+      <x>490</x>
+      <y>440</y>
+      <w>40</w>
+      <h>150</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-
 m1=1</panel_attributes>
-    <additional_attributes>50.0;10.0;10.0;100.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;130.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
       <x>600</x>
-      <y>350</y>
-      <w>110</w>
+      <y>430</y>
+      <w>120</w>
       <h>60</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-
 m1=2
 </panel_attributes>
-    <additional_attributes>90.0;30.0;10.0;20.0</additional_attributes>
+    <additional_attributes>100.0;30.0;10.0;20.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
       <x>70</x>
-      <y>390</y>
-      <w>290</w>
-      <h>110</h>
+      <y>410</y>
+      <w>270</w>
+      <h>100</h>
     </coordinates>
     <panel_attributes>PantallaCPU
 --
@@ -124,29 +146,28 @@ Array[][] numerosPantalla
 ArrayList&lt;java.awt.Point&gt; posicionesTocadas
 --
 estaDisponible() 
-ponerBarco()
-</panel_attributes>
+ponerBarco()</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>350</x>
-      <y>280</y>
-      <w>90</w>
+      <x>330</x>
+      <y>300</y>
+      <w>110</w>
       <h>130</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-
 m1=1
 
 </panel_attributes>
-    <additional_attributes>10.0;110.0;70.0;10.0</additional_attributes>
+    <additional_attributes>10.0;110.0;90.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>260</x>
-      <y>580</y>
+      <x>360</x>
+      <y>810</y>
       <w>180</w>
       <h>70</h>
     </coordinates>
@@ -160,14 +181,14 @@ main</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>430</x>
-      <y>520</y>
-      <w>70</w>
-      <h>90</h>
+      <x>510</x>
+      <y>720</y>
+      <w>50</w>
+      <h>120</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-
 m1=1
 </panel_attributes>
-    <additional_attributes>10.0;70.0;50.0;10.0</additional_attributes>
+    <additional_attributes>30.0;100.0;10.0;10.0</additional_attributes>
   </element>
 </diagram>

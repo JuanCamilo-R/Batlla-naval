@@ -942,7 +942,7 @@ public class VistaGUIBatallaNaval extends JFrame {
 			int yIncremento = 1;
 			int posicionInicial = 0;
 
-			// Generaliza las variables anteriores dependiendo de la dirección del barco
+			// Generaliza las variables anteriores dependiendo de la direccion del barco
 
 			switch (barcoAPintar.getDireccion()) {
 			case "derecha":

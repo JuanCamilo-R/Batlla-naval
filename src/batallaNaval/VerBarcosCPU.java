@@ -27,18 +27,48 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class VerBarcosCPU.
+ */
 public class VerBarcosCPU extends JFrame {
+	
+	/** The pantalla. */
 	private JButton[][] pantalla; 
+	
+	/** The buffer image. */
 	private BufferedImage bufferImage; 
+	
+	/** The volver. */
 	private JButton volver;
+	
+	/** The escucha. */
 	private Escuchas escucha;
+	
+	/** The zona pantalla. */
 	private JPanel zonaPantalla;
+	
+	/** The zona boton. */
 	private JPanel zonaBoton;
+	
+	/** The regla horizontal. */
 	private JLabel[] reglaHorizontal;
+	
+	/** The regla vertical. */
 	private JLabel[] reglaVertical;
+	
+	/** The pantalla principal. */
 	private JFrame pantallaPrincipal;
+	
+	/** The control. */
 	private ControlJuego control;
 	
+	/**
+	 * Instantiates a new ver barcos CPU.
+	 *
+	 * @param pantallaPrincipal the pantalla principal
+	 * @param control the control
+	 */
 	public  VerBarcosCPU(JFrame pantallaPrincipal, ControlJuego control) {
 		this.pantallaPrincipal = pantallaPrincipal;
 		this.control = control;
@@ -50,7 +80,11 @@ public class VerBarcosCPU extends JFrame {
 		this.setLocationRelativeTo(null);
 	}
 	
+	/**
+	 * Inits the GUI.
+	 */
 	private void initGUI () {
+		
 		this.getContentPane().setLayout(new GridBagLayout());
 		GridBagConstraints constraints = new GridBagConstraints();
 		pantalla = new JButton[10][10];
@@ -64,12 +98,14 @@ public class VerBarcosCPU extends JFrame {
 		reglaHorizontal = new JLabel[11];
 		reglaVertical = new JLabel[10];
 		String texto = "[Y,X]";
+		//For que asigna el texto de la regla horizontal
 		for (int i=0;i<11;i++) {
 			reglaHorizontal[i] = new JLabel(texto);
 			reglaHorizontal[i].setHorizontalAlignment(SwingConstants.CENTER);
 			texto=""+i;
 			zonaPantalla.add(reglaHorizontal[i]);
 		}
+		//For que asigna el texto de la regla vertical
 		for (int i=0;i<10;i++) {
 			for(int j=0;j<11;j++) {
 				if(j==0) {
@@ -100,7 +136,7 @@ public class VerBarcosCPU extends JFrame {
 		zonaBoton.add(volver);
 		add(zonaBoton,constraints);
 
-		
+		//For que pinta los barcos enemigos.
 		for(int i = 0; i < 10; i++ ) {
 			pintarBarco(control.darBarcoPorIndice(i), 
 					control.darBarcoPorIndice(i).retornarTipoBarco(control.darBarcoPorIndice(i).getTamano()));
@@ -111,8 +147,16 @@ public class VerBarcosCPU extends JFrame {
 	
 	
 	
+	/**
+	 * The Class Escuchas.
+	 */
 	private class Escuchas implements ActionListener {
 
+		/**
+		 * Action performed.
+		 *
+		 * @param event the event
+		 */
 		@Override
 		public void actionPerformed(ActionEvent event) {
 			// TODO Auto-generated method stub
@@ -125,6 +169,12 @@ public class VerBarcosCPU extends JFrame {
 		
 	}
 	
+	/**
+	 * Pintar barco.
+	 *
+	 * @param barcoAPintar the barco A pintar
+	 * @param tipoBarcoEscoger the tipo barco escoger
+	 */
 	private void pintarBarco(Barcos barcoAPintar, String tipoBarcoEscoger) {
 		// TODO Auto-generated method stub
 		String filePath="src/imagenes/"+tipoBarcoEscoger+".png";
@@ -143,7 +193,7 @@ public class VerBarcosCPU extends JFrame {
 			int yIncremento=1;
 			int posicionInicial=0;
 			
-			//Generaliza las variables anteriores dependiendo de la dirección del barco
+			//Generaliza las variables anteriores dependiendo de la direccion del barco
 			
 			switch(barcoAPintar.getDireccion()) {
 			case "derecha":
@@ -190,6 +240,13 @@ public class VerBarcosCPU extends JFrame {
 		
 	}
 	
+	/**
+	 * Rotate image by degrees.
+	 *
+	 * @param img the img
+	 * @param angle the angle
+	 * @return the buffered image
+	 */
 	private BufferedImage rotateImageByDegrees(BufferedImage img, double angle) {
 
         double rads = Math.toRadians(angle);
@@ -216,4 +273,6 @@ public class VerBarcosCPU extends JFrame {
 
         return rotated;
     }
+	
 }
+
