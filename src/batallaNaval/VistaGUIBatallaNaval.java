@@ -63,7 +63,7 @@ public class VistaGUIBatallaNaval extends JFrame {
 	private String tipoBarcoEscoger = "";
 
 	/** The tamano barco escoger. */
-	private int tamanoBarcoEscoger = 0;
+	private int tamanoBarcoEscoger = 0, ronda = 1;
 
 	
 
@@ -127,6 +127,8 @@ public class VistaGUIBatallaNaval extends JFrame {
 	private VerBarcosCPU ayuda;
 	
 	private AyudaImagenes ventanaAyuda;
+	
+	private boolean empiezaUsuario = false;
 	
 	// methods
 
@@ -419,16 +421,16 @@ public class VistaGUIBatallaNaval extends JFrame {
 
 		zonaBotones.setLayout(new GridLayout(4, 1));
 		verBarcosCPU = new JButton("Ver barcos CPU");
-		verBarcosCPU.setPreferredSize(new Dimension(120, 50));
+		verBarcosCPU.setPreferredSize(new Dimension(150, 50));
 		verBarcosCPU.addActionListener(escucha);
 		rendirse = new JButton("Rendirse");
-		rendirse.setPreferredSize(new Dimension(120, 50));
+		rendirse.setPreferredSize(new Dimension(150, 50));
 		rendirse.addActionListener(escucha);
-		ayuda2 = new JButton("Convenciones imagenes");
-		ayuda2.setPreferredSize(new Dimension(120, 50));
+		ayuda2 = new JButton("Convenciones");
+		ayuda2.setPreferredSize(new Dimension(150, 50));
 		ayuda2.addActionListener(escucha);
 		iniciarDenuevo = new JButton("Iniciar de nuevo");
-		iniciarDenuevo.setPreferredSize(new Dimension(120, 50));
+		iniciarDenuevo.setPreferredSize(new Dimension(150, 50));
 		iniciarDenuevo.addActionListener(escucha);
 		zonaBotones.add(verBarcosCPU);
 		zonaBotones.add(rendirse);
@@ -445,9 +447,6 @@ public class VistaGUIBatallaNaval extends JFrame {
 		repaint();
 		pack();
 		miMisma.setLocationRelativeTo(null);
-		imagen = new ImageIcon("src/imagenes/fondo");
-		
-		//this.getContentPane().paintComponents();
 	}
 
 	/**
@@ -528,11 +527,13 @@ public class VistaGUIBatallaNaval extends JFrame {
 					redisenar();
 
 					// Empieza el juego
+					historialJuego.append("Ronda: "+ronda+ "\n");
 					if (control.retornarTurno() == 1) {
-
-						historialJuego.append("Mi turno \n selecciona una casilla \n");
+						empiezaUsuario = true;
+						historialJuego.append("Empieza el usuario \n");
 					} else {
-						historialJuego.append("Empezo CPU \n");
+						empiezaUsuario = false;
+						//historialJuego.append("Empieza CPU \n");
 						jugar();
 					}
 				} else {
@@ -606,51 +607,50 @@ public class VistaGUIBatallaNaval extends JFrame {
 			for (int i = 0; i < 10; i++) {
 				for (int j = 0; j < 10; j++) {
 					if (casillas[i][j] == event.getSource()) {
-
-						posicionesEscoger.add(new Point(i, j));
-						if (tipoBarcoEscoger.equals("plane")) {
+						if(cruisers != 0 || battleships != 0 || destroyers != 0 || planes != 0) {
 							posicionesEscoger.add(new Point(i, j));
-						}
-						if (posicionesEscoger.size() == 2) {
-
-							// Guarda el mismo barco para ponerlo en la PantallaUsuario y pintarlo en la GUI
-
-							Barcos barcoSeleccionado = control.retornarBarco(tamanoBarcoEscoger);
-							System.out.print("battleship \n");
-							System.out.print("Size vector" + posicionesEscoger.size());
-							control.ponerBarco((int) posicionesEscoger.get(0).getX(),
-									(int) posicionesEscoger.get(0).getY(), (int) posicionesEscoger.get(1).getX(),
-									(int) posicionesEscoger.get(1).getY(), tamanoBarcoEscoger, barcoSeleccionado);
-							if (barcoSeleccionado.isSeleccionado() == true) {
-								pintarBarco(barcoSeleccionado);
-
-								// Resta el numero de unidades navales disponibles
-
-								switch (tipoBarcoEscoger) {
-								case "battleship":
-									battleships--;
-									break;
-								case "cruiser":
-									System.out.print("Entro a cruisers");
-									cruisers--;
-									break;
-								case "destroyer":
-									destroyers--;
-									break;
-								case "plane":
-									planes--;
-									break;
-								}
-
-								actualizar();
-							} else {
-
-								JOptionPane.showMessageDialog(null, "No coloco barco, intentalo de nuevo");
+							if (tipoBarcoEscoger.equals("plane")) {
+								posicionesEscoger.add(new Point(i, j));
 							}
-							posicionesEscoger.clear();
+							if (posicionesEscoger.size() == 2) {
 
+								// Guarda el mismo barco para ponerlo en la PantallaUsuario y pintarlo en la GUI
+
+								Barcos barcoSeleccionado = control.retornarBarco(tamanoBarcoEscoger);
+								control.ponerBarco((int) posicionesEscoger.get(0).getX(),
+										(int) posicionesEscoger.get(0).getY(), (int) posicionesEscoger.get(1).getX(),
+										(int) posicionesEscoger.get(1).getY(), tamanoBarcoEscoger, barcoSeleccionado);
+								if (barcoSeleccionado.isSeleccionado() == true) {
+									pintarBarco(barcoSeleccionado);
+
+									// Resta el numero de unidades navales disponibles
+
+									switch (tipoBarcoEscoger) {
+									case "battleship":
+										battleships--;
+										break;
+									case "cruiser":
+										System.out.print("Entro a cruisers");
+										cruisers--;
+										break;
+									case "destroyer":
+										destroyers--;
+										break;
+									case "plane":
+										planes--;
+										break;
+									}
+
+									actualizar();
+								} else {
+
+									JOptionPane.showMessageDialog(null, "No coloco barco, intentalo de nuevo");
+								}
+								posicionesEscoger.clear();
+
+							}
 						}
-					}
+					}//Aqui termina el if del source
 				}
 			}
 			if (event.getSource() == rendirse) {
@@ -673,11 +673,16 @@ public class VistaGUIBatallaNaval extends JFrame {
 
 	/**
 	 * Jugar.
+	 * Funcion que usa la CPU para jugar
 	 */
 	private void jugar() {
 		control.ataque(null);
 		historialJuego.append("El cpu tiro en [" + (int) control.retornarPosicion().getX() + ","
 				+ (int) control.retornarPosicion().getY() + "] \n");
+		if(empiezaUsuario == true) {
+			ronda++;
+			historialJuego.append("Ronda: "+ronda+"\n");
+		}
 		if(control.hayBarco((int)control.retornarPosicion().getX(),(int) control.retornarPosicion().getY())) {
 			casillas[(int)control.retornarPosicion().getX()][(int) control.retornarPosicion().getY()].setBackground(new Color(67,179,174));
 			imagen = new ImageIcon("src/imagenes/tocado2.png");
@@ -716,7 +721,7 @@ public class VistaGUIBatallaNaval extends JFrame {
 			}
 		}
 		if (control.retornarTurno() == 1) {
-			historialJuego.append("Tira Usuario \n");
+			//historialJuego.append("Tira Usuario \n");
 		}
 	}
 
@@ -731,6 +736,10 @@ public class VistaGUIBatallaNaval extends JFrame {
 			casillasAtacar[i][j].removeActionListener(escucha);
 			casillasAtacar[i][j].setBackground(new Color(67,179,174));
 			historialJuego.append("El usuario tiro en[" + i + "," + j + "] \n");
+			if(!empiezaUsuario) {
+				ronda++;
+				historialJuego.append("Ronda: "+ronda+"\n");
+			}
 			control.ataque(new Point(i, j));
 			if(control.hayBarcoCPU(i, j)) {
 				imagen = new ImageIcon("src/imagenes/tocado2.png");
