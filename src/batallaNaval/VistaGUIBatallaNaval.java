@@ -493,7 +493,7 @@ public class VistaGUIBatallaNaval extends JFrame {
 		verBarcosCPU = new JButton("Ver barcos CPU");
 		verBarcosCPU.setPreferredSize(new Dimension(150, 50));
 		verBarcosCPU.addActionListener(escucha);
-		rendirse = new JButton("Rendirse");
+		rendirse = new JButton("Rendirse/Salir");
 		rendirse.setPreferredSize(new Dimension(150, 50));
 		rendirse.addActionListener(escucha);
 		ayuda2 = new JButton("Convenciones");
@@ -747,7 +747,7 @@ public class VistaGUIBatallaNaval extends JFrame {
 					}
 				}
 			} catch(Exception e){
-				JOptionPane.showMessageDialog(null, "No coloco barco");
+				JOptionPane.showMessageDialog(null, "No puedes colocar mas barcos de ese tipo");
 			}
 			
 			// Cuando el usuario va atacar le damos esa informacion a la funcion ataqueAliado
@@ -763,7 +763,7 @@ public class VistaGUIBatallaNaval extends JFrame {
 			//Si el usuario se rinde tiene la opcion de salirse o seguir si le dio por equivacion
 			if (event.getSource() == rendirse) {
 				String[] options = { "Si", "No" };
-				int input = JOptionPane.showOptionDialog(null, "¿Seguro?", "Rendirse", JOptionPane.YES_NO_OPTION,
+				int input = JOptionPane.showOptionDialog(null, "¿Seguro?", "Rendirse/Salir", JOptionPane.YES_NO_OPTION,
 						JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
 
 				if (input == 0) {
@@ -810,10 +810,6 @@ public class VistaGUIBatallaNaval extends JFrame {
 		//Ponemos donde tiro el CPU
 		historialJuego.append("El cpu tiro en [" + (int) control.retornarPosicion().getX() + ","
 				+ (int) control.retornarPosicion().getY() + "] \n");
-		if(empiezaUsuario == true) {
-			ronda++;
-			historialJuego.append("Ronda: "+ronda+"\n");
-		}
 		if(control.hayBarco((int)control.retornarPosicion().getX(),(int) control.retornarPosicion().getY())) {
 			casillas[(int)control.retornarPosicion().getX()][(int) control.retornarPosicion().getY()].setBackground(new Color(67,179,174));
 			imagen = new ImageIcon("src/imagenes/tocado2.png");
@@ -836,6 +832,8 @@ public class VistaGUIBatallaNaval extends JFrame {
 		if (control.perdio() == 1) {
 			JOptionPane.showMessageDialog(null,
 					"Se acabo \n Gano CPU \n De click en Iniciar de nuevo" + "\n si quiere volver a jugar");
+			historialJuego.append("El cpu tiro en [" + (int) control.retornarPosicion().getX() + ","
+					+ (int) control.retornarPosicion().getY() + "] \n");
 			for (int i = 0; i < 10; i++) {
 				for (int j = 0; j < 10; j++) {
 					casillasAtacar[i][j].removeActionListener(escucha);
@@ -849,6 +847,11 @@ public class VistaGUIBatallaNaval extends JFrame {
 				for (int j = 0; j < 10; j++) {
 					casillasAtacar[i][j].removeActionListener(escucha);
 				}
+			}
+		}else {
+			if(empiezaUsuario == true) {
+				ronda++;
+				historialJuego.append("Ronda: "+ronda+"\n");
 			}
 		}
 	}
@@ -892,6 +895,7 @@ public class VistaGUIBatallaNaval extends JFrame {
 				}
 
 			} else if (control.perdio() == 0) { //GANA USUARIO
+				historialJuego.append("El usuario tiro en[" + i + "," + j + "] \n");
 				JOptionPane.showMessageDialog(null,
 						"Se acabo \n Gano Usuario \n De click en Iniciar de nuevo" + "\n si quiere volver a jugar");
 				for (int k = 0; k < 10; k++) {
