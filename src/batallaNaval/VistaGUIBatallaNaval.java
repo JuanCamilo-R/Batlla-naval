@@ -667,6 +667,7 @@ public class VistaGUIBatallaNaval extends JFrame {
 				battleships = 1;
 				cruisers = 2;
 				destroyers = 3;
+				ronda=1;
 				actualizar();
 				
 				// Activamos los botones
