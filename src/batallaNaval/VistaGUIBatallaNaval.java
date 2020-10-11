@@ -536,7 +536,6 @@ public class VistaGUIBatallaNaval extends JFrame {
 			
 			//Boton que muestra un JFrame que contiene los barcos del CPU
 			if (event.getSource() == verBarcosCPU) {
-				ayuda = new VerBarcosCPU(miMisma,control);
 				ayuda.setVisible(true);
 			}
 			
