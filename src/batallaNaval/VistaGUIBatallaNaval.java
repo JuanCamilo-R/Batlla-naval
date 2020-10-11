@@ -400,7 +400,7 @@ public class VistaGUIBatallaNaval extends JFrame {
 		redisenar = true;
 		//Borramos lo que tenia el contenedor
 		getContentPane().removeAll();
-		
+		ventanaAyuda = new AyudaImagenes();
 		this.getContentPane().setLayout(new GridBagLayout());
 		zonaUnidades.removeAll();
 		zonaBotones.removeAll();
@@ -543,7 +543,6 @@ public class VistaGUIBatallaNaval extends JFrame {
 			//Boton que muestra un JFrame que contiene ayuda para el usuario entender
 			//las imagenes que le sale al atacar
 			if (event.getSource() == ayuda2) {
-				ventanaAyuda = new AyudaImagenes();
 				ventanaAyuda.setVisible(true);
 
 			}
@@ -660,6 +659,8 @@ public class VistaGUIBatallaNaval extends JFrame {
 			// Si quiere volver a jugar, volvemos  las condiciones iniciales
 			if (event.getSource() == iniciarDenuevo) {
 				getContentPane().removeAll();
+				ayuda.setVisible(false);
+				ventanaAyuda.setVisible(false);
 				tipoBarcoEscoger = "";
 				for (int i = 0; i < 10; i++) {
 					for (int j = 0; j < 10; j++) {
@@ -691,7 +692,6 @@ public class VistaGUIBatallaNaval extends JFrame {
 				setResizable(false);
 				setVisible(true);
 				setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-				ayuda.cerrar();
 			}
 			
 			try {
