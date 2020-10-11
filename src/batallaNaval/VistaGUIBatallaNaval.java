@@ -667,6 +667,7 @@ public class VistaGUIBatallaNaval extends JFrame {
 				battleships = 1;
 				cruisers = 2;
 				destroyers = 3;
+				ronda=1;
 				actualizar();
 				
 				// Activamos los botones
@@ -732,7 +733,7 @@ public class VistaGUIBatallaNaval extends JFrame {
 								}
 								posicionesEscoger.clear();
 							}
-						}//Aqui termina el if del source
+						}
 					}
 				}
 			}
