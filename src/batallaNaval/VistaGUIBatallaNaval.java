@@ -843,7 +843,10 @@ public class VistaGUIBatallaNaval extends JFrame {
 	 			historialJuego.append("El cpu tiro en [" + (int) control.retornarPosicion().getX() + ","
 						+ (int) control.retornarPosicion().getY() + "] \n");
 	 			control.setTurno(1);
-	 			historialJuego.append("Tira usuario \n");
+	 			 if(empiezaUsuario) {
+	 	    		ronda++;
+	 		 		historialJuego.append("Ronda: "+ronda+ "\n");
+	 	    	 }
 	 			casillas[(int)control.retornarPosicion().getX()][(int)control.retornarPosicion().getY()].setIcon(new ImageIcon(imagen.getImage().getScaledInstance(45,45, Image.SCALE_DEFAULT)));
 	 		}
 	     }
@@ -873,15 +876,7 @@ public class VistaGUIBatallaNaval extends JFrame {
 				}
 			}
 			control.setTurno(5);
-		}/*else {
-			historialJuego.append("El cpu tiro en [" + (int) control.retornarPosicion().getX() + ","
-					+ (int) control.retornarPosicion().getY() + "] \n");
-			if(empiezaUsuario == true) {
-				ronda++;
-				historialJuego.append("Ronda: "+ronda+"\n");
-			}
-			
-		}*/
+		}
 	}
 
 	/**
@@ -918,8 +913,11 @@ public class VistaGUIBatallaNaval extends JFrame {
 				
 				casillasAtacar[i][j].setIcon(new ImageIcon(imagen.getImage().getScaledInstance(45,45, Image.SCALE_DEFAULT)));
 				historialJuego.append("El usuario tiro en[" + i + "," + j + "] \n");
-				historialJuego.append("Tira CPU \n");
 				control.setTurno(0);
+				if(!empiezaUsuario) {
+					ronda++;
+		 			historialJuego.append("Ronda: "+ronda+ "\n");
+				}
 				jugar();
 			}
 			
