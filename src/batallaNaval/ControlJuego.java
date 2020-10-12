@@ -175,7 +175,7 @@ public class ControlJuego {
 			switch (turno) {
 			case 0: // CPU
 				inteligenciaCPU();
-				decidirTurno();
+			//	decidirTurno();
 				break;
 			case 1: // Aliado
 					for (int i = 0; i < barcos.size(); i++) {
@@ -189,7 +189,7 @@ public class ControlJuego {
 						}
 					}
 					//para saber a quien le toca despues de atacar
-					decidirTurno();	
+					//decidirTurno();	
 					break;
 			}	
 	}
@@ -431,6 +431,9 @@ public class ControlJuego {
 	 */
 	public int retornarTurno() {
 		return turno;
+	}
+	public void setTurno(int num) {
+		turno=num;
 	}
 
 	/**
