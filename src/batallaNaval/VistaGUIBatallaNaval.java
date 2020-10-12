@@ -26,6 +26,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import javax.imageio.ImageIO;
@@ -182,6 +183,11 @@ public class VistaGUIBatallaNaval extends JFrame {
 	 * Ventana para explicarle al usuario las imagenes que salen al tocar una casilla
 	 * */
 	private AyudaImagenes ventanaAyuda;
+	
+	/**
+	 * Para saber quien inicia la nueva ronda
+	 */
+	private Random aleatorio;
 	
 	private boolean empiezaUsuario = false, redisenar = false;
 	
@@ -668,6 +674,8 @@ public class VistaGUIBatallaNaval extends JFrame {
 					}
 				}
 				control.limpiarBarcos();
+				aleatorio = new Random();
+				control.setTurno(aleatorio.nextInt(2));
 				
 				// Actualizamos las cantidades de los barcos
 				planes = 4;
@@ -813,8 +821,6 @@ public class VistaGUIBatallaNaval extends JFrame {
 	 			casillas[(int)control.retornarPosicion().getX()][(int) control.retornarPosicion().getY()].setBackground(new Color(67,179,174));
 	 			imagen = new ImageIcon("src/imagenes/tocado2.png");
 	 			casillas[(int)control.retornarPosicion().getX()][(int)control.retornarPosicion().getY()].setIcon(new ImageIcon(imagen.getImage().getScaledInstance(45,45, Image.SCALE_DEFAULT)));
-	 			//historialJuego.append("El cpu tiro en [" + (int) control.retornarPosicion().getX() + ","
-						//+ (int) control.retornarPosicion().getY() + "] \n");
 	 			if(!control.estaVivo((int)control.retornarPosicion().getX(), (int) control.retornarPosicion().getY(),"A")) {
 	 				Barcos barquito = control.getBarco((int)control.retornarPosicion().getX(), (int) control.retornarPosicion().getY(), "A");
 	 				imagen = new ImageIcon("src/imagenes/hundido2.png");
@@ -824,9 +830,12 @@ public class VistaGUIBatallaNaval extends JFrame {
 	 				}
 	 				
 	 			}
-	 			historialJuego.append("El cpu tiro en [" + (int) control.retornarPosicion().getX() + ","
- 						+ (int) control.retornarPosicion().getY() + "] \n");
-	 			jugar();
+	 			if (control.perdio() != 1) {
+	 				historialJuego.append("El cpu tiro en [" + (int) control.retornarPosicion().getX() + ","
+	 						+ (int) control.retornarPosicion().getY() + "] \n");
+	 				jugar();
+	 			} 
+	 			
 	 			
 	 		}else {
 	 			casillas[(int)control.retornarPosicion().getX()][(int) control.retornarPosicion().getY()].setBackground(new Color(67,179,174));
@@ -841,17 +850,19 @@ public class VistaGUIBatallaNaval extends JFrame {
 		
 		
 		//Si retorna 1 es porque el usuario perdio
-		if (control.perdio() == 1) {
+		if (control.perdio() == 1 && control.retornarTurno() !=5) {
+			
 			historialJuego.append("El cpu tiro en [" + (int) control.retornarPosicion().getX() + ","
 					+ (int) control.retornarPosicion().getY() + "] \n");
 			JOptionPane.showMessageDialog(null,
 					"Se acabo \n Gano CPU \n De click en Iniciar de nuevo" + "\n si quiere volver a jugar");
+			control.setTurno(5);
 			for (int i = 0; i < 10; i++) {
 				for (int j = 0; j < 10; j++) {
 					casillasAtacar[i][j].removeActionListener(escucha);
 				}
 			}
-			control.setTurno(5);
+			
 			//Si retorna 0 es porque el CPU perdio
 		} else if (control.perdio() == 0) {
 			JOptionPane.showMessageDialog(null,
@@ -897,7 +908,6 @@ public class VistaGUIBatallaNaval extends JFrame {
 								new ImageIcon(imagen.getImage().getScaledInstance(45,45, Image.SCALE_DEFAULT)));
 					}
 					
-					//historialJuego.append("El usuario tiro en[" + i + "," + j + "] \n");
 				}
 				
 				historialJuego.append("El usuario tiro en[" + i + "," + j + "] \n");
@@ -913,7 +923,8 @@ public class VistaGUIBatallaNaval extends JFrame {
 				jugar();
 			}
 			
-			if (control.perdio() == 1) { // GANA CPU
+			if (control.perdio() == 1 && control.retornarTurno() !=5) { // GANA CPU
+				
 				JOptionPane.showMessageDialog(null,
 						"Se acabo \n Gano CPU \n De click en Iniciar de nuevo" + "\n si quiere volver a jugar");
 				for (int k = 0; k < 10; k++) {
@@ -923,7 +934,6 @@ public class VistaGUIBatallaNaval extends JFrame {
 				}
 				control.setTurno(5);
 			} else if (control.perdio() == 0) { //GANA USUARIO
-				historialJuego.append("El usuario tiro en[" + i + "," + j + "] \n");
 				JOptionPane.showMessageDialog(null,
 						"Se acabo \n Gano Usuario \n De click en Iniciar de nuevo" + "\n si quiere volver a jugar");
 				for (int k = 0; k < 10; k++) {
@@ -941,13 +951,7 @@ public class VistaGUIBatallaNaval extends JFrame {
 				//Si no ha ganado tira CPU
 				//
 			}*/
-		} else {
-			//Si escoge una casilla donde ya habia escogido antes
-			System.out.print("no");
-			control.setTurno(0);
-			jugar();
-			historialJuego.append("Escoge de nuevo \n");
-		}
+		} 
 	}
 
 

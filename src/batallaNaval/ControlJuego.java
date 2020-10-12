@@ -175,7 +175,6 @@ public class ControlJuego {
 			switch (turno) {
 			case 0: // CPU
 				inteligenciaCPU();
-			//	decidirTurno();
 				break;
 			case 1: // Aliado
 					for (int i = 0; i < barcos.size(); i++) {
@@ -187,9 +186,7 @@ public class ControlJuego {
 							}
 							break;
 						}
-					}
-					//para saber a quien le toca despues de atacar
-					//decidirTurno();	
+					}	
 					break;
 			}	
 	}
@@ -394,19 +391,6 @@ public class ControlJuego {
 		}
 	}
 
-	/**
-	 * Decidir turno.
-	 * Me indica de quien es el siguiente turno
-	 */
-	public void decidirTurno() {
-		// turno = 0 CPU
-		// turno = 1 Aliado
-		if (turno == 0) {
-			turno = 1;
-		} else {
-			turno = 0;
-		}
-	}
 
 	/**
 	 * Poner barco.
@@ -432,8 +416,15 @@ public class ControlJuego {
 	public int retornarTurno() {
 		return turno;
 	}
-	public void setTurno(int num) {
-		turno=num;
+	
+	/**
+	 * Funcion de tipo void que cambia el turno dependiendo si toque un barco, lo hundi o no toque nada.
+	 * @param numero
+	 */
+	public void setTurno(int numero) {
+		//si es 0 le toca al CPU
+		//si es 1 le toca al usuario
+		turno=numero;
 	}
 
 	/**
