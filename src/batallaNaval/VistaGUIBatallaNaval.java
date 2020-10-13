@@ -486,6 +486,8 @@ public class VistaGUIBatallaNaval extends JFrame {
 		zonaBotones.removeAll(); 
 		historialJuego = new JTextArea(27, 10);
 		historialJuego.setEditable(false);
+		historialJuego.setBackground(Color.black);
+		historialJuego.setForeground(Color.green);
 		JScrollPane scroll = new JScrollPane(historialJuego);
 		constraints.gridx = 2;
 		constraints.gridy = 1;
